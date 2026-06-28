@@ -12,9 +12,12 @@
         :root {
             --neon-green: #00E676;
             --void-violet: #9D4EDD;
+            --ice-blue: #67E8F9;
         }
         
-        * { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        * {
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
         
         body {
             font-family: 'Inter', system_ui, sans-serif;
@@ -23,9 +26,17 @@
             overflow-x: hidden;
         }
         
-        .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .nav { backdrop-filter: blur(12px); }
-        .hero-glow { text-shadow: 0 0 40px rgba(157, 78, 221, 0.6); }
+        .heading-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .nav {
+            backdrop-filter: blur(12px);
+        }
+        
+        .hero-glow {
+            text-shadow: 0 0 40px rgba(157, 78, 221, 0.6);
+        }
         
         .product-card {
             background-color: #0b0b0c;
@@ -37,8 +48,10 @@
         .product-card::before {
             content: '';
             position: absolute;
-            top: -50%; left: -50%;
-            width: 40%; height: 200%;
+            top: -50%;
+            left: -50%;
+            width: 40%;
+            height: 200%;
             background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
             transform: skewX(-25deg);
             transition: all 0.7s ease;
@@ -63,7 +76,9 @@
             opacity: 0;
         }
         
-        .product-card:hover .glow-border::after { opacity: 1; }
+        .product-card:hover .glow-border::after {
+            opacity: 1;
+        }
         
         .cta-button {
             background: linear-gradient(90deg, #00E676, #9D4EDD);
@@ -77,8 +92,40 @@
             box-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
         }
         
-        .pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .tab-button {
+            position: relative;
+            padding: 12px 32px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 9999px;
+            cursor: pointer;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(90deg, var(--neon-green), var(--void-violet));
+            color: #030303;
+            box-shadow: 0 0 25px rgba(157, 78, 221, 0.4);
+        }
+        
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
         
         .grid-container {
             display: grid;
@@ -87,7 +134,9 @@
         }
         
         @media (max-width: 768px) {
-            .grid-container { grid-template-columns: 1fr; }
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -112,37 +161,65 @@
     </nav>
 
     <!-- Hero -->
-    <section class="pt-32 pb-20 px-6 text-center max-w-5xl mx-auto">
+    <section class="pt-32 pb-16 px-6 text-center max-w-5xl mx-auto">
         <div class="inline-flex items-center gap-x-2 bg-[#0b0b0c] border border-[#161618] rounded-full px-6 py-2 mb-8">
             <span class="text-[#00E676] text-sm font-mono tracking-widest">LUMBER TYCOON 2</span>
         </div>
         <h1 class="heading-font text-8xl md:text-[110px] font-black tracking-[-4px] leading-none hero-glow mb-6">NZ VAULT</h1>
         <p class="max-w-2xl mx-auto text-2xl md:text-3xl font-light tracking-tight text-gray-300">
-            The Apex Marketplace for Modded LT2 Woods & Premium Dupe-Free Liquidity
+            The Apex Marketplace for Legacy Aged Roblox Profiles & Premium Dupe-Free LT2 Assets
         </p>
-        <div class="mt-10 flex justify-center">
-            <button onclick="claimViaDiscord()" 
-                    class="cta-button px-14 py-6 text-xl rounded-2xl flex items-center gap-x-3 uppercase tracking-widest shadow-2xl">
-                <i class="fa-brands fa-discord text-2xl"></i>
-                ENTER THE VAULT
-            </button>
-        </div>
     </section>
 
-    <!-- Product Showcase -->
-    <section class="max-w-7xl mx-auto px-6">
-        <div class="flex items-end justify-between mb-12">
-            <div>
-                <span class="uppercase text-xs tracking-[2px] text-[#00E676] font-mono">CURATED INVENTORY</span>
-                <h2 class="heading-font text-5xl font-bold tracking-tighter">God-Tier Modded Assets</h2>
-            </div>
-            <a onclick="claimViaDiscord()" class="text-[#9D4EDD] hover:text-white flex items-center gap-x-2 text-sm uppercase tracking-widest cursor-pointer">
-                VIEW FULL CATALOG <i class="fa-solid fa-arrow-right"></i>
-            </a>
-        </div>
+    <!-- Tab Controller -->
+    <div class="max-w-4xl mx-auto px-6 flex justify-center gap-3 mb-16">
+        <button onclick="switchTab(0)" id="tab-0" class="tab-button active border border-[#161618] text-white">WOOD STOCKS</button>
+        <button onclick="switchTab(1)" id="tab-1" class="tab-button border border-[#161618] text-white">LIQUIDITY / MONEY</button>
+        <button onclick="switchTab(2)" id="tab-2" class="tab-button border border-[#161618] text-white">AGED ACCOUNTS</button>
+    </div>
 
+    <!-- Tab Contents -->
+    <!-- Wood Stocks -->
+    <div id="content-0" class="tab-content active max-w-7xl mx-auto px-6">
         <div class="grid-container">
-            <!-- 120M Liquidity -->
+            <!-- Elemental Vault -->
+            <div class="product-card rounded-3xl p-8 glow-border group">
+                <div class="flex justify-between items-start mb-8">
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">APEX MODDED</span>
+                </div>
+                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">The Elemental Vault</h3>
+                <ul class="space-y-4 mb-12 text-gray-300 text-[15px]">
+                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1.5">◉</span>Multi-Biome God-Tier Wood Stockpiles</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1.5">◉</span>Prisine Cave & Phantom Void Logs Pre-Loaded</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1.5">◉</span>Maze-Locked Sinister & Seasonal Spook Reservoirs</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1.5">◉</span>Isolated Data Vectors - 100% Wipe Safe</li>
+                </ul>
+                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                </button>
+            </div>
+
+            <!-- End-Times Hoarder -->
+            <div class="product-card rounded-3xl p-8 glow-border group">
+                <div class="flex justify-between items-start mb-8">
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">RARE MATERIALS</span>
+                </div>
+                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">End-Times Hoarder</h3>
+                <ul class="space-y-4 mb-12 text-gray-300">
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Massive Sinister Wood Stockpiles</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Processed Spook Log Repositories</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Legacy Axe Master Collection</li>
+                </ul>
+                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liquidity -->
+    <div id="content-1" class="tab-content max-w-7xl mx-auto px-6">
+        <div class="grid-container">
             <div class="product-card rounded-3xl p-8 glow-border group">
                 <div class="flex justify-between items-start mb-8">
                     <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">LIQUID ASSET</span>
@@ -151,67 +228,55 @@
                         <div class="text-xs uppercase tracking-widest text-gray-500">CASH</div>
                     </div>
                 </div>
-                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">Modded 120M Accounts</h3>
+                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">120M Liquidity</h3>
                 <ul class="space-y-4 mb-12 text-gray-300">
                     <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>120 Million Raw Cash Balance</li>
                     <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Starter Base Injected</li>
-                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Fully Modded & Dupe-Free</li>
-                </ul>
-                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
-                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
-                </button>
-            </div>
-
-            <!-- Sinister Wood -->
-            <div class="product-card rounded-3xl p-8 glow-border group">
-                <div class="flex justify-between items-start mb-8">
-                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">SINISTER WOOD</span>
-                </div>
-                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">Sinister Wood Empire</h3>
-                <ul class="space-y-4 mb-12 text-gray-300">
-                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Massive Sinister Wood Stockpiles</li>
-                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Modded Dark Logs</li>
-                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>High Value Reserves</li>
-                </ul>
-                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
-                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
-                </button>
-            </div>
-
-            <!-- Phantom Wood -->
-            <div class="product-card rounded-3xl p-8 glow-border group relative">
-                <div class="flex justify-between items-start mb-8">
-                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">PHANTOM WOOD</span>
-                </div>
-                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">Phantom Wood Vault</h3>
-                <ul class="space-y-4 mb-12 text-gray-300">
-                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Ultra-Rare Phantom Wood Stacks</li>
-                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Modded Legacy Wood</li>
-                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>God-Tier Base Material</li>
-                </ul>
-                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
-                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
-                </button>
-                <div class="absolute -top-3 -right-3 bg-[#9D4EDD] text-black text-[10px] font-black px-6 py-1 rounded-bl-3xl rounded-tr-3xl tracking-widest text-xs">MOST RARE</div>
-            </div>
-
-            <!-- Spook Wood -->
-            <div class="product-card rounded-3xl p-8 glow-border group">
-                <div class="flex justify-between items-start mb-8">
-                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">SPOOK WOOD</span>
-                </div>
-                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">Spook Wood Hoard</h3>
-                <ul class="space-y-4 mb-12 text-gray-300">
-                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Massive Spook Wood Repositories</li>
-                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Modded Event Logs</li>
-                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Instant Delivery Stock</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Completely Dupe-Free & Safe</li>
                 </ul>
                 <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
                     CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
                 </button>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Aged Accounts -->
+    <div id="content-2" class="tab-content max-w-7xl mx-auto px-6">
+        <div class="grid-container">
+            <!-- Warmed Alt Profile -->
+            <div class="product-card rounded-3xl p-8 glow-border group">
+                <div class="flex justify-between items-start mb-8">
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#67E8F9]/10 text-[#67E8F9] border border-[#67E8F9]/30 rounded-full">VERIFIED PROFILE</span>
+                </div>
+                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">Warmed Alt Profile</h3>
+                <ul class="space-y-4 mb-12 text-gray-300">
+                    <li class="flex items-start gap-x-3"><span class="text-[#67E8F9] mt-1">◉</span>Registered 10+ Days Ago</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#67E8F9] mt-1">◉</span>Bypasses Fresh Anti-Cheat Alt Blocks</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#67E8F9] mt-1">◉</span>Clean Platform Logging Footprint</li>
+                </ul>
+                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                </button>
+            </div>
+
+            <!-- Vintage Registry -->
+            <div class="product-card rounded-3xl p-8 glow-border group">
+                <div class="flex justify-between items-start mb-8">
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#67E8F9]/10 text-[#67E8F9] border border-[#67E8F9]/30 rounded-full">LEGACY REGISTRY</span>
+                </div>
+                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">Vintage Registry</h3>
+                <ul class="space-y-4 mb-12 text-gray-300">
+                    <li class="flex items-start gap-x-3"><span class="text-[#67E8F9] mt-1">◉</span>Legacy Account (1+ Years Old)</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#67E8F9] mt-1">◉</span>Premium Platform Trust Score</li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#67E8F9] mt-1">◉</span>Cleared for API Operations</li>
+                </ul>
+                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Trust Bar -->
     <div class="max-w-7xl mx-auto px-6 mt-24">
@@ -233,9 +298,36 @@
 
     <script>
         function claimViaDiscord() {
-            const discordLink = "https://discord.gg/yourinvite"; // Replace with your actual Discord invite link
+            const discordLink = "https://discord.gg/yourinvite"; // ← REPLACE WITH YOUR ACTUAL DISCORD LINK
             window.open(discordLink, '_blank');
         }
+
+        function switchTab(tabIndex) {
+            // Remove active from all tabs
+            for (let i = 0; i < 3; i++) {
+                const tab = document.getElementById(`tab-${i}`);
+                if (tab) tab.classList.remove('active');
+            }
+            
+            // Add active to selected tab
+            const activeTab = document.getElementById(`tab-${tabIndex}`);
+            if (activeTab) activeTab.classList.add('active');
+            
+            // Hide all contents
+            for (let i = 0; i < 3; i++) {
+                const content = document.getElementById(`content-${i}`);
+                if (content) content.classList.remove('active');
+            }
+            
+            // Show selected content
+            const activeContent = document.getElementById(`content-${tabIndex}`);
+            if (activeContent) activeContent.classList.add('active');
+        }
+
+        // Initialize first tab
+        window.onload = () => {
+            switchTab(0);
+        };
     </script>
 </body>
 </html>
