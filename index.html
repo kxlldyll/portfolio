@@ -3,214 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NZ Shop</title>
+    <title>NZ Vault | LT2 Apex Marketplace</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
         
         :root {
             --neon-green: #00E676;
-            --ice-blue: #00E5FF;
+            --void-violet: #9D4EDD;
         }
+        
+        * { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         
         body {
             font-family: 'Inter', system_ui, sans-serif;
+            background-color: #030303;
+            color: #e5e5e5;
+            overflow-x: hidden;
         }
         
-        .logo-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .glass {
-            background: rgba(13, 13, 14, 0.85);
-            backdrop-filter: blur(12px);
-        }
-
-        .neon-green {
-            box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
-        }
-
-        .neon-blue {
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
-        }
-
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .nav { backdrop-filter: blur(12px); }
+        
+        .hero-glow { text-shadow: 0 0 40px rgba(157, 78, 221, 0.6); }
+        
+        .product-card {
+            background-color: #0b0b0c;
+            border: 1px solid #161618;
+            position: relative;
+            overflow: hidden;
         }
         
-        .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 40%; height: 200%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: skewX(-25deg);
+            transition: all 0.7s ease;
+            opacity: 0;
+        }
+        
+        .product-card:hover::before {
+            opacity: 1;
+            transform: translateX(300%) skewX(-25deg);
+        }
+        
+        .glow-border::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            background: linear-gradient(to right, var(--neon-green), var(--void-violet)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+        }
+        
+        .product-card:hover .glow-border::after { opacity: 1; }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #00E676, #9D4EDD);
+            color: #030303;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
+        }
+        
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body class="bg-[#050505] text-white min-h-screen">
-    <!-- HEADER -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="logo-font text-4xl font-bold tracking-tighter text-white">NZ</div>
-                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+<body class="min-h-screen pb-24">
+    <!-- Navigation -->
+    <nav class="nav fixed top-0 left-0 right-0 z-50 bg-black/80 border-b border-[#161618]">
+        <div class="max-w-7xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="text-3xl font-black heading-font tracking-tighter text-white">NZ</div>
+                <div class="w-2 h-2 rounded-full bg-[#9D4EDD] shadow-[0_0_12px_#9D4EDD]"></div>
             </div>
-            <div class="flex items-center gap-2 text-emerald-400 text-sm font-medium">
-                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                Automated Delivery Active
-            </div>
-        </div>
-    </header>
-
-    <main class="pt-28 pb-20 px-6 max-w-7xl mx-auto">
-        <!-- TITLE -->
-        <div class="text-center mb-16">
-            <h1 class="logo-font text-6xl font-bold tracking-tighter mb-3">NZ Shop</h1>
-            <p class="text-gray-400 text-xl">Premium Roblox Accounts • Trusted &amp; Clean</p>
-        </div>
-
-        <!-- TABS -->
-        <div class="flex justify-center gap-4 mb-12">
-            <button onclick="switchTab(0)" id="tab0"
-                class="tab-btn px-8 py-3 rounded-2xl font-semibold transition-all active-tab">
-                LT2 Accounts
-            </button>
-            <button onclick="switchTab(1)" id="tab1"
-                class="tab-btn px-8 py-3 rounded-2xl font-semibold transition-all">
-                Aged Accounts
-            </button>
-        </div>
-
-        <!-- LT2 SECTION -->
-        <div id="content0" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="glass border border-white/10 rounded-3xl p-8 card-hover neon-green">
-                    <div class="inline-block bg-emerald-900/50 text-emerald-400 text-xs font-bold tracking-widest px-4 py-2 rounded-full mb-6">LIFETIME</div>
-                    <h3 class="text-2xl font-semibold mb-2">120M Account</h3>
-                    <p class="text-gray-400 mb-8">120 Million Liquid Cash • Starter Base • Instant Setup</p>
-                    <div class="text-5xl font-bold mb-8">$50 <span class="text-base font-normal text-gray-500">Robux</span></div>
-                    <button onclick="purchase('120M LT2 Account')" 
-                        class="w-full bg-emerald-500 hover:bg-emerald-400 transition-colors text-black font-semibold py-4 rounded-2xl">
-                        Purchase Now
-                    </button>
-                </div>
-
-                <div class="glass border border-white/10 rounded-3xl p-8 card-hover neon-green">
-                    <div class="inline-block bg-emerald-900/50 text-emerald-400 text-xs font-bold tracking-widest px-4 py-2 rounded-full mb-6">LIFETIME</div>
-                    <h3 class="text-2xl font-semibold mb-2">High Level Account</h3>
-                    <p class="text-gray-400 mb-8">Max Level Skills • Unlocked Rare Axes • Clean History</p>
-                    <div class="text-5xl font-bold mb-8">$80 <span class="text-base font-normal text-gray-500">Robux</span></div>
-                    <button onclick="purchase('High Level LT2 Account')" 
-                        class="w-full bg-emerald-500 hover:bg-emerald-400 transition-colors text-black font-semibold py-4 rounded-2xl">
-                        Purchase Now
-                    </button>
-                </div>
-
-                <div class="glass border border-white/10 rounded-3xl p-8 card-hover neon-green">
-                    <div class="inline-block bg-emerald-900/50 text-emerald-400 text-xs font-bold tracking-widest px-4 py-2 rounded-full mb-6">LIFETIME</div>
-                    <h3 class="text-2xl font-semibold mb-2">Maxed Account</h3>
-                    <p class="text-gray-400 mb-8">100% Completion • God-Tier Layout • Legacy Items</p>
-                    <div class="text-5xl font-bold mb-8">$120 <span class="text-base font-normal text-gray-500">Robux</span></div>
-                    <button onclick="purchase('Maxed LT2 Account')" 
-                        class="w-full bg-emerald-500 hover:bg-emerald-400 transition-colors text-black font-semibold py-4 rounded-2xl">
-                        Purchase Now
-                    </button>
+            <div class="flex items-center gap-x-8 text-sm uppercase tracking-[1px] font-medium">
+                <a href="#" class="hover:text-[#00E676]">VAULT</a>
+                <a href="#" class="hover:text-[#00E676]">INVENTORY</a>
+                <a href="#" class="hover:text-[#00E676]">GUIDES</a>
+                <div class="flex items-center gap-x-2 bg-[#0b0b0c] px-4 py-1.5 rounded-full border border-[#161618] text-[#00E676] text-xs font-mono pulse">
+                    <span class="text-lg leading-none">●</span>
+                    AUTOMATED BOT DELIVERY ACTIVE
                 </div>
             </div>
         </div>
+    </nav>
 
-        <!-- AGED SECTION -->
-        <div id="content1" class="tab-content hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="glass border border-white/10 rounded-3xl p-8 card-hover neon-blue">
-                    <div class="inline-block bg-cyan-900/50 text-cyan-400 text-xs font-bold tracking-widest px-4 py-2 rounded-full mb-6">LIFETIME</div>
-                    <h3 class="text-2xl font-semibold mb-2">10+ Day Aged Profile</h3>
-                    <p class="text-gray-400 mb-8">Perfect for Alts • Bypasses Fresh Anti-Cheat</p>
-                    <div class="text-5xl font-bold mb-8">$15 <span class="text-base font-normal text-gray-500">Robux</span></div>
-                    <button onclick="purchase('10+ Day Aged Account')" 
-                        class="w-full bg-cyan-500 hover:bg-cyan-400 transition-colors text-black font-semibold py-4 rounded-2xl">
-                        Purchase Now
-                    </button>
-                </div>
+    <!-- Hero -->
+    <section class="pt-32 pb-20 px-6 text-center max-w-5xl mx-auto">
+        <div class="inline-flex items-center gap-x-2 bg-[#0b0b0c] border border-[#161618] rounded-full px-6 py-2 mb-8">
+            <span class="text-[#00E676] text-sm font-mono tracking-widest">LUMBER TYCOON 2</span>
+        </div>
+        <h1 class="heading-font text-8xl md:text-[110px] font-black tracking-[-4px] leading-none hero-glow mb-6">NZ VAULT</h1>
+        <p class="max-w-2xl mx-auto text-2xl md:text-3xl font-light tracking-tight text-gray-300">
+            The Apex Marketplace for Legacy Aged Roblox Profiles & Premium Dupe-Free LT2 Assets
+        </p>
+        <div class="mt-10 flex justify-center">
+            <button onclick="claimViaDiscord()" class="cta-button px-14 py-6 text-xl rounded-2xl flex items-center gap-x-3 uppercase tracking-widest shadow-2xl">
+                <i class="fa-brands fa-discord text-2xl"></i>
+                ENTER THE VAULT
+            </button>
+        </div>
+    </section>
 
-                <div class="glass border border-white/10 rounded-3xl p-8 card-hover neon-blue">
-                    <div class="inline-block bg-cyan-900/50 text-cyan-400 text-xs font-bold tracking-widest px-4 py-2 rounded-full mb-6">LIFETIME</div>
-                    <h3 class="text-2xl font-semibold mb-2">30+ Day Aged Profile</h3>
-                    <p class="text-gray-400 mb-8">Fully Warmed History • Bypasses Chat Filters</p>
-                    <div class="text-5xl font-bold mb-8">$30 <span class="text-base font-normal text-gray-500">Robux</span></div>
-                    <button onclick="purchase('30+ Day Aged Account')" 
-                        class="w-full bg-cyan-500 hover:bg-cyan-400 transition-colors text-black font-semibold py-4 rounded-2xl">
-                        Purchase Now
-                    </button>
-                </div>
+    <!-- Product Showcase -->
+    <section class="max-w-7xl mx-auto px-6">
+        <div class="flex items-end justify-between mb-12">
+            <div>
+                <span class="uppercase text-xs tracking-[2px] text-[#00E676] font-mono">CURATED INVENTORY</span>
+                <h2 class="heading-font text-5xl font-bold tracking-tighter">God-Tier Assets</h2>
+            </div>
+            <a onclick="claimViaDiscord()" class="text-[#9D4EDD] hover:text-white flex items-center gap-x-2 text-sm uppercase tracking-widest cursor-pointer">
+                VIEW FULL CATALOG <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
 
-                <div class="glass border border-white/10 rounded-3xl p-8 card-hover neon-blue">
-                    <div class="inline-block bg-cyan-900/50 text-cyan-400 text-xs font-bold tracking-widest px-4 py-2 rounded-full mb-6">LIFETIME</div>
-                    <h3 class="text-2xl font-semibold mb-2">Vintage 1+ Year Account</h3>
-                    <p class="text-gray-400 mb-8">Premium Trust Score • Custom Username</p>
-                    <div class="text-5xl font-bold mb-8">$75 <span class="text-base font-normal text-gray-500">Robux</span></div>
-                    <button onclick="purchase('Vintage 1+ Year Account')" 
-                        class="w-full bg-cyan-500 hover:bg-cyan-400 transition-colors text-black font-semibold py-4 rounded-2xl">
-                        Purchase Now
-                    </button>
+        <div class="grid-container">
+            <!-- Card 1 -->
+            <div class="product-card rounded-3xl p-8 glow-border group">
+                <div class="flex justify-between items-start mb-8">
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">LIQUID ASSET</span>
+                    <div class="text-right">
+                        <div class="text-5xl font-black heading-font text-white">120M</div>
+                        <div class="text-xs uppercase tracking-widest text-gray-500">CASH</div>
+                    </div>
                 </div>
+                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">120M Liquidity</h3>
+                <ul class="space-y-4 mb-12 text-gray-300">
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span><span>120 Million Raw Cash Balance</span></li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span><span>Starter Base Injected</span></li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span><span>Completely Dupe-Free & Safe</span></li>
+                </ul>
+                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                </button>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="product-card rounded-3xl p-8 glow-border group">
+                <div class="flex justify-between items-start mb-8">
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">RARE MATERIALS</span>
+                </div>
+                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">End-Times Hoarder</h3>
+                <ul class="space-y-4 mb-12 text-gray-300">
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span><span>Massive Sinister Wood Stockpiles</span></li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span><span>Processed Spook Log Repositories</span></li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span><span>Legacy Axe Master Collection</span></li>
+                </ul>
+                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                </button>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="product-card rounded-3xl p-8 glow-border group relative">
+                <div class="flex justify-between items-start mb-8">
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">APEX LEGACY</span>
+                </div>
+                <h3 class="heading-font text-4xl font-bold tracking-tighter mb-6 text-white">Phantom Void Master</h3>
+                <ul class="space-y-4 mb-12 text-gray-300">
+                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span><span>Ultra-Rare Phantom Wood Vaults</span></li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span><span>Pristine Mint Event Gift Boxes</span></li>
+                    <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span><span>1+ Year Vintage Account Registry</span></li>
+                </ul>
+                <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                    CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                </button>
+                <div class="absolute -top-3 -right-3 bg-[#9D4EDD] text-black text-[10px] font-black px-6 py-1 rounded-bl-3xl rounded-tr-3xl tracking-widest text-xs">MOST RARE</div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <!-- PURCHASE MODAL -->
-    <div id="modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center">
-        <div class="glass border border-white/10 rounded-3xl p-10 max-w-md w-full mx-4">
-            <h2 class="text-2xl font-semibold mb-6" id="modal-title">Purchase</h2>
-            <input type="text" id="discord-id" 
-                class="w-full bg-zinc-900 border border-white/10 rounded-2xl px-6 py-4 mb-4 focus:outline-none focus:border-emerald-400"
-                placeholder="Your Discord ID">
-            <button onclick="confirmPurchase()" 
-                class="w-full bg-white text-black font-semibold py-4 rounded-2xl hover:bg-gray-200 transition-colors">
-                Confirm Purchase
-            </button>
-            <button onclick="closeModal()" 
-                class="w-full mt-3 text-gray-400 hover:text-white transition-colors">
-                Cancel
-            </button>
+    <!-- Trust Bar -->
+    <div class="max-w-7xl mx-auto px-6 mt-24">
+        <div class="border border-[#161618] bg-[#0b0b0c] rounded-3xl p-8 flex flex-wrap items-center justify-center gap-x-16 gap-y-8 text-center">
+            <div class="flex items-center gap-x-4"><i class="fa-solid fa-shield-halved text-3xl text-[#00E676]"></i><div><div class="font-semibold">Dupe-Free Guarantee</div><div class="text-xs text-gray-500">100% Verified Stock</div></div></div>
+            <div class="flex items-center gap-x-4"><i class="fa-solid fa-bolt text-3xl text-[#00E676]"></i><div><div class="font-semibold">Instant Delivery</div><div class="text-xs text-gray-500">Automated Bots</div></div></div>
+            <div class="flex items-center gap-x-4"><i class="fa-solid fa-users text-3xl text-[#9D4EDD]"></i><div><div class="font-semibold">Private Community</div><div class="text-xs text-gray-500">Elite LT2 Circle</div></div></div>
         </div>
     </div>
 
     <script>
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-content').forEach((el, i) => {
-                el.classList.toggle('hidden', i !== tab);
-            });
-            
-            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-                if (i === tab) {
-                    btn.classList.add('bg-white', 'text-black', 'active-tab');
-                } else {
-                    btn.classList.remove('bg-white', 'text-black', 'active-tab');
-                }
-            });
+        function claimViaDiscord() {
+            const discordLink = "https://discord.gg/yourinvite"; // ← CHANGE THIS
+            window.open(discordLink, '_blank');
         }
-
-        function purchase(product) {
-            document.getElementById('modal-title').textContent = `Purchase ${product}`;
-            document.getElementById('modal').classList.remove('hidden');
-            document.getElementById('discord-id').focus();
-        }
-
-        function confirmPurchase() {
-            const id = document.getElementById('discord-id').value.trim();
-            if (id) {
-                alert(`✅ Order received!\n\nDiscord ID: ${id}\n\nDM NZ to complete payment.`);
-                closeModal();
-            } else {
-                alert("Please enter your Discord ID");
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('modal').classList.add('hidden');
-            document.getElementById('discord-id').value = '';
-        }
-
-        // Initialize first tab
-        window.onload = () => switchTab(0);
     </script>
 </body>
 </html>
