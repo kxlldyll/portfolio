@@ -28,7 +28,7 @@
         nav ul {
             display: flex;
             list-style: none;
-            gap: 40px;
+            gap: 50px;
         }
         
         nav a {
@@ -48,35 +48,7 @@
         }
         
         .page.active { display: block; animation: fadeIn 0.4s; }
-        
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        #hero h1 { font-size: 5.2rem; font-weight: 700; margin-bottom: 20px; }
-        #hero p { font-size: 1.7rem; color: #aaa; }
-
-        .disclaimer {
-            background: #1a0000;
-            border: 1px solid #500;
-            padding: 18px;
-            border-radius: 8px;
-            text-align: center;
-            color: #ff7777;
-            margin-bottom: 50px;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #111;
-            color: #0f0;
-            padding: 16px 36px;
-            border-radius: 8px;
-            border: 1px solid #0a0;
-            display: none;
-            z-index: 9999;
-        }
     </style>
 </head>
 <body>
@@ -85,61 +57,58 @@
         <nav>
             <ul>
                 <li><a onclick="showPage('main')">About</a></li>
-                <li><a onclick="showPage('main')">Skills</a></li>
-                <li><a onclick="showPage('main')">Experience</a></li>
-                <li><a onclick="showPage('main')">Projects</a></li>
                 <li><a onclick="showPage('scripts')">Scripts</a></li>
                 <li><a onclick="showPage('main')">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- MAIN PORTFOLIO PAGE -->
+    <!-- MAIN PAGE -->
     <div id="main" class="page active">
-        <section id="hero">
-            <h1>Hey, I'm NZ</h1>
-            <p>lua dev. professional yapper. website dev.</p>
+        <section id="hero" style="text-align:center;">
+            <h1 style="font-size: 5.5rem; margin-bottom: 30px;">Hey, I'm NZ!</h1>
         </section>
 
-        <!-- about, skills, experience, projects, contact sections here (same as before) -->
-        <!-- i shortened it for message size, but keep your previous content -->
+        <section id="about">
+            <h2 style="text-align:center; margin-bottom: 40px;">About Me</h2>
+            <p style="max-width: 700px; margin: 0 auto; text-align: center; font-size: 1.2rem; color: #bbb;">
+                Miami based developer who builds tools and clean experiences.
+            </p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; max-width: 800px; margin: 60px auto 0;">
+                <div style="background:#111; padding:12px 26px; border-radius:50px; border:1px solid #222;">Lua</div>
+                <div style="background:#111; padding:12px 26px; border-radius:50px; border:1px solid #222;">Luau</div>
+                <div style="background:#111; padding:12px 26px; border-radius:50px; border:1px solid #222;">HTML</div>
+                <div style="background:#111; padding:12px 26px; border-radius:50px; border:1px solid #222;">CSS</div>
+                <div style="background:#111; padding:12px 26px; border-radius:50px; border:1px solid #222;">JavaScript</div>
+                <div style="background:#111; padding:12px 26px; border-radius:50px; border:1px solid #222;">Roblox Exploiting</div>
+            </div>
+        </section>
     </div>
 
     <!-- SCRIPTS PAGE -->
     <div id="scripts" class="page">
-        <button onclick="showPage('main')" style="position:absolute; top:100px; left:5%; background:none; border:1px solid #333; color:#aaa; padding:10px 20px; border-radius:8px; cursor:pointer;">
-            ← Back to Portfolio
+        <button onclick="showPage('main')" style="position:absolute; top:100px; left:5%; background:none; border:1px solid #333; color:#aaa; padding:12px 24px; border-radius:50px; cursor:pointer;">
+            ← Back
         </button>
 
-        <h2 style="text-align:center; margin-bottom:40px;">Roblox Scripts</h2>
+        <h2 style="text-align:center; margin-bottom:60px; font-size: 3rem;">Roblox Scripts</h2>
         
-        <div class="disclaimer">
-            <strong>Disclaimer:</strong> These are for educational purposes only. Use at your own risk. 
-            I am not responsible for any bans or consequences.
+        <div style="max-width: 700px; margin: 0 auto; text-align: center; line-height: 1.8; color: #ddd;">
+            <strong style="font-size: 1.6rem; color: #ff5555;">DISCLAIMER</strong><br><br>
+            These are for educational purposes only.<br>
+            Use at your own risk. I am not responsible for any bans, warnings, or account terminations.
         </div>
 
-        <div style="max-width: 900px; margin: 0 auto;">
-            <!-- your scripts go here -->
-            <p style="text-align:center; color:#555;">add your loadstrings here...</p>
+        <div style="text-align:center; margin-top: 160px; color:#555;">
+            Loadstrings and tools coming soon...
         </div>
     </div>
 
-    <div id="toast" class="toast">Script copied to clipboard!</div>
-
     <script>
         function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-        }
-
-        function copyScript(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                const toast = document.getElementById('toast');
-                toast.style.display = 'block';
-                setTimeout(() => toast.style.display = 'none', 2200);
-            });
         }
     </script>
 </body>
