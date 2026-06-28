@@ -3,127 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NZ • Product</title>
+    <title>NZ</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap');
         
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0a0a0a;
-            color: #e5e5e5;
-            font-family: 'Inter', sans-serif;
-            padding: 40px;
-            max-width: 1100px;
-            margin: 0 auto;
+            background: #000;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
-        .product-detail {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            margin-top: 40px;
-        }
-
-        .left {
-            background: #111;
-            border-radius: 16px;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .right h1 {
-            font-size: 2.4rem;
-            margin-bottom: 8px;
-        }
-
-        .price {
-            font-size: 2.8rem;
-            color: #4ade80;
-            font-weight: 700;
-        }
-
-        .option {
-            background: #1f1f1f;
-            padding: 18px 24px;
-            margin-bottom: 12px;
-            border-radius: 12px;
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .option:hover {
-            background: #4ade80;
-            color: black;
+            z-index: 1000;
+            background: rgba(0,0,0,0.95);
         }
 
-        .buy-btn {
-            width: 100%;
-            padding: 18px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border-radius: 12px;
-            margin-top: 20px;
-            cursor: pointer;
+        .logo {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -2px;
         }
 
-        .buy-now { background: #3b82f6; color: white; border: none; }
-        .add-cart { background: #333; color: white; border: none; }
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 50px;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .nav a:hover {
+            color: #4ade80;
+        }
+
+        .main {
+            padding-top: 160px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-    <div class="product-detail">
-        <!-- Left side -->
-        <div class="left">
-            <h2 style="margin-bottom:30px;">17+ Age Verified Accounts</h2>
-            <div style="font-size:140px; opacity:0.15;">🛡️</div>
-            <p style="margin-top:40px; color:#888;">Clean accounts • Trusted seller</p>
+    <header>
+        <div class="logo">NZ</div>
+        <div class="nav">
+            <a href="#" onclick="alert('Shop section coming')">Shop</a>
+            <a href="#" onclick="alert('Scripts section coming')">Scripts</a>
         </div>
+    </header>
 
-        <!-- Right side -->
-        <div>
-            <h1>17+ Age Verified Accounts</h1>
-            <div class="price">$25+</div>
-            
-            <p style="margin: 25px 0 15px; color:#aaa;">Choose option</p>
-            
-            <div class="option" onclick="this.style.background='#4ade80'; this.style.color='black'">
-                <div>
-                    <strong>30 Day Access</strong><br>
-                    <span style="color:#4ade80; font-size:0.9rem;">● 55 in stock</span>
-                </div>
-                <strong>$25</strong>
-            </div>
-
-            <div class="option" onclick="this.style.background='#4ade80'; this.style.color='black'">
-                <div>
-                    <strong>90 Day Access</strong><br>
-                    <span style="color:#4ade80; font-size:0.9rem;">● 42 in stock</span>
-                </div>
-                <strong>$45</strong>
-            </div>
-
-            <div class="option" onclick="this.style.background='#4ade80'; this.style.color='black'">
-                <div>
-                    <strong>Lifetime Access</strong><br>
-                    <span style="color:#4ade80; font-size:0.9rem;">● 28 in stock</span>
-                </div>
-                <strong>$80</strong>
-            </div>
-
-            <button class="buy-btn buy-now" onclick="buyNow()">Buy Now</button>
-            <button class="buy-btn add-cart" onclick="addToCart()">Add to Cart</button>
-        </div>
+    <div class="main">
+        <h1 style="font-size: 5rem; margin-bottom: 20px;">Welcome to NZ</h1>
+        <p style="font-size: 1.6rem; color: #888;">Shop & Scripts</p>
     </div>
 
-    <script>
-        function buyNow() {
-            alert("Order started!\n\nDM NZ on Discord to finalize payment (Robux or Crypto)");
-        }
-        function addToCart() {
-            alert("Added to cart 💰");
-        }
-    </script>
 </body>
 </html>
