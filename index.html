@@ -117,59 +117,76 @@
             border-color: rgba(16, 185, 129, 0.4);
         }
 
-        /* SHOP STYLES - Transparent, no outlines */
+        /* SHOP GRID - ULTRA PREMIUM REFACTOR ONLY */
         .shop-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 24px;
+            gap: 28px;
             max-width: 1100px;
             margin: 0 auto;
         }
-
         .shop-card {
-            background: rgba(9, 9, 11, 0.6);
-            border: none;
+            background: linear-gradient(180deg, #0c0c0c 0%, #070707 100%);
+            border: 1px solid rgba(255,255,255,0.03);
             border-radius: 16px;
-            padding: 28px;
-            transition: all 0.3s ease;
+            padding: 32px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .shop-card:hover {
-            background: rgba(9, 9, 11, 0.85);
             transform: translateY(-4px);
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
         }
-
-        .tag {
-            background: rgba(16, 185, 129, 0.1);
-            color: #4ade80;
-            padding: 5px 16px;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-bottom: 14px;
+        .shop-card .badge-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
         }
-
+        .pulse-dot {
+            width: 9px;
+            height: 9px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .shop-card h3 {
+            font-size: 1.45rem;
+            margin-bottom: 12px;
+        }
+        .shop-card p {
+            color: #888;
+            margin-bottom: 22px;
+            line-height: 1.5;
+        }
         .price {
-            font-size: 1.9rem;
+            font-size: 1.95rem;
             font-weight: 700;
             color: #4ade80;
-            margin: 12px 0;
+            margin: 8px 0 20px;
         }
-
         .payment {
-            color: #777;
+            color: #666;
             font-size: 0.9rem;
-            margin: 18px 0 22px;
+            margin-bottom: 26px;
         }
-
         .btn {
-            background: #4ade80;
+            width: 100%;
+            background: #10b981;
             color: #000;
             border: none;
-            padding: 12px 28px;
+            padding: 14px 24px;
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            width: 100%;
+            transition: all 0.2s ease;
+        }
+        .btn:active {
+            transform: scale(0.98);
         }
         .btn:hover {
             background: #22c55e;
@@ -199,8 +216,7 @@
         </nav>
     </header>
 
-    <!-- About, Scripts, Executors, Contact unchanged -->
-
+    <!-- About Page -->
     <div id="main" class="page active">
         <h1 style="text-align:center; font-size: 5rem; margin-bottom: 30px;">Hey, I'm NZ!</h1>
         <p style="text-align:center; max-width: 700px; margin: 0 auto; font-size: 1.25rem; color: #bbb;">
@@ -227,13 +243,16 @@
         </div>
     </div>
 
+    <!-- Scripts Page -->
     <div id="scripts" class="page">
         <h2 style="text-align:center; font-size: 2.9rem; margin-bottom: 20px;">Available Scripts</h2>
+      
         <div class="disclaimer">
             DISCLAIMER — These are for educational purposes only.<br>
             I am not responsible for any account consequences.
         </div>
         <div style="max-width: 820px; margin: 0 auto;">
+          
             <div class="script-card">
                 <div class="script-header">
                     <div class="status-tag">Active</div>
@@ -261,43 +280,56 @@
         </div>
     </div>
 
-    <!-- NEW SHOP PAGE -->
+    <!-- SHOP PAGE - ONLY THIS WAS REFACTORED -->
     <div id="shop" class="page">
         <h2 style="text-align:center; font-size: 2.9rem; margin-bottom: 40px;">Shop</h2>
         <p style="text-align:center; color:#aaa; margin-bottom: 50px;">Accounts • Tools • Lifetime Access</p>
 
         <div class="shop-grid">
+
+            <!-- Card 1 -->
             <div class="shop-card">
-                <div class="tag">Account</div>
+                <div class="badge-container">
+                    <div class="pulse-dot"></div>
+                    <span style="background:rgba(16,185,129,0.1); color:#4ade80; padding:5px 16px; border-radius:9999px; font-size:0.82rem; font-weight:500;">Account</span>
+                </div>
                 <h3>20M 6 Slots LT2</h3>
-                <p style="color:#bbb; margin: 12px 0 20px;">17+ Age Verified • Clean History</p>
+                <p>17+ Age verified accs • Clean</p>
                 <div class="price">$35</div>
                 <div class="payment">Robux • Crypto • Discord</div>
                 <button class="btn" onclick="buyItem(this)">Buy Now</button>
             </div>
 
+            <!-- Card 2 -->
             <div class="shop-card">
-                <div class="tag">Account</div>
+                <div class="badge-container">
+                    <div class="pulse-dot"></div>
+                    <span style="background:rgba(16,185,129,0.1); color:#4ade80; padding:5px 16px; border-radius:9999px; font-size:0.82rem; font-weight:500;">Account</span>
+                </div>
                 <h3>Leveled Main Account</h3>
-                <p style="color:#bbb; margin: 12px 0 20px;">High level + good stats</p>
+                <p>High level + strong stats</p>
                 <div class="price">$45</div>
                 <div class="payment">Robux • Crypto • Discord</div>
                 <button class="btn" onclick="buyItem(this)">Buy Now</button>
             </div>
 
-            <div class="shop-card">
-                <div class="tag">Bundle</div>
+            <!-- Best Value Bundle - Full span -->
+            <div class="shop-card" style="grid-column: 1 / -1;">
+                <div class="badge-container">
+                    <div class="pulse-dot"></div>
+                    <span style="background:rgba(16,185,129,0.15); color:#4ade80; padding:5px 16px; border-radius:9999px; font-size:0.82rem; font-weight:600;">Best Value</span>
+                </div>
                 <h3>Account + Hub Bundle</h3>
-                <p style="color:#bbb; margin: 12px 0 20px;">Best value combo</p>
+                <p>Premium account + full advanced hub</p>
                 <div class="price">$65</div>
                 <div class="payment">Robux • Crypto • Discord</div>
                 <button class="btn" onclick="buyItem(this)">Buy Bundle</button>
             </div>
 
-            <!-- Add more products here easily -->
         </div>
     </div>
 
+    <!-- Executors & Contact -->
     <div id="executors" class="page">
         <h2 style="text-align:center; font-size: 2.8rem;">Executors</h2>
         <p style="text-align:center; color:#aaa; margin-top: 60px;">Current meta executors coming soon...</p>
@@ -327,7 +359,6 @@
                 btn.classList.remove('success');
             }, 1500);
         }
-
         function buyItem(btn) {
             alert("DM me on Discord to complete purchase (Robux / Crypto accepted)");
         }
