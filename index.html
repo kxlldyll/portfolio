@@ -6,10 +6,10 @@
     <title>NZ - Portfolio</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
+       
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
+       
         header {
             position: fixed;
             top: 0;
@@ -22,15 +22,15 @@
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(12px);
         }
-        
+       
         .logo { font-size: 28px; font-weight: 700; letter-spacing: -1.5px; cursor: pointer; }
-        
+       
         nav ul {
             display: flex;
             list-style: none;
             gap: 40px;
         }
-        
+       
         nav a {
             color: #fff;
             text-decoration: none;
@@ -38,61 +38,33 @@
             cursor: pointer;
             transition: color 0.3s;
         }
-        
+       
         nav a:hover { color: #ccc; }
-
         .page {
             min-height: 100vh;
             padding: 140px 5% 120px;
             display: none;
         }
-        
+       
         .page.active { display: block; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
         .script-card {
-            background: #0a0a0a;
-            border: 1px solid #1f1f1f;
-            padding: 24px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #0f0f0f;
+            border: 1px solid #222;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
         }
-
-        .script-info {
-            flex: 1;
-        }
-
-        .status {
-            display: inline-block;
-            background: #1a3a1a;
-            color: #4ade80;
-            font-size: 0.8rem;
-            padding: 4px 12px;
-            border-radius: 9999px;
-            margin-bottom: 8px;
-        }
-
-        .code-preview {
-            font-family: 'Courier New', monospace;
-            background: #111;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            color: #aaa;
-            margin: 8px 0;
-        }
-
         .copy-btn {
-            background: #1f1f1f;
+            background: #1a1a1a;
             color: #0f0;
-            border: none;
-            padding: 10px 20px;
+            border: 1px solid #0a0;
+            padding: 12px 28px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-weight: 500;
+            margin-top: 15px;
+            width: 100%;
         }
     </style>
 </head>
@@ -103,6 +75,7 @@
             <ul>
                 <li><a onclick="showPage('main')">About</a></li>
                 <li><a onclick="showPage('scripts')">Scripts</a></li>
+                <li><a onclick="showPage('executors')">Executors</a></li>
                 <li><a onclick="showPage('contact')">Contact</a></li>
             </ul>
         </nav>
@@ -113,13 +86,11 @@
         <section id="hero" style="text-align:center;">
             <h1 style="font-size: 5.5rem; margin-bottom: 30px;">Hey, I'm NZ!</h1>
         </section>
-
         <section id="about">
             <h2 style="text-align:center; margin-bottom: 40px;">About Me</h2>
             <p style="max-width: 700px; margin: 0 auto; text-align: center; font-size: 1.2rem; color: #bbb;">
                 Miami based developer who builds tools and clean experiences.
             </p>
-
             <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; max-width: 800px; margin: 60px auto 0;">
                 <div style="background:#111; padding:12px 26px; border-radius:50px; border:1px solid #222;">Lua</div>
                 <div style="background:#111; padding:12px 26px; border-radius:50px; border:1px solid #222;">Luau</div>
@@ -136,54 +107,51 @@
         <button onclick="showPage('main')" style="position:absolute; top:100px; left:5%; background:none; border:1px solid #333; color:#aaa; padding:12px 24px; border-radius:50px; cursor:pointer;">
             ← Back
         </button>
-
         <h2 style="text-align:center; margin-bottom:50px; font-size: 3rem;">Roblox Scripts</h2>
-        
-        <div style="max-width: 720px; margin: 0 auto; background: #111; border: 1px solid #333; padding: 20px; border-radius: 12px; text-align: center; color: #aaa; font-size: 0.95rem; margin-bottom: 50px;">
-            <strong>DISCLAIMER</strong> — These are for educational purposes only. Use at your own risk.
+       
+        <div style="max-width: 700px; margin: 0 auto; text-align: center; line-height: 1.8; color: #ddd; margin-bottom: 60px;">
+            <strong style="font-size: 1.45rem; color: #ff5555;">DISCLAIMER</strong><br><br>
+            These are for educational purposes only.<br>
+            Use at your own risk. I am not responsible for any bans, warnings, or account terminations.
         </div>
-
         <div style="max-width: 800px; margin: 0 auto;">
             <div class="script-card">
-                <div class="script-info">
-                    <div class="status">Active</div>
-                    <h3>PvP Script</h3>
-                    <div class="code-preview">loadstring(game:HttpGet('.../PvP'))()</div>
-                </div>
-                <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvP'))()`)">Copy</button>
+                <h3>PvP Script</h3>
+                <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvP'))()`)">Copy Loadstring</button>
             </div>
-
             <div class="script-card">
-                <div class="script-info">
-                    <div class="status">Active</div>
-                    <h3>PvE Script</h3>
-                    <div class="code-preview">loadstring(game:HttpGet('.../PvE'))()</div>
-                </div>
-                <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvE'))()`)">Copy</button>
+                <h3>PvE Script</h3>
+                <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvE'))()`)">Copy Loadstring</button>
             </div>
-
             <div class="script-card">
-                <div class="script-info">
-                    <div class="status">Active</div>
-                    <h3>FFA Script</h3>
-                    <div class="code-preview">loadstring(game:HttpGet('.../FFA'))()</div>
-                </div>
-                <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/FFA'))()`)">Copy</button>
+                <h3>FFA Script</h3>
+                <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/FFA'))()`)">Copy Loadstring</button>
             </div>
         </div>
     </div>
 
-    <!-- CONTACT PAGE (same as before) -->
+    <!-- NEW EXECUTORS PAGE -->
+    <div id="executors" class="page">
+        <h2 style="text-align:center; margin-bottom:50px; font-size: 3rem;">Executors</h2>
+        <div style="max-width: 700px; margin: 0 auto; text-align: center; color: #bbb;">
+            <p>Executor compatibility and information will go here.</p>
+        </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
     <div id="contact" class="page">
         <h2 style="text-align:center; margin-bottom: 60px;">Get In Touch</h2>
+       
         <div style="max-width: 600px; margin: 0 auto;">
             <div onclick="copyDiscord()" style="cursor:pointer; background:#111; color:#fff; padding:18px 24px; border-radius:12px; margin-bottom:16px; font-size:1.2rem; display:flex; align-items:center; justify-content:space-between;">
                 Discord: @killdxll
-                <span style="color:#0f0;">📋</span>
+                <span style="color:#0f0; font-size:1.1rem;">📋</span>
             </div>
+           
             <a href="https://github.com" target="_blank" style="display:block; background:#111; color:#fff; text-decoration:none; padding:18px 24px; border-radius:12px; margin-bottom:16px; font-size:1.2rem;">
                 GitHub 🐙
             </a>
+           
             <a href="mailto:your@email.com" style="display:block; background:#111; color:#fff; text-decoration:none; padding:18px 24px; border-radius:12px; font-size:1.2rem;">
                 Email
             </a>
