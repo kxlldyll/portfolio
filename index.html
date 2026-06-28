@@ -49,7 +49,7 @@
         .page.active { display: block; }
         .disclaimer {
             background: #111;
-            color: #fff;                    /* Made white as requested */
+            color: #fff;
             padding: 16px 32px;
             border-radius: 12px;
             max-width: 720px;
@@ -58,7 +58,6 @@
             font-weight: 500;
             border: 1px solid #3f3f46;
         }
-        /* PROFESSIONAL SCRIPT CARDS */
         .script-card {
             background: #09090b;
             border: 1px solid #1f2937;
@@ -96,6 +95,7 @@
             font-family: monospace;
             color: #a1a1aa;
             overflow-x: auto;
+            white-space: pre-wrap;
         }
         .copy-btn {
             background: #18181b;
@@ -139,7 +139,7 @@
         </nav>
     </header>
 
-    <!-- About Page (untouched) -->
+    <!-- About Page -->
     <div id="main" class="page active">
         <h1 style="text-align:center; font-size: 5rem; margin-bottom: 30px;">Hey, I'm NZ!</h1>
         <p style="text-align:center; max-width: 700px; margin: 0 auto; font-size: 1.25rem; color: #bbb;">
@@ -181,8 +181,8 @@
                     <div class="status-tag">Active</div>
                     <div class="lua-label">Lua Payload</div>
                 </div>
-                <div class="code-box">loadstring(game:HttpGet("https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvP"))()</div>
-                <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+                <div class="code-box" id="pvp-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvP"))()</div>
+                <button class="copy-btn" onclick="copyScript(this, 'pvp-code')">Copy</button>
             </div>
 
             <div class="script-card">
@@ -190,8 +190,8 @@
                     <div class="status-tag">Active</div>
                     <div class="lua-label">Lua Payload</div>
                 </div>
-                <div class="code-box">loadstring(game:HttpGet("https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvE"))()</div>
-                <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+                <div class="code-box" id="pve-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvE"))()</div>
+                <button class="copy-btn" onclick="copyScript(this, 'pve-code')">Copy</button>
             </div>
 
             <div class="script-card">
@@ -199,13 +199,13 @@
                     <div class="status-tag">Active</div>
                     <div class="lua-label">Lua Payload</div>
                 </div>
-                <div class="code-box">loadstring(game:HttpGet("https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/FFA"))()</div>
-                <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+                <div class="code-box" id="ffa-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/FFA"))()</div>
+                <button class="copy-btn" onclick="copyScript(this, 'ffa-code')">Copy</button>
             </div>
         </div>
     </div>
 
-    <!-- Executors & Contact (untouched) -->
+    <!-- Executors & Contact -->
     <div id="executors" class="page">
         <h2 style="text-align:center; font-size: 2.8rem;">Executors</h2>
         <p style="text-align:center; color:#aaa; margin-top: 60px;">Current meta executors coming soon...</p>
@@ -226,14 +226,25 @@
             const page = document.getElementById(pageId);
             if (page) page.classList.add('active');
         }
-        function copyScript(btn) {
-            const originalText = btn.textContent;
-            btn.textContent = "Copied ✓";
-            btn.classList.add('success');
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.classList.remove('success');
-            }, 1500);
+
+        function copyScript(btn, codeId) {
+            const codeElement = document.getElementById(codeId);
+            if (codeElement) {
+                const textToCopy = codeElement.textContent.trim();
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = btn.textContent;
+                    btn.textContent = "Copied ✓";
+                    btn.classList.add('success');
+                    
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.classList.remove('success');
+                    }, 1500);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    btn.textContent = "Failed";
+                });
+            }
         }
     </script>
 </body>
