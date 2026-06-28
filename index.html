@@ -3,134 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NZ • Shop</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>NZ</title>
     <style>
-        body { font-family: 'Inter', system-ui, sans-serif; }
-        .logo-font { font-family: 'Space Grotesk', sans-serif; }
-        .card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
         }
-        .neon-glow:hover {
-            box-shadow: 0 0 25px rgba(74, 222, 128, 0.5);
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 44px;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            color: #ffffff;
         }
     </style>
 </head>
-<body class="bg-black text-white min-h-screen">
+<body>
 
-    <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
-            <div class="logo-font text-4xl font-bold tracking-tighter text-emerald-400">NZ</div>
-            <nav class="flex gap-10 text-lg">
-                <a href="#" class="hover:text-emerald-400 transition-colors">Shop</a>
-                <a href="#" class="hover:text-emerald-400 transition-colors">Scripts</a>
-            </nav>
-        </div>
+    <header>
+        <div class="logo">NZ</div>
     </header>
 
-    <main class="pt-32 pb-20 px-8 max-w-7xl mx-auto">
-        <div class="text-center mb-16">
-            <h1 class="text-5xl font-semibold tracking-tight mb-3">Lifetime Accounts</h1>
-            <p class="text-gray-400 text-xl">Premium Roblox accounts • Trusted &amp; Clean</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <!-- Card 1 -->
-            <div class="card bg-zinc-950 border border-zinc-800 rounded-3xl p-8 group">
-                <div class="inline-flex items-center gap-2 bg-emerald-950 text-emerald-400 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                    LIFETIME
-                </div>
-                <h3 class="text-2xl font-semibold mb-2">17+ Age Verified</h3>
-                <p class="text-gray-400 mb-8">Clean history • Multi-game support</p>
-                
-                <div class="mb-8">
-                    <span class="text-5xl font-bold text-white">$15</span>
-                    <span class="text-gray-500">/lifetime</span>
-                </div>
-
-                <ul class="space-y-3 mb-10 text-gray-300">
-                    <li class="flex items-center gap-3">✓ Age Verified</li>
-                    <li class="flex items-center gap-3">✓ Clean Record</li>
-                    <li class="flex items-center gap-3">✓ Instant Delivery</li>
-                </ul>
-
-                <div class="text-xs text-gray-500 mb-4">Accepted Payments</div>
-                <div class="flex gap-6 text-gray-400 text-sm">
-                    <div>Robux</div>
-                    <div>LTC</div>
-                    <div>Crypto</div>
-                </div>
-
-                <button onclick="alert('DM NZ on Discord to complete purchase')"
-                        class="mt-8 w-full bg-emerald-500 hover:bg-emerald-400 transition-all text-black font-semibold py-4 rounded-2xl neon-glow">
-                    Purchase Now
-                </button>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="card bg-zinc-950 border border-zinc-800 rounded-3xl p-8 group">
-                <div class="inline-flex items-center gap-2 bg-emerald-950 text-emerald-400 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                    LIFETIME
-                </div>
-                <h3 class="text-2xl font-semibold mb-2">LT2 Accounts (20M+)</h3>
-                <p class="text-gray-400 mb-8">6 Slots • Strong progress</p>
-                
-                <div class="mb-8">
-                    <span class="text-5xl font-bold text-white">$20</span>
-                    <span class="text-gray-500">/lifetime</span>
-                </div>
-
-                <ul class="space-y-3 mb-10 text-gray-300">
-                    <li class="flex items-center gap-3">✓ 6 Slots</li>
-                    <li class="flex items-center gap-3">✓ High Value Items</li>
-                    <li class="flex items-center gap-3">✓ Fast Delivery</li>
-                </ul>
-
-                <div class="text-xs text-gray-500 mb-4">Accepted Payments</div>
-                <div class="flex gap-6 text-gray-400 text-sm">
-                    <div>Robux</div>
-                    <div>LTC</div>
-                    <div>Crypto</div>
-                </div>
-
-                <button onclick="alert('DM NZ on Discord to complete purchase')"
-                        class="mt-8 w-full bg-emerald-500 hover:bg-emerald-400 transition-all text-black font-semibold py-4 rounded-2xl neon-glow">
-                    Purchase Now
-                </button>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="card bg-zinc-950 border border-zinc-800 rounded-3xl p-8 group relative">
-                <div class="absolute -top-3 right-6 bg-amber-500 text-black text-xs font-bold px-5 py-1 rounded-full">BEST VALUE</div>
-                
-                <div class="inline-flex items-center gap-2 bg-emerald-950 text-emerald-400 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                    LIFETIME
-                </div>
-                <h3 class="text-2xl font-semibold mb-2">Premium Bundle</h3>
-                <p class="text-gray-400 mb-8">17+ Account + LT2 Account</p>
-                
-                <div class="mb-8">
-                    <span class="text-5xl font-bold text-white">$30</span>
-                    <span class="text-gray-500">/lifetime</span>
-                </div>
-
-                <button onclick="alert('DM NZ on Discord to complete purchase')"
-                        class="mt-8 w-full bg-emerald-500 hover:bg-emerald-400 transition-all text-black font-semibold py-4 rounded-2xl neon-glow">
-                    Purchase Bundle
-                </button>
-            </div>
-
-        </div>
-    </main>
+    <!-- Rest of the site goes here later -->
 
 </body>
 </html>
