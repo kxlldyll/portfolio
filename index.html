@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NZ</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #000;
             color: #fff;
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         header {
@@ -26,27 +26,84 @@
             background: rgba(0,0,0,0.95);
         }
 
-        .logo {
-            font-size: 42px;
-            font-weight: 700;
-            letter-spacing: -2px;
+        .logo { 
+            font-size: 42px; 
+            font-weight: 700; 
+            letter-spacing: -2px; 
+            font-family: 'Space Grotesk', sans-serif; 
         }
 
         .nav a {
-            color: #fff;
-            text-decoration: none;
+            color: #ddd;
             margin-left: 50px;
-            font-size: 1.25rem;
-            font-weight: 500;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        .nav a:hover { color: #4ade80; }
+
+        .shop {
+            padding: 160px 6% 100px;
         }
 
-        .nav a:hover {
-            color: #4ade80;
-        }
-
-        .main {
-            padding-top: 160px;
+        h1 {
             text-align: center;
+            font-size: 3.2rem;
+            margin-bottom: 80px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 20px;
+            padding: 36px;
+            transition: all 0.4s;
+        }
+        .card:hover {
+            border-color: #4ade80;
+            transform: translateY(-10px);
+        }
+
+        .tag {
+            color: #4ade80;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .card h3 {
+            font-size: 1.65rem;
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #4ade80;
+            margin: 20px 0;
+        }
+
+        .payment {
+            color: #888;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: #10b981;
+            color: black;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -55,14 +112,42 @@
     <header>
         <div class="logo">NZ</div>
         <div class="nav">
-            <a href="#" onclick="alert('Shop section coming')">Shop</a>
-            <a href="#" onclick="alert('Scripts section coming')">Scripts</a>
+            <a href="#">Shop</a>
+            <a href="#">Scripts</a>
         </div>
     </header>
 
-    <div class="main">
-        <h1 style="font-size: 5rem; margin-bottom: 20px;">Welcome to NZ</h1>
-        <p style="font-size: 1.6rem; color: #888;">Shop & Scripts</p>
+    <div class="shop">
+        <h1>Lifetime Accounts</h1>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="tag">LIFETIME</div>
+                <h3>17+ Age Verified Accounts</h3>
+                <p style="color:#aaa;">Clean • Multi-game</p>
+                <div class="price">$15</div>
+                <div class="payment">Robux • LTC • Crypto</div>
+                <button class="btn" onclick="alert('DM NZ on Discord to purchase')">Get Account</button>
+            </div>
+
+            <div class="card">
+                <div class="tag">LIFETIME</div>
+                <h3>LT2 Accounts (20M+)</h3>
+                <p style="color:#aaa;">6 Slots • Good Progress</p>
+                <div class="price">$20</div>
+                <div class="payment">Robux • LTC • Crypto</div>
+                <button class="btn" onclick="alert('DM NZ on Discord to purchase')">Get Account</button>
+            </div>
+
+            <div class="card">
+                <div class="tag">LIFETIME</div>
+                <h3>Premium Bundle</h3>
+                <p style="color:#aaa;">17+ + LT2 Account</p>
+                <div class="price">$30</div>
+                <div class="payment">Robux • LTC • Crypto</div>
+                <button class="btn" onclick="alert('DM NZ on Discord to purchase')">Get Bundle</button>
+            </div>
+        </div>
     </div>
 
 </body>
