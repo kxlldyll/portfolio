@@ -28,7 +28,7 @@
         nav ul {
             display: flex;
             list-style: none;
-            gap: 50px;
+            gap: 40px;
         }
         
         nav a {
@@ -43,7 +43,7 @@
 
         .page {
             min-height: 100vh;
-            padding: 140px 5% 80px;
+            padding: 140px 5% 120px;
             display: none;
         }
         
@@ -51,22 +51,23 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .script-card {
-            background: #111;
+            background: #0f0f0f;
             border: 1px solid #222;
-            padding: 24px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
         }
 
         .copy-btn {
             background: #1a1a1a;
             color: #0f0;
             border: 1px solid #0a0;
-            padding: 10px 20px;
+            padding: 12px 28px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
-            margin-top: 12px;
+            margin-top: 15px;
+            width: 100%;
         }
     </style>
 </head>
@@ -77,7 +78,7 @@
             <ul>
                 <li><a onclick="showPage('main')">About</a></li>
                 <li><a onclick="showPage('scripts')">Scripts</a></li>
-                <li><a onclick="showPage('main')">Contact</a></li>
+                <li><a onclick="showPage('contact')">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -111,7 +112,7 @@
             ← Back
         </button>
 
-        <h2 style="text-align:center; margin-bottom:60px; font-size: 3rem;">Roblox Scripts</h2>
+        <h2 style="text-align:center; margin-bottom:50px; font-size: 3rem;">Roblox Scripts</h2>
         
         <div style="max-width: 700px; margin: 0 auto; text-align: center; line-height: 1.8; color: #ddd; margin-bottom: 60px;">
             <strong style="font-size: 1.45rem; color: #ff5555;">DISCLAIMER</strong><br><br>
@@ -124,12 +125,10 @@
                 <h3>PvP Script</h3>
                 <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvP'))()`)">Copy Loadstring</button>
             </div>
-            
             <div class="script-card">
                 <h3>PvE Script</h3>
                 <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvE'))()`)">Copy Loadstring</button>
             </div>
-            
             <div class="script-card">
                 <h3>FFA Script</h3>
                 <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/FFA'))()`)">Copy Loadstring</button>
@@ -137,9 +136,34 @@
         </div>
     </div>
 
-    <div id="toast" style="position:fixed; bottom:40px; left:50%; transform:translateX(-50%); background:#111; color:#0f0; padding:16px 36px; border-radius:8px; border:1px solid #0a0; display:none; z-index:9999; font-weight:500;">
-        Script copied to clipboard!
+    <!-- CONTACT PAGE -->
+    <div id="contact" class="page">
+        <h2 style="text-align:center; margin-bottom: 60px;">Get In Touch</h2>
+        
+        <div style="max-width: 600px; margin: 0 auto;">
+            <div onclick="copyDiscord()" style="cursor:pointer; background:#111; color:#fff; padding:18px 24px; border-radius:12px; margin-bottom:16px; font-size:1.2rem; display:flex; align-items:center; justify-content:space-between;">
+                Discord: @killdxll
+                <span style="color:#0f0; font-size:1.1rem;">📋</span>
+            </div>
+            
+            <a href="https://github.com" target="_blank" style="display:block; background:#111; color:#fff; text-decoration:none; padding:18px 24px; border-radius:12px; margin-bottom:16px; font-size:1.2rem;">
+                GitHub 🐙
+            </a>
+            
+            <a href="mailto:your@email.com" style="display:block; background:#111; color:#fff; text-decoration:none; padding:18px 24px; border-radius:12px; font-size:1.2rem;">
+                Email
+            </a>
+        </div>
     </div>
+
+    <div id="toast" style="position:fixed; bottom:40px; left:50%; transform:translateX(-50%); background:#111; color:#0f0; padding:16px 36px; border-radius:8px; border:1px solid #0a0; display:none; z-index:9999; font-weight:500;">
+        Copied to clipboard!
+    </div>
+
+    <footer>
+        Last updated: June 28, 2026<br>
+        © 2026 NZ • dw ur soul is mine already.
+    </footer>
 
     <script>
         function showPage(pageId) {
@@ -152,7 +176,16 @@
                 const toast = document.getElementById('toast');
                 toast.textContent = "Script copied to clipboard!";
                 toast.style.display = 'block';
-                setTimeout(() => toast.style.display = 'none', 2300);
+                setTimeout(() => toast.style.display = 'none', 2500);
+            });
+        }
+
+        function copyDiscord() {
+            navigator.clipboard.writeText("@killdxll").then(() => {
+                const toast = document.getElementById('toast');
+                toast.textContent = "Discord username copied!";
+                toast.style.display = 'block';
+                setTimeout(() => toast.style.display = 'none', 2500);
             });
         }
     </script>
