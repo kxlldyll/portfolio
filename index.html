@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NZ - Portfolio</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -14,6 +14,7 @@
             color: #ffffff;
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
+            scroll-behavior: smooth;
         }
         
         header {
@@ -25,28 +26,28 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
         }
         
-        .logo { font-size: 26px; font-weight: 700; letter-spacing: -1px; }
+        .logo { font-size: 28px; font-weight: 700; letter-spacing: -1.5px; }
         
         nav ul {
             display: flex;
             list-style: none;
-            gap: 35px;
+            gap: 40px;
         }
         
         nav a {
             color: #ffffff;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s;
         }
         
-        nav a:hover { color: #aaaaaa; }
+        nav a:hover { color: #ccc; transform: translateY(-2px); }
         
-        section { padding: 120px 5%; }
+        section { padding: 140px 5%; }
         
         #hero {
             height: 100vh;
@@ -57,47 +58,77 @@
             text-align: center;
         }
         
-        #hero h1 { font-size: 5rem; font-weight: 600; margin-bottom: 24px; }
-        #hero p { font-size: 1.65rem; color: #aaaaaa; max-width: 720px; }
+        #hero h1 {
+            font-size: 5.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
         
-        h2 { font-size: 2.8rem; margin-bottom: 50px; text-align: center; }
+        #hero p {
+            font-size: 1.7rem;
+            color: #aaaaaa;
+            max-width: 750px;
+        }
+        
+        h2 {
+            font-size: 3rem;
+            margin-bottom: 60px;
+            text-align: center;
+            font-weight: 600;
+        }
         
         .skills {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 16px;
             justify-content: center;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
         
         .skill-tag {
-            background: #111;
-            padding: 12px 24px;
+            background: #0f0f0f;
+            padding: 14px 28px;
             border-radius: 50px;
-            font-size: 1.05rem;
-            border: 1px solid #222;
+            font-size: 1.1rem;
+            border: 1px solid #1a1a1a;
+            transition: all 0.3s;
+        }
+        
+        .skill-tag:hover {
+            background: #1a1a1a;
+            border-color: #555;
+            transform: scale(1.05);
         }
         
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 30px;
-            max-width: 1300px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 35px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         
         .project-card {
             background: #0a0a0a;
             border: 1px solid #111;
-            padding: 32px;
-            border-radius: 12px;
-            transition: all 0.4s;
+            padding: 36px;
+            border-radius: 16px;
+            transition: all 0.5s ease;
         }
         
         .project-card:hover {
-            border-color: #444;
-            transform: translateY(-10px);
+            border-color: #555;
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 100px 5% 60px;
+            border-top: 1px solid #111;
+            color: #555;
         }
     </style>
 </head>
@@ -121,8 +152,8 @@
 
     <section id="about">
         <h2>About Me</h2>
-        <p style="max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.2rem; color: #cccccc;">
-            miami based. full time responsibilities by day, deep in code by night. building tools that actually work.
+        <p style="max-width: 820px; margin: 0 auto; text-align: center; font-size: 1.25rem; color: #cccccc;">
+            miami based. balancing real life with deep coding sessions. specialized in building performant tools and clean interfaces.
         </p>
     </section>
 
@@ -135,9 +166,9 @@
             <div class="skill-tag">CSS</div>
             <div class="skill-tag">JavaScript</div>
             <div class="skill-tag">TypeScript</div>
-            <div class="skill-tag">Roblox Exploiting</div>
-            <div class="skill-tag">UI/UX</div>
-            <div class="skill-tag">Performance Optimization</div>
+            <div class="skill-tag">Roblox Internals</div>
+            <div class="skill-tag">UI Frameworks</div>
+            <div class="skill-tag">Performance Tuning</div>
         </div>
     </section>
 
@@ -145,28 +176,29 @@
         <h2>Featured Projects</h2>
         <div class="projects-grid">
             <div class="project-card">
-                <h3>Custom Roblox Exploit Hub</h3>
-                <p>Full featured menu with silent aim, esp, config saving, and advanced anti-detection. built raw from scratch.</p>
+                <h3>Custom Exploit Hub</h3>
+                <p>Full raw luau menu featuring silent aim, esp, config system, and strong anti-detection. built with no external libs.</p>
             </div>
             <div class="project-card">
-                <h3>Personal Portfolio</h3>
-                <p>Dark minimalist portfolio with smooth interactions. currently cooking live.</p>
+                <h3>This Portfolio</h3>
+                <p>Dark minimalist personal site with smooth interactions and pure black aesthetic. coded live.</p>
             </div>
             <div class="project-card">
-                <h3>Advanced Tooling</h3>
-                <p>Various internal tools and scripts for performance and automation.</p>
+                <h3>Internal Tooling</h3>
+                <p>Various high-performance scripts and automation tools for roblox and web environments.</p>
             </div>
         </div>
     </section>
 
     <section id="contact">
-        <h2>Contact</h2>
-        <p style="text-align: center; font-size: 1.3rem; color: #aaa;">
-            discord or dm me. always down to talk code.
+        <h2>Get In Touch</h2>
+        <p style="text-align: center; font-size: 1.4rem; color: #aaa;">
+            always open to talk code, collabs, or just yap.<br>
+            discord: your handle here
         </p>
     </section>
 
-    <footer style="text-align: center; padding: 80px 5%; color: #555; border-top: 1px solid #111;">
+    <footer>
         <p>Terms of Service: dw ur soul is mine already.</p>
         <p>© 2026 NZ. all rights reserved.</p>
     </footer>
