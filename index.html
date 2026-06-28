@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Your Name] - Portfolio</title>
+    <title>NZ - Portfolio</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             background-color: #000000;
@@ -33,16 +29,12 @@
             backdrop-filter: blur(10px);
         }
         
-        .logo {
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -1px;
-        }
+        .logo { font-size: 26px; font-weight: 700; letter-spacing: -1px; }
         
         nav ul {
             display: flex;
             list-style: none;
-            gap: 30px;
+            gap: 35px;
         }
         
         nav a {
@@ -52,14 +44,9 @@
             transition: color 0.3s;
         }
         
-        nav a:hover {
-            color: #aaaaaa;
-        }
+        nav a:hover { color: #aaaaaa; }
         
-        section {
-            padding: 120px 5%;
-            min-height: 100vh;
-        }
+        section { padding: 120px 5%; }
         
         #hero {
             height: 100vh;
@@ -70,67 +57,57 @@
             text-align: center;
         }
         
-        #hero h1 {
-            font-size: 4.8rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
+        #hero h1 { font-size: 5rem; font-weight: 600; margin-bottom: 24px; }
+        #hero p { font-size: 1.65rem; color: #aaaaaa; max-width: 720px; }
         
-        #hero p {
-            font-size: 1.6rem;
-            color: #aaaaaa;
-            max-width: 700px;
-        }
+        h2 { font-size: 2.8rem; margin-bottom: 50px; text-align: center; }
         
-        h2 {
-            font-size: 2.8rem;
-            margin-bottom: 50px;
-            text-align: center;
-        }
-        
-        .about-text {
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
             max-width: 800px;
             margin: 0 auto;
-            font-size: 1.15rem;
-            text-align: center;
-            color: #cccccc;
+        }
+        
+        .skill-tag {
+            background: #111;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            border: 1px solid #222;
         }
         
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
             gap: 30px;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
         }
         
         .project-card {
             background: #0a0a0a;
             border: 1px solid #111;
-            padding: 30px;
-            border-radius: 8px;
-            transition: all 0.3s;
+            padding: 32px;
+            border-radius: 12px;
+            transition: all 0.4s;
         }
         
         .project-card:hover {
             border-color: #444;
-            transform: translateY(-8px);
-        }
-        
-        footer {
-            text-align: center;
-            padding: 80px 5% 40px;
-            border-top: 1px solid #111;
-            color: #555;
+            transform: translateY(-10px);
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">[YOUR NAME]</div>
+        <div class="logo">NZ</div>
         <nav>
             <ul>
                 <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -138,46 +115,60 @@
     </header>
 
     <section id="hero">
-        <h1>Hey, I'm [YOUR NAME]</h1>
-        <p>developer. problem solver. professional shit talker.</p>
+        <h1>Hey, I'm NZ</h1>
+        <p>lua dev. professional yapper. website dev.</p>
     </section>
 
     <section id="about">
         <h2>About Me</h2>
-        <p class="about-text">
-            i'm a developer who builds clean, high-performance solutions. whether it's roblox internals, web tools, or custom scripts — i focus on making shit that actually works without the fluff. currently based in miami, balancing real life responsibilities with my hobbies.
+        <p style="max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.2rem; color: #cccccc;">
+            miami based. full time responsibilities by day, deep in code by night. building tools that actually work.
         </p>
+    </section>
+
+    <section id="skills">
+        <h2>Languages & Tools</h2>
+        <div class="skills">
+            <div class="skill-tag">Lua</div>
+            <div class="skill-tag">Luau</div>
+            <div class="skill-tag">HTML</div>
+            <div class="skill-tag">CSS</div>
+            <div class="skill-tag">JavaScript</div>
+            <div class="skill-tag">TypeScript</div>
+            <div class="skill-tag">Roblox Exploiting</div>
+            <div class="skill-tag">UI/UX</div>
+            <div class="skill-tag">Performance Optimization</div>
+        </div>
     </section>
 
     <section id="projects">
         <h2>Featured Projects</h2>
         <div class="projects-grid">
             <div class="project-card">
-                <h3>Advanced Roblox Exploit Hub</h3>
-                <p>Custom UI framework with silent aim, esp, config system, and anti-detection. built from scratch in luau.</p>
-                <small style="color:#666;">Luau • Potassium/Wave</small>
+                <h3>Custom Roblox Exploit Hub</h3>
+                <p>Full featured menu with silent aim, esp, config saving, and advanced anti-detection. built raw from scratch.</p>
             </div>
             <div class="project-card">
-                <h3>Project Two</h3>
-                <p>short description here. replace with real ones when ready.</p>
-                <small style="color:#666;">Tech stack</small>
+                <h3>Personal Portfolio</h3>
+                <p>Dark minimalist portfolio with smooth interactions. currently cooking live.</p>
             </div>
             <div class="project-card">
-                <h3>Project Three</h3>
-                <p>short description here.</p>
-                <small style="color:#666;">Tech stack</small>
+                <h3>Advanced Tooling</h3>
+                <p>Various internal tools and scripts for performance and automation.</p>
             </div>
         </div>
     </section>
 
     <section id="contact">
         <h2>Contact</h2>
-        <p style="text-align: center; font-size: 1.2rem;">hit me up on discord or wherever.</p>
+        <p style="text-align: center; font-size: 1.3rem; color: #aaa;">
+            discord or dm me. always down to talk code.
+        </p>
     </section>
 
-    <footer>
+    <footer style="text-align: center; padding: 80px 5%; color: #555; border-top: 1px solid #111;">
         <p>Terms of Service: dw ur soul is mine already.</p>
-        <p>© 2026 [YOUR NAME]. all rights reserved.</p>
+        <p>© 2026 NZ. all rights reserved.</p>
     </footer>
 </body>
 </html>
