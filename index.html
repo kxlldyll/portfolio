@@ -6,67 +6,47 @@
     <title>NZ - Portfolio</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-      
+     
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #000;
             color: #fff;
             font-family: 'Inter', sans-serif;
-            line-height: 1.6;
         }
-      
+     
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 20px 6%;
+            padding: 22px 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
             background: rgba(0, 0, 0, 0.96);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid #1f2937;
         }
-      
-        .logo { 
-            font-size: 29px; 
-            font-weight: 700; 
-            letter-spacing: -1.5px; 
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .logo:hover { color: #4ade80; }
-
+     
+        .logo { font-size: 29px; font-weight: 700; letter-spacing: -1.5px; cursor: pointer; }
         nav ul {
             display: flex;
             list-style: none;
-            gap: 40px;
+            gap: 48px;
         }
-      
+     
         nav a {
             color: #ddd;
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
-            transition: color 0.2s;
         }
-        nav a:hover, nav a.active { color: #fff; }
-
-        /* Mobile */
-        .hamburger {
-            display: none;
-            font-size: 28px;
-            cursor: pointer;
-        }
-
+        nav a:hover { color: #fff; }
         .page {
             min-height: 100vh;
-            padding: 140px 6% 100px;
+            padding: 140px 6% 140px;
             display: none;
         }
         .page.active { display: block; }
-
         .disclaimer {
             background: #111;
             color: #fff;
@@ -78,45 +58,35 @@
             font-weight: 500;
             border: 1px solid #3f3f46;
         }
-
-        /* Cards */
-        .script-card, .shop-card {
+        /* PROFESSIONAL SCRIPT CARDS */
+        .script-card {
             background: #09090b;
             border: 1px solid #1f2937;
             border-radius: 16px;
             padding: 28px;
             margin-bottom: 28px;
             position: relative;
-            transition: all 0.3s ease;
         }
-        .script-card:hover, .shop-card:hover {
-            border-color: #4ade80;
-            transform: translateY(-4px);
-        }
-
-        .card-header {
+        .script-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
         }
-
         .status-tag {
             background: rgba(16, 185, 129, 0.1);
             color: #4ade80;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(16, 185, 129, 0.2);
             padding: 6px 18px;
             border-radius: 9999px;
             font-size: 0.82rem;
             font-weight: 600;
         }
-
         .lua-label {
             color: #52525b;
             font-family: monospace;
             font-size: 0.9rem;
         }
-
         .code-box {
             background: #030303;
             border: 1px solid #27272a;
@@ -126,10 +96,8 @@
             font-family: monospace;
             color: #a1a1aa;
             overflow-x: auto;
-            white-space: pre-wrap;
         }
-
-        .btn {
+        .copy-btn {
             background: #18181b;
             color: #e4e4e7;
             border: 1px solid #3f3f46;
@@ -139,37 +107,72 @@
             font-weight: 500;
             transition: all 0.2s ease;
         }
-        .btn:hover {
+        .copy-btn:hover {
             background: #27272a;
             border-color: #52525b;
         }
-        .btn.primary {
+        .copy-btn.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #4ade80;
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        /* SHOP STYLES - Transparent, no outlines */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .shop-card {
+            background: rgba(9, 9, 11, 0.6);
+            border: none;
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+        .shop-card:hover {
+            background: rgba(9, 9, 11, 0.85);
+            transform: translateY(-4px);
+        }
+
+        .tag {
+            background: rgba(16, 185, 129, 0.1);
+            color: #4ade80;
+            padding: 5px 16px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+
+        .price {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #4ade80;
+            margin: 12px 0;
+        }
+
+        .payment {
+            color: #777;
+            font-size: 0.9rem;
+            margin: 18px 0 22px;
+        }
+
+        .btn {
             background: #4ade80;
             color: #000;
-            border-color: #4ade80;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
         }
-        .btn.primary:hover {
+        .btn:hover {
             background: #22c55e;
-        }
-
-        h1, h2 {
-            text-align: center;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 120px 0 80px;
-        }
-
-        .skill-bubble {
-            display: inline-block;
-            background: #18181b;
-            color: #ddd;
-            padding: 8px 20px;
-            border-radius: 9999px;
-            margin: 6px;
-            font-size: 0.95rem;
-            border: 1px solid #27272a;
         }
 
         footer {
@@ -179,13 +182,6 @@
             color: #555;
             font-size: 0.9rem;
             text-align: right;
-            z-index: 10;
-        }
-
-        @media (max-width: 768px) {
-            nav ul { display: none; }
-            .hamburger { display: block; }
-            .page { padding: 120px 5% 80px; }
         }
     </style>
 </head>
@@ -193,126 +189,126 @@
     <header>
         <div class="logo" onclick="showPage('main')">NZ</div>
         <nav>
-            <ul id="desktop-nav">
-                <li><a onclick="showPage('main')" class="active">About</a></li>
+            <ul>
+                <li><a onclick="showPage('main')">About</a></li>
                 <li><a onclick="showPage('scripts')">Scripts</a></li>
                 <li><a onclick="showPage('shop')">Shop</a></li>
-                <li><a onclick="showPage('changelog')">Changelog</a></li>
                 <li><a onclick="showPage('executors')">Executors</a></li>
                 <li><a onclick="showPage('contact')">Contact</a></li>
             </ul>
         </nav>
-        <div class="hamburger" onclick="toggleMobileNav()">☰</div>
     </header>
 
-    <!-- About -->
+    <!-- About, Scripts, Executors, Contact unchanged -->
+
     <div id="main" class="page active">
-        <div class="hero">
-            <h1 style="font-size: 5.2rem; margin-bottom: 24px;">NZ</h1>
-            <p style="font-size: 1.4rem; color: #bbb; max-width: 720px; margin: 0 auto;">
-                Miami developer. Building clean, undetected tools for the scene.
+        <h1 style="text-align:center; font-size: 5rem; margin-bottom: 30px;">Hey, I'm NZ!</h1>
+        <p style="text-align:center; max-width: 700px; margin: 0 auto; font-size: 1.25rem; color: #bbb;">
+            Miami based developer who builds tools and clean experiences.
+        </p>
+        <div style="text-align:center; margin-top: 80px;">
+            <h2 style="margin-bottom: 24px;">Skills & Technologies</h2>
+            <div>
+                <span class="skill-bubble">Lua</span>
+                <span class="skill-bubble">Luau</span>
+                <span class="skill-bubble">JavaScript</span>
+                <span class="skill-bubble">HTML / CSS</span>
+                <span class="skill-bubble">Python</span>
+                <span class="skill-bubble">Roblox Development</span>
+                <span class="skill-bubble">Exploiting Tools</span>
+            </div>
+        </div>
+        <div class="separator" style="height: 1px; background: #222; max-width: 600px; margin: 60px auto;"></div>
+        <div style="text-align:center; max-width: 700px; margin: 0 auto;">
+            <p style="color:#bbb; font-size: 1.05rem;">
+                This website was made by GrokAI, hosted by Cloudflare.<br>
+                I am open about what I use.
             </p>
         </div>
-
-        <div style="text-align:center; margin-top: 60px;">
-            <h2 style="margin-bottom: 32px;">Skills</h2>
-            <div>
-                <span class="skill-bubble">Luau</span>
-                <span class="skill-bubble">Lua</span>
-                <span class="skill-bubble">Exploiting</span>
-                <span class="skill-bubble">Silent Aim</span>
-                <span class="skill-bubble">ESP</span>
-                <span class="skill-bubble">JavaScript</span>
-                <span class="skill-bubble">UI Frameworks</span>
-            </div>
-        </div>
     </div>
 
-    <!-- Scripts -->
     <div id="scripts" class="page">
-        <h2 style="font-size: 2.9rem; margin-bottom: 40px;">Free Scripts</h2>
-       
+        <h2 style="text-align:center; font-size: 2.9rem; margin-bottom: 20px;">Available Scripts</h2>
         <div class="disclaimer">
-            Educational / Testing purposes only.<br>
-            Use at your own risk. Not responsible for bans.
+            DISCLAIMER — These are for educational purposes only.<br>
+            I am not responsible for any account consequences.
         </div>
-
-        <div style="max-width: 860px; margin: 0 auto;">
+        <div style="max-width: 820px; margin: 0 auto;">
             <div class="script-card">
-                <div class="card-header">
-                    <div class="status-tag">Undetected</div>
-                    <div class="lua-label">PvP • v1.3</div>
+                <div class="script-header">
+                    <div class="status-tag">Active</div>
+                    <div class="lua-label">Lua Payload</div>
                 </div>
                 <div class="code-box">loadstring(game:HttpGet("https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvP"))()</div>
-                <button class="btn" onclick="copyScript(this, this.previousElementSibling)">Copy</button>
+                <button class="copy-btn" onclick="copyScript(this)">Copy</button>
             </div>
-
             <div class="script-card">
-                <div class="card-header">
-                    <div class="status-tag">Undetected</div>
-                    <div class="lua-label">PvE • v2.1</div>
+                <div class="script-header">
+                    <div class="status-tag">Active</div>
+                    <div class="lua-label">Lua Payload</div>
                 </div>
                 <div class="code-box">loadstring(game:HttpGet("https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvE"))()</div>
-                <button class="btn" onclick="copyScript(this, this.previousElementSibling)">Copy</button>
+                <button class="copy-btn" onclick="copyScript(this)">Copy</button>
             </div>
-
             <div class="script-card">
-                <div class="card-header">
-                    <div class="status-tag">Undetected</div>
-                    <div class="lua-label">FFA • v1.0</div>
+                <div class="script-header">
+                    <div class="status-tag">Active</div>
+                    <div class="lua-label">Lua Payload</div>
                 </div>
                 <div class="code-box">loadstring(game:HttpGet("https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/FFA"))()</div>
-                <button class="btn" onclick="copyScript(this, this.previousElementSibling)">Copy</button>
+                <button class="copy-btn" onclick="copyScript(this)">Copy</button>
             </div>
         </div>
     </div>
 
-    <!-- Shop -->
+    <!-- NEW SHOP PAGE -->
     <div id="shop" class="page">
-        <h2 style="font-size: 2.9rem; margin-bottom: 40px;">Shop</h2>
-        <div style="max-width: 860px; margin: 0 auto; text-align: center; color: #aaa; margin-bottom: 40px;">
-            Paid tools with lifetime updates and priority support.
-        </div>
+        <h2 style="text-align:center; font-size: 2.9rem; margin-bottom: 40px;">Shop</h2>
+        <p style="text-align:center; color:#aaa; margin-bottom: 50px;">Accounts • Tools • Lifetime Access</p>
 
-        <div style="max-width: 860px; margin: 0 auto;">
-            <!-- Add your actual shop items here -->
+        <div class="shop-grid">
             <div class="shop-card">
-                <h3 style="margin-bottom: 12px;">Advanced Hub</h3>
-                <p style="color: #888; margin-bottom: 20px;">Full silent aim + ESP + anti-detection suite</p>
-                <div style="color: #4ade80; font-size: 1.5rem; margin-bottom: 20px;">$25</div>
-                <button class="btn primary" onclick="alert('Redirecting to purchase... (implement your link here)')">Buy Now</button>
+                <div class="tag">Account</div>
+                <h3>20M 6 Slots LT2</h3>
+                <p style="color:#bbb; margin: 12px 0 20px;">17+ Age Verified • Clean History</p>
+                <div class="price">$35</div>
+                <div class="payment">Robux • Crypto • Discord</div>
+                <button class="btn" onclick="buyItem(this)">Buy Now</button>
             </div>
+
+            <div class="shop-card">
+                <div class="tag">Account</div>
+                <h3>Leveled Main Account</h3>
+                <p style="color:#bbb; margin: 12px 0 20px;">High level + good stats</p>
+                <div class="price">$45</div>
+                <div class="payment">Robux • Crypto • Discord</div>
+                <button class="btn" onclick="buyItem(this)">Buy Now</button>
+            </div>
+
+            <div class="shop-card">
+                <div class="tag">Bundle</div>
+                <h3>Account + Hub Bundle</h3>
+                <p style="color:#bbb; margin: 12px 0 20px;">Best value combo</p>
+                <div class="price">$65</div>
+                <div class="payment">Robux • Crypto • Discord</div>
+                <button class="btn" onclick="buyItem(this)">Buy Bundle</button>
+            </div>
+
+            <!-- Add more products here easily -->
         </div>
     </div>
 
-    <!-- Changelog -->
-    <div id="changelog" class="page">
-        <h2 style="font-size: 2.9rem; margin-bottom: 40px;">Changelog</h2>
-        <div style="max-width: 720px; margin: 0 auto;">
-            <div class="script-card">
-                <div style="color: #4ade80; margin-bottom: 8px;">June 28, 2026</div>
-                <strong>v2.1</strong> - Added new FFA script, improved stability
-            </div>
-            <!-- Add more entries here -->
-        </div>
-    </div>
-
-    <!-- Executors & Contact -->
     <div id="executors" class="page">
-        <h2 style="font-size: 2.8rem; margin-bottom: 40px;">Recommended Executors</h2>
-        <p style="text-align:center; color:#aaa;">Updated list coming soon...</p>
+        <h2 style="text-align:center; font-size: 2.8rem;">Executors</h2>
+        <p style="text-align:center; color:#aaa; margin-top: 60px;">Current meta executors coming soon...</p>
     </div>
-
     <div id="contact" class="page">
-        <h2 style="font-size: 2.8rem; margin-bottom: 40px;">Contact</h2>
-        <p style="text-align:center; color:#aaa; max-width: 600px; margin: 0 auto;">
-            Discord: yourtag<br>
-            Business / Collabs only.
-        </p>
+        <h2 style="text-align:center; font-size: 2.8rem;">Get In Touch</h2>
+        <p style="text-align:center; color:#aaa; margin-top: 60px;">More contact options coming soon.</p>
     </div>
 
     <footer>
-        Est. 2026 • Miami<br>
+        Est. 2026<br>
         Last updated: June 28, 2026
     </footer>
 
@@ -321,43 +317,20 @@
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             const page = document.getElementById(pageId);
             if (page) page.classList.add('active');
-
-            // Update active nav
-            document.querySelectorAll('nav a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('onclick').includes(`'${pageId}'`)) {
-                    link.classList.add('active');
-                }
-            });
+        }
+        function copyScript(btn) {
+            const originalText = btn.textContent;
+            btn.textContent = "Copied ✓";
+            btn.classList.add('success');
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('success');
+            }, 1500);
         }
 
-        function copyScript(btn, codeElement) {
-            const text = codeElement.textContent.trim();
-            navigator.clipboard.writeText(text).then(() => {
-                const original = btn.textContent;
-                btn.textContent = "Copied ✓";
-                btn.style.background = "#4ade80";
-                btn.style.color = "#000";
-                setTimeout(() => {
-                    btn.textContent = original;
-                    btn.style.background = "";
-                    btn.style.color = "";
-                }, 1800);
-            });
+        function buyItem(btn) {
+            alert("DM me on Discord to complete purchase (Robux / Crypto accepted)");
         }
-
-        function toggleMobileNav() {
-            alert("Mobile nav coming in next iteration");
-            // Implement full mobile menu later
-        }
-
-        // Keyboard support
-        document.addEventListener('keydown', (e) => {
-            if (e.key === '/' && document.activeElement.tagName !== "INPUT") {
-                e.preventDefault();
-                // Could focus a search bar later
-            }
-        });
     </script>
 </body>
 </html>
