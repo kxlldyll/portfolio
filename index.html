@@ -3,206 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NZ • Shop</title>
+    <title>NZ • Product</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0a0a;
-            color: #fff;
+            color: #e5e5e5;
             font-family: 'Inter', sans-serif;
-        }
-
-        .logo {
-            position: fixed;
-            top: 30px;
-            left: 40px;
-            font-size: 38px;
-            font-weight: 700;
-            letter-spacing: -2px;
-            z-index: 1000;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .nav {
-            position: fixed;
-            top: 35px;
-            right: 40px;
-            display: flex;
-            gap: 40px;
-            z-index: 1000;
-            font-size: 1.1rem;
-        }
-        .nav a {
-            color: #aaa;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .nav a:hover, .nav a.active { color: #4ade80; }
-
-        .header {
-            padding: 120px 6% 60px;
-            text-align: center;
-        }
-        .header h1 {
-            font-size: 3.2rem;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        .header p {
-            color: #888;
-            font-size: 1.25rem;
-            margin-top: 12px;
-        }
-
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-            padding: 0 6%;
-            max-width: 1400px;
+            padding: 40px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        .product-card {
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        .left {
             background: #111;
             border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid #1f2937;
-            transition: all 0.4s;
-            cursor: pointer;
-        }
-        .product-card:hover {
-            transform: translateY(-12px);
-            border-color: #4ade80;
-            box-shadow: 0 20px 40px rgba(74, 222, 128, 0.1);
+            padding: 40px;
+            text-align: center;
         }
 
-        .product-image {
-            height: 220px;
-            background: #1a1a1a;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        .product-image img, .product-image div {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .stock {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: #10b981;
-            color: black;
-            font-size: 0.85rem;
-            padding: 4px 14px;
-            border-radius: 9999px;
-            font-weight: 600;
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-        .card-content h3 {
-            font-size: 1.35rem;
+        .right h1 {
+            font-size: 2.4rem;
             margin-bottom: 8px;
         }
+
         .price {
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 2.8rem;
             color: #4ade80;
-            margin: 12px 0 8px;
+            font-weight: 700;
         }
+
+        .option {
+            background: #1f1f1f;
+            padding: 18px 24px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .option:hover {
+            background: #4ade80;
+            color: black;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .buy-now { background: #3b82f6; color: white; border: none; }
+        .add-cart { background: #333; color: white; border: none; }
     </style>
 </head>
 <body>
 
-    <div class="logo">NZ</div>
-
-    <div class="nav">
-        <a onclick="showSection('shop')" class="active">Shop</a>
-        <a onclick="showSection('scripts')">Scripts</a>
-        <a onclick="showSection('about')">About</a>
-    </div>
-
-    <div class="header">
-        <h1>All Products</h1>
-        <p>Explore our complete collection</p>
-    </div>
-
-    <div class="shop-grid" id="shop-section">
-        <!-- Product 1 -->
-        <div class="product-card" onclick="showProductDetail(1)">
-            <div class="product-image" style="background: linear-gradient(#1e3a8a, #111);">
-                <div style="font-size:80px; opacity:0.15;">🔥</div>
-                <div class="stock">17+ Verified</div>
-            </div>
-            <div class="card-content">
-                <h3>17+ Age Verified Accounts</h3>
-                <p style="color:#888; font-size:0.95rem;">Clean history • Multiple games</p>
-                <div class="price">Starting at $25</div>
-            </div>
+    <div class="product-detail">
+        <!-- Left side -->
+        <div class="left">
+            <h2 style="margin-bottom:30px;">17+ Age Verified Accounts</h2>
+            <div style="font-size:140px; opacity:0.15;">🛡️</div>
+            <p style="margin-top:40px; color:#888;">Clean accounts • Trusted seller</p>
         </div>
 
-        <!-- LT2 -->
-        <div class="product-card" onclick="showLT2Page()">
-            <div class="product-image" style="background: linear-gradient(#7c3aed, #111);">
-                <div style="font-size:80px; opacity:0.2;">🏠</div>
-                <div class="stock">LT2 Special</div>
+        <!-- Right side -->
+        <div>
+            <h1>17+ Age Verified Accounts</h1>
+            <div class="price">$25+</div>
+            
+            <p style="margin: 25px 0 15px; color:#aaa;">Choose option</p>
+            
+            <div class="option" onclick="this.style.background='#4ade80'; this.style.color='black'">
+                <div>
+                    <strong>30 Day Access</strong><br>
+                    <span style="color:#4ade80; font-size:0.9rem;">● 55 in stock</span>
+                </div>
+                <strong>$25</strong>
             </div>
-            <div class="card-content">
-                <h3>LT2 Accounts</h3>
-                <p style="color:#888; font-size:0.95rem;">20M+ • 6 Slots • High Value</p>
-                <div class="price">Starting at $35</div>
-            </div>
-        </div>
 
-        <!-- More cards -->
-        <div class="product-card" onclick="alert('More details coming soon')">
-            <div class="product-image" style="background: linear-gradient(#b91c1c, #111);">
-                <div style="font-size:70px; opacity:0.15;">⚡</div>
-                <div class="stock">Bundle</div>
+            <div class="option" onclick="this.style.background='#4ade80'; this.style.color='black'">
+                <div>
+                    <strong>90 Day Access</strong><br>
+                    <span style="color:#4ade80; font-size:0.9rem;">● 42 in stock</span>
+                </div>
+                <strong>$45</strong>
             </div>
-            <div class="card-content">
-                <h3>Account + Hub Bundle</h3>
-                <p style="color:#888; font-size:0.95rem;">Premium combo</p>
-                <div class="price">$65</div>
-            </div>
-        </div>
-    </div>
 
-    <!-- LT2 Detail Page -->
-    <div id="lt2-detail" style="display:none; padding:140px 6%;">
-        <button onclick="showSection('shop')" style="margin-bottom:30px; padding:10px 24px; background:#333; border:none; color:white; border-radius:8px;">← Back to Shop</button>
-        <h2 style="margin-bottom:40px;">LT2 Accounts</h2>
-        <p style="max-width:800px; margin:0 auto; color:#ccc; font-size:1.2rem;">
-            High quality LT2 accounts with good progress.<br>
-            DM me on Discord for current stock and pricing.
-        </p>
+            <div class="option" onclick="this.style.background='#4ade80'; this.style.color='black'">
+                <div>
+                    <strong>Lifetime Access</strong><br>
+                    <span style="color:#4ade80; font-size:0.9rem;">● 28 in stock</span>
+                </div>
+                <strong>$80</strong>
+            </div>
+
+            <button class="buy-btn buy-now" onclick="buyNow()">Buy Now</button>
+            <button class="buy-btn add-cart" onclick="addToCart()">Add to Cart</button>
+        </div>
     </div>
 
     <script>
-        function showSection(section) {
-            document.getElementById('shop-section').style.display = section === 'shop' ? 'grid' : 'none';
-            document.getElementById('lt2-detail').style.display = section === 'lt2' ? 'block' : 'none';
-            
-            document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
-            const active = Array.from(document.querySelectorAll('.nav a')).find(a => a.getAttribute('onclick').includes(section));
-            if (active) active.classList.add('active');
+        function buyNow() {
+            alert("Order started!\n\nDM NZ on Discord to finalize payment (Robux or Crypto)");
         }
-
-        function showLT2Page() {
-            document.getElementById('shop-section').style.display = 'none';
-            document.getElementById('lt2-detail').style.display = 'block';
-        }
-
-        function showProductDetail(id) {
-            alert("Product detail page coming soon 👀");
+        function addToCart() {
+            alert("Added to cart 💰");
         }
     </script>
 </body>
