@@ -49,6 +49,25 @@
         
         .page.active { display: block; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .script-card {
+            background: #111;
+            border: 1px solid #222;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .copy-btn {
+            background: #1a1a1a;
+            color: #0f0;
+            border: 1px solid #0a0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 12px;
+        }
     </style>
 </head>
 <body>
@@ -94,21 +113,47 @@
 
         <h2 style="text-align:center; margin-bottom:60px; font-size: 3rem;">Roblox Scripts</h2>
         
-        <div style="max-width: 700px; margin: 0 auto; text-align: center; line-height: 1.8; color: #ddd;">
-            <strong style="font-size: 1.6rem; color: #ff5555;">DISCLAIMER</strong><br><br>
+        <div style="max-width: 700px; margin: 0 auto; text-align: center; line-height: 1.8; color: #ddd; margin-bottom: 60px;">
+            <strong style="font-size: 1.45rem; color: #ff5555;">DISCLAIMER</strong><br><br>
             These are for educational purposes only.<br>
             Use at your own risk. I am not responsible for any bans, warnings, or account terminations.
         </div>
 
-        <div style="text-align:center; margin-top: 160px; color:#555;">
-            Loadstrings and tools coming soon...
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="script-card">
+                <h3>PvP Script</h3>
+                <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvP'))()`)">Copy Loadstring</button>
+            </div>
+            
+            <div class="script-card">
+                <h3>PvE Script</h3>
+                <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/PvE'))()`)">Copy Loadstring</button>
+            </div>
+            
+            <div class="script-card">
+                <h3>FFA Script</h3>
+                <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet('https://raw.githubusercontent.com/kxlldyll/studious/refs/heads/main/FFA'))()`)">Copy Loadstring</button>
+            </div>
         </div>
+    </div>
+
+    <div id="toast" style="position:fixed; bottom:40px; left:50%; transform:translateX(-50%); background:#111; color:#0f0; padding:16px 36px; border-radius:8px; border:1px solid #0a0; display:none; z-index:9999; font-weight:500;">
+        Script copied to clipboard!
     </div>
 
     <script>
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
+        }
+
+        function copyScript(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.textContent = "Script copied to clipboard!";
+                toast.style.display = 'block';
+                setTimeout(() => toast.style.display = 'none', 2300);
+            });
         }
     </script>
 </body>
