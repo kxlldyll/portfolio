@@ -43,6 +43,7 @@
   --cat-lt2: #22c55e;
   --cat-gta: #f59e0b;
   --cat-tools: #ec4899;
+  --cat-bloxfruits: #f97316;
 }
 
 [data-theme="midnight"] {
@@ -594,6 +595,7 @@ ul { list-style: none; }
 .category-icon.lt2 { background: rgba(34, 197, 94, 0.15); }
 .category-icon.gta { background: rgba(245, 158, 11, 0.15); }
 .category-icon.tools { background: rgba(236, 72, 153, 0.15); }
+.category-icon.bloxfruits { background: rgba(249, 115, 22, 0.15); }
 
 .category-card h3 {
   font-size: 1.15rem;
@@ -751,6 +753,7 @@ ul { list-style: none; }
 }
 
 .product-card {
+  position: relative;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -761,10 +764,53 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 
-.product-card.cat-scripts { border-left: 3px solid var(--cat-scripts); }
+.undetected-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  background: rgba(10, 11, 15, 0.9);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 99px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: #4ade80;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+.undetected-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  animation: undetected-pulse 2s ease-in-out infinite;
+}
+
+@keyframes undetected-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(34, 197, 94, 0);
+    transform: scale(1.05);
+  }
+}
+
+.product-card.cat-scripts {
+  border-left: 3px solid var(--cat-scripts);
+  padding-top: 34px;
+}
 .product-card.cat-lt2 { border-left: 3px solid var(--cat-lt2); }
 .product-card.cat-gta { border-left: 3px solid var(--cat-gta); }
 .product-card.cat-tools { border-left: 3px solid var(--cat-tools); }
+.product-card.cat-bloxfruits { border-left: 3px solid var(--cat-bloxfruits); }
 
 .product-card:hover {
   border-color: var(--border-hover);
@@ -910,6 +956,7 @@ ul { list-style: none; }
 .product-image.lt2 { background: linear-gradient(135deg, #14532d 0%, #166534 100%); }
 .product-image.gta { background: linear-gradient(135deg, #78350f 0%, #92400e 100%); }
 .product-image.tools { background: linear-gradient(135deg, #831843 0%, #9d174d 100%); }
+.product-image.bloxfruits { background: linear-gradient(135deg, #9a3412 0%, #ea580c 100%); }
 
 .no-results {
   grid-column: 1 / -1;
@@ -1148,13 +1195,16 @@ ul { list-style: none; }
   width: 100%;
   max-width: 420px;
   height: 100vh;
+  height: 100dvh;
   background: var(--bg-secondary);
   border-left: 1px solid var(--border);
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.45);
   z-index: 2001;
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
 }
 
 .cart-sidebar.open { transform: translateX(0); }
@@ -1274,26 +1324,110 @@ ul { list-style: none; }
 .cart-item-remove:hover { color: var(--danger); }
 
 .cart-footer {
-  padding: 24px;
+  padding: 20px 24px 24px;
   border-top: 1px solid var(--border);
   background: var(--bg-card);
 }
 
-.cart-total {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.promo-section {
   margin-bottom: 16px;
 }
 
-.cart-total span:first-child {
-  font-size: 0.9rem;
+.promo-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.promo-row {
+  display: flex;
+  gap: 8px;
+}
+
+.promo-input {
+  flex: 1;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+.promo-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.promo-input::placeholder { color: var(--text-muted); }
+
+.promo-apply-btn {
+  padding: 10px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.promo-apply-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-light);
+}
+
+.promo-message {
+  min-height: 20px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.promo-message.success { color: #4ade80; }
+.promo-message.error { color: #f87171; }
+
+.cart-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.cart-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
   color: var(--text-secondary);
 }
 
-.cart-total span:last-child {
-  font-size: 1.35rem;
+.cart-line.discount-line {
+  color: #4ade80;
+}
+
+.cart-line.discount-line.hidden { display: none; }
+
+.cart-line.total-line {
+  padding-top: 8px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+  font-size: 1rem;
   font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cart-line.total-line span:last-child {
+  font-size: 1.35rem;
 }
 
 .checkout-btn {
@@ -1436,7 +1570,55 @@ ul { list-style: none; }
 .gift-icon { background: rgba(168, 85, 247, 0.12); color: #c084fc; font-size: 0.75rem; }
 .discord-icon { background: rgba(88, 101, 242, 0.15); color: #818cf8; }
 .email-icon { background: rgba(99, 102, 241, 0.12); color: var(--accent-light); font-size: 1rem; }
-.telegram-icon { background: rgba(34, 158, 217, 0.12); color: #38bdf8; font-size: 1rem; }
+.payment-instructions {
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.payment-instructions strong { color: var(--accent-light); }
+
+.email-support-form {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.email-support-form.visible { display: flex; }
+
+.support-field {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+.support-field:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.support-field::placeholder { color: var(--text-muted); }
+
+textarea.support-field {
+  min-height: 72px;
+  resize: vertical;
+}
 
 .modal-option-text strong {
   display: block;
@@ -1631,7 +1813,7 @@ ul { list-style: none; }
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <strong>15+</strong>
+          <strong>20+</strong>
           <span>Products</span>
         </div>
         <div class="stat-item">
@@ -1676,6 +1858,12 @@ ul { list-style: none; }
           <h3>Tools & Utils</h3>
           <p>Executors, VPN configs, performance tweaks, and utility packs for gamers.</p>
           <span class="category-count">3 products</span>
+        </div>
+        <div class="category-card" data-category="bloxfruits">
+          <div class="category-icon bloxfruits">🍇</div>
+          <h3>Blox Fruits</h3>
+          <p>Max level accounts, CDK, mythicals, and endgame-ready Blox Fruits builds.</p>
+          <span class="category-count">6 products</span>
         </div>
       </div>
     </div>
@@ -1731,7 +1919,7 @@ ul { list-style: none; }
         <div class="feature-card fade-in">
           <div class="feature-icon">🔒</div>
           <h3>Flexible Payments</h3>
-          <p>Pay how you want — LTC, Robux, or Robux Giftcards. Simple and straightforward.</p>
+          <p>LTC via @killdxll — Robux & giftcards via our Discord server.</p>
         </div>
         <div class="feature-card fade-in">
           <div class="feature-icon">💬</div>
@@ -1761,7 +1949,7 @@ ul { list-style: none; }
             <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="faq-answer">
-            <p>After checkout, choose Discord, Email, or Telegram — we'll redirect you there automatically with your order copied to clipboard. Most orders delivered within 1 hour. Custom builds may take up to 24 hours.</p>
+            <p>After checkout your order is copied to clipboard. <strong>LTC</strong> — contact @killdxll. <strong>Robux / Giftcard</strong> — join our Discord. Most orders delivered within 1 hour.</p>
           </div>
         </div>
         <div class="faq-item">
@@ -1770,7 +1958,7 @@ ul { list-style: none; }
             <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="faq-answer">
-            <p>We accept <strong>Litecoin (LTC)</strong>, <strong>Robux</strong>, and <strong>Robux Giftcards</strong> only. Payment instructions are sent after you place an order via Discord.</p>
+            <p><strong>LTC:</strong> contact <strong>@killdxll</strong> after checkout. <strong>Robux & Giftcards:</strong> join <a href="https://discord.gg/Y2RVRzu8NW" target="_blank" rel="noopener" style="color:var(--accent-light)">discord.gg/Y2RVRzu8NW</a> to complete payment.</p>
           </div>
         </div>
         <div class="faq-item">
@@ -1836,6 +2024,7 @@ ul { list-style: none; }
             <li><a href="#categories">Scripts</a></li>
             <li><a href="#categories">LT2 Accounts</a></li>
             <li><a href="#categories">GTA Services</a></li>
+            <li><a href="#categories">Blox Fruits</a></li>
           </ul>
         </div>
         <div class="footer-links">
@@ -1843,7 +2032,6 @@ ul { list-style: none; }
           <ul>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#" data-store-link="discord" target="_blank" rel="noopener">Discord</a></li>
-            <li><a href="#" data-store-link="telegram" target="_blank" rel="noopener">Telegram</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </div>
@@ -1876,9 +2064,27 @@ ul { list-style: none; }
     </div>
     <div class="cart-items" id="cartItems"></div>
     <div class="cart-footer">
-      <div class="cart-total">
-        <span>Total</span>
-        <span id="cartTotal">$0.00</span>
+      <div class="promo-section">
+        <label class="promo-label" for="promoInput">Promo Code</label>
+        <div class="promo-row">
+          <input type="text" class="promo-input" id="promoInput" placeholder="Enter code" autocomplete="off">
+          <button type="button" class="promo-apply-btn" id="promoApply">Apply</button>
+        </div>
+        <div class="promo-message" id="promoMessage"></div>
+      </div>
+      <div class="cart-summary">
+        <div class="cart-line">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">$0.00</span>
+        </div>
+        <div class="cart-line discount-line hidden" id="discountLine">
+          <span>Discount</span>
+          <span id="cartDiscount">-$0.00</span>
+        </div>
+        <div class="cart-line total-line">
+          <span>Total</span>
+          <span id="cartTotal">$0.00</span>
+        </div>
       </div>
       <button class="checkout-btn" id="checkoutBtn" disabled>Proceed to Checkout</button>
     </div>
@@ -1888,8 +2094,9 @@ ul { list-style: none; }
   <div class="modal-overlay" id="checkoutModal">
     <div class="modal">
       <h2>Complete Your Order</h2>
-      <p>Pick payment + how to reach us. We'll redirect you and copy your order to clipboard.</p>
+      <p>Select payment method — we'll copy your order and send you to the right place.</p>
       <div class="order-summary" id="orderSummary"></div>
+      <div class="payment-instructions" id="paymentInstructions"></div>
       <div class="checkout-section">
         <div class="checkout-section-title">Payment Method</div>
         <div class="modal-options" data-group="payment">
@@ -1897,47 +2104,21 @@ ul { list-style: none; }
             <div class="modal-option-icon ltc-icon">Ł</div>
             <div class="modal-option-text">
               <strong>Litecoin (LTC)</strong>
-              <span>Fast crypto payment</span>
+              <span>Contact @killdxll</span>
             </div>
           </div>
           <div class="modal-option" data-method="robux">
             <div class="modal-option-icon robux-icon">R$</div>
             <div class="modal-option-text">
               <strong>Robux</strong>
-              <span>Direct Robux transfer</span>
+              <span>Join Discord to pay</span>
             </div>
           </div>
           <div class="modal-option" data-method="giftcard">
             <div class="modal-option-icon gift-icon">GC</div>
             <div class="modal-option-text">
               <strong>Robux Giftcard</strong>
-              <span>Send giftcard code</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="checkout-section">
-        <div class="checkout-section-title">Contact To Pay</div>
-        <div class="modal-options" data-group="contact">
-          <div class="modal-option selected" data-method="discord">
-            <div class="modal-option-icon discord-icon">💬</div>
-            <div class="modal-option-text">
-              <strong>Discord</strong>
-              <span>Opens our Discord server</span>
-            </div>
-          </div>
-          <div class="modal-option" data-method="email">
-            <div class="modal-option-icon email-icon">✉</div>
-            <div class="modal-option-text">
-              <strong>Email</strong>
-              <span>Opens your email app</span>
-            </div>
-          </div>
-          <div class="modal-option" data-method="telegram">
-            <div class="modal-option-icon telegram-icon">✈</div>
-            <div class="modal-option-text">
-              <strong>Telegram</strong>
-              <span>Opens our Telegram</span>
+              <span>Join Discord to pay</span>
             </div>
           </div>
         </div>
@@ -1955,9 +2136,8 @@ ul { list-style: none; }
   <script>
 /* ===== Store Config — edit your links here ===== */
 const STORE_CONFIG = {
-  discord: 'https://discord.gg/',
-  telegram: 'https://t.me/',
-  email: 'orders@nexusdigital.com',
+  discord: 'https://discord.gg/Y2RVRzu8NW',
+  ltcContact: '@killdxll',
   shopName: 'Nexus Digital',
 };
 
@@ -2096,6 +2276,60 @@ const PRODUCTS = [
     category: 'tools',
     icon: '⚙️',
   },
+  {
+    id: 'bf-max-level',
+    title: 'Max Level BF Account',
+    desc: 'Level 2650 max account with solid stats, ready for PvP and grinding.',
+    price: 24.99,
+    category: 'bloxfruits',
+    icon: '🔥',
+    badge: 'hot',
+  },
+  {
+    id: 'bf-cdk',
+    title: 'BF Account + CDK',
+    desc: 'Cursed Dual Katana unlocked with a high-level account. Full Tushita/Yama quest done.',
+    price: 39.99,
+    oldPrice: 54.99,
+    category: 'bloxfruits',
+    icon: '⚔️',
+    badge: 'sale',
+  },
+  {
+    id: 'bf-soul-guitar',
+    title: 'BF Account + Soul Guitar',
+    desc: 'Soul Guitar obtained, endgame-ready build with strong fighting style setup.',
+    price: 34.99,
+    category: 'bloxfruits',
+    icon: '🎸',
+  },
+  {
+    id: 'bf-leopard',
+    title: 'BF Account + Leopard Fruit',
+    desc: 'Permanent Leopard fruit account with high mastery and solid accessory setup.',
+    price: 44.99,
+    category: 'bloxfruits',
+    icon: '🐆',
+    badge: 'hot',
+  },
+  {
+    id: 'bf-mythical-bundle',
+    title: 'BF Mythical Bundle',
+    desc: 'Max level account with 2+ mythicals, godhuman, and advanced fighting styles.',
+    price: 59.99,
+    category: 'bloxfruits',
+    icon: '💎',
+    badge: 'new',
+  },
+  {
+    id: 'bf-custom',
+    title: 'Custom BF Build',
+    desc: 'Tell us what you need — specific fruits, swords, levels, or full endgame package.',
+    price: 34.99,
+    category: 'bloxfruits',
+    icon: '🛠️',
+    delivery: '1–24 hours',
+  },
 ];
 
 const CATEGORY_LABELS = {
@@ -2103,6 +2337,7 @@ const CATEGORY_LABELS = {
   lt2: 'LT2 Accounts',
   gta: 'GTA Services',
   tools: 'Tools & Utils',
+  bloxfruits: 'Blox Fruits',
 };
 
 const CATEGORY_ICONS = {
@@ -2110,6 +2345,7 @@ const CATEGORY_ICONS = {
   lt2: '🌲',
   gta: '🎮',
   tools: '🔧',
+  bloxfruits: '🍇',
 };
 
 const PAYMENT_LABELS = {
@@ -2118,21 +2354,21 @@ const PAYMENT_LABELS = {
   giftcard: 'Robux Giftcard',
 };
 
-const CONTACT_LABELS = {
-  discord: 'Discord',
-  email: 'Email',
-  telegram: 'Telegram',
-};
-
 const DELIVERY_DEFAULTS = {
   scripts: 'Instant',
   lt2: 'Under 1 hour',
   gta: 'Under 1 hour',
   tools: 'Instant',
+  bloxfruits: 'Under 1 hour',
+};
+
+const PROMO_CODES = {
+  NEXUS10: { percent: 10 },
 };
 
 /* ===== State ===== */
 let cart = JSON.parse(localStorage.getItem('neonCart') || '[]');
+let activePromo = JSON.parse(localStorage.getItem('neonPromo') || 'null');
 let activeCategory = 'all';
 let searchQuery = '';
 let sortBy = 'default';
@@ -2150,8 +2386,15 @@ const cartOverlay = $('#cartOverlay');
 const cartSidebar = $('#cartSidebar');
 const cartClose = $('#cartClose');
 const cartItems = $('#cartItems');
+const cartSubtotal = $('#cartSubtotal');
 const cartTotal = $('#cartTotal');
+const cartDiscount = $('#cartDiscount');
+const discountLine = $('#discountLine');
+const promoInput = $('#promoInput');
+const promoApply = $('#promoApply');
+const promoMessage = $('#promoMessage');
 const checkoutBtn = $('#checkoutBtn');
+const paymentInstructions = $('#paymentInstructions');
 const productsGrid = $('#productsGrid');
 const searchInput = $('#searchInput');
 const sortSelect = $('#sortSelect');
@@ -2169,11 +2412,48 @@ function saveCart() {
   localStorage.setItem('neonCart', JSON.stringify(cart));
 }
 
-function getCartTotal() {
+function getSubtotal() {
   return cart.reduce((sum, item) => {
     const product = PRODUCTS.find((p) => p.id === item.id);
     return sum + (product ? product.price * item.qty : 0);
   }, 0);
+}
+
+function getDiscountAmount() {
+  if (!activePromo) return 0;
+  return getSubtotal() * (activePromo.percent / 100);
+}
+
+function getCartTotal() {
+  return Math.max(0, getSubtotal() - getDiscountAmount());
+}
+
+function savePromo() {
+  localStorage.setItem('neonPromo', JSON.stringify(activePromo));
+}
+
+function applyPromoCode() {
+  const code = promoInput.value.trim().toUpperCase();
+  if (!code) {
+    promoMessage.textContent = 'Enter a promo code.';
+    promoMessage.className = 'promo-message error';
+    return;
+  }
+  const promo = PROMO_CODES[code];
+  if (!promo) {
+    activePromo = null;
+    savePromo();
+    promoMessage.textContent = 'Invalid promo code.';
+    promoMessage.className = 'promo-message error';
+    updateCartUI();
+    return;
+  }
+  activePromo = { code, percent: promo.percent };
+  savePromo();
+  const discountAmt = getDiscountAmount();
+  promoMessage.textContent = `-$${discountAmt.toFixed(2)} Applied!`;
+  promoMessage.className = 'promo-message success';
+  updateCartUI();
 }
 
 function getCartCount() {
@@ -2217,7 +2497,22 @@ function updateCartUI() {
     checkoutBtn.disabled = false;
   }
 
-  cartTotal.textContent = `$${getCartTotal().toFixed(2)}`;
+  const subtotal = getSubtotal();
+  const discount = getDiscountAmount();
+  const total = getCartTotal();
+
+  cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+  cartTotal.textContent = `$${total.toFixed(2)}`;
+
+  if (activePromo && discount > 0) {
+    discountLine.classList.remove('hidden');
+    cartDiscount.textContent = `-$${discount.toFixed(2)}`;
+    promoMessage.textContent = `-$${discount.toFixed(2)} Applied!`;
+    promoMessage.className = 'promo-message success';
+    if (promoInput && !promoInput.value) promoInput.value = activePromo.code;
+  } else {
+    discountLine.classList.add('hidden');
+  }
 }
 
 function addToCart(productId) {
@@ -2306,9 +2601,13 @@ function renderProducts() {
         ? `<span class="price-old">$${p.oldPrice.toFixed(2)}</span>`
         : '';
       const delivery = p.delivery || DELIVERY_DEFAULTS[p.category] || 'Instant';
+      const undetectedHTML = p.category === 'scripts'
+        ? `<span class="undetected-badge"><span class="undetected-dot"></span>● Undetected</span>`
+        : '';
 
       return `
         <article class="product-card fade-in cat-${p.category}" data-id="${p.id}">
+          ${undetectedHTML}
           <div class="product-header">
             <div class="product-icon-sm">${p.icon}</div>
             <div class="product-header-text">
@@ -2373,11 +2672,27 @@ function buildOrderSummaryText() {
   }).filter(Boolean);
 
   const payment = document.querySelector('[data-group="payment"] .modal-option.selected');
-  const contact = document.querySelector('[data-group="contact"] .modal-option.selected');
-  const payMethod = payment ? PAYMENT_LABELS[payment.dataset.method] : 'Not selected';
-  const contactMethod = contact ? CONTACT_LABELS[contact.dataset.method] : 'Not selected';
+  const payKey = payment?.dataset.method || 'ltc';
+  const payMethod = PAYMENT_LABELS[payKey] || 'Not selected';
+  const subtotal = getSubtotal();
+  const discount = getDiscountAmount();
+  const total = getCartTotal();
+  const promoLine = activePromo ? `Promo: ${activePromo.code} (-$${discount.toFixed(2)})\n` : '';
+  const payNote = payKey === 'ltc'
+    ? `Pay via LTC — contact ${STORE_CONFIG.ltcContact} on Discord`
+    : `Pay via ${payMethod} — join ${STORE_CONFIG.discord}`;
 
-  return `${STORE_CONFIG.shopName} Order\n\n${lines.join('\n')}\n\nTotal: $${getCartTotal().toFixed(2)}\nPayment: ${payMethod}\nContact via: ${contactMethod}\n\nPaste this message when you reach out!`;
+  return `${STORE_CONFIG.shopName} Order\n\n${lines.join('\n')}\n\nSubtotal: $${subtotal.toFixed(2)}\n${promoLine}Total: $${total.toFixed(2)}\nPayment: ${payMethod}\n${payNote}\n\nPaste this message when you reach out!`;
+}
+
+function updatePaymentInstructions() {
+  const payment = document.querySelector('[data-group="payment"] .modal-option.selected');
+  const method = payment?.dataset.method || 'ltc';
+  if (method === 'ltc') {
+    paymentInstructions.innerHTML = `<strong>LTC:</strong> Your order will be copied. Contact <strong>${STORE_CONFIG.ltcContact}</strong> on Discord and paste it to complete payment.`;
+  } else {
+    paymentInstructions.innerHTML = `<strong>${PAYMENT_LABELS[method]}:</strong> Your order will be copied and you'll be redirected to our <strong>Discord server</strong> to complete payment.`;
+  }
 }
 
 function updateOrderSummaryUI() {
@@ -2391,30 +2706,28 @@ function updateOrderSummaryUI() {
     if (!p) return '';
     return `${item.qty}× ${p.title} <span style="color:var(--text-muted)">$${(p.price * item.qty).toFixed(2)}</span>`;
   }).filter(Boolean);
-  orderSummary.innerHTML = `<strong>Your order</strong><br>${lines.join('<br>')}<br><br><strong>Total: $${getCartTotal().toFixed(2)}</strong>`;
+  const discount = getDiscountAmount();
+  const discountHTML = activePromo && discount > 0
+    ? `<br>Promo <span style="color:#4ade80">${activePromo.code}</span>: <span style="color:#4ade80">-$${discount.toFixed(2)}</span>`
+    : '';
+  orderSummary.innerHTML = `<strong>Your order</strong><br>${lines.join('<br>')}${discountHTML}<br><br><strong>Total: $${getCartTotal().toFixed(2)}</strong>`;
+  updatePaymentInstructions();
 }
 
 function openCheckoutModal() {
+  if (cart.length === 0) return;
   updateOrderSummaryUI();
   checkoutModal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-function redirectToContact(method, orderText) {
-  switch (method) {
-    case 'discord':
-      window.open(STORE_CONFIG.discord, '_blank', 'noopener');
-      break;
-    case 'telegram':
-      window.open(STORE_CONFIG.telegram, '_blank', 'noopener');
-      break;
-    case 'email': {
-      const subject = encodeURIComponent(`${STORE_CONFIG.shopName} Order — $${getCartTotal().toFixed(2)}`);
-      const body = encodeURIComponent(orderText);
-      window.location.href = `mailto:${STORE_CONFIG.email}?subject=${subject}&body=${body}`;
-      break;
-    }
+function completePayment(payMethod) {
+  if (payMethod === 'ltc') {
+    showToast(`Order copied! Contact ${STORE_CONFIG.ltcContact} on Discord to pay with LTC.`);
+    return;
   }
+  window.open(STORE_CONFIG.discord, '_blank', 'noopener');
+  showToast(`Order copied! Join Discord to pay with ${PAYMENT_LABELS[payMethod]}.`);
 }
 
 function copyOrderToClipboard(text) {
@@ -2529,7 +2842,13 @@ function initEvents() {
     renderProducts();
   });
 
+  promoApply.addEventListener('click', applyPromoCode);
+  promoInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') applyPromoCode();
+  });
+
   checkoutBtn.addEventListener('click', () => {
+    if (cart.length === 0) return;
     closeCart();
     openCheckoutModal();
   });
@@ -2545,15 +2864,14 @@ function initEvents() {
       if (!group) return;
       group.querySelectorAll('.modal-option').forEach((o) => o.classList.remove('selected'));
       opt.classList.add('selected');
+      if (group.dataset.group === 'payment') updatePaymentInstructions();
     });
   });
 
   modalConfirm.addEventListener('click', async () => {
     if (cart.length === 0) return;
     const payment = document.querySelector('[data-group="payment"] .modal-option.selected');
-    const contact = document.querySelector('[data-group="contact"] .modal-option.selected');
     const payMethod = payment ? payment.dataset.method : 'ltc';
-    const contactMethod = contact ? contact.dataset.method : 'discord';
     const orderText = buildOrderSummaryText();
 
     try {
@@ -2561,14 +2879,15 @@ function initEvents() {
     } catch (e) { /* clipboard may fail on some browsers */ }
 
     closeCheckoutModal();
-    redirectToContact(contactMethod, orderText);
-
-    const payName = PAYMENT_LABELS[payMethod] || payMethod;
-    const contactName = CONTACT_LABELS[contactMethod] || contactMethod;
-    showToast(`Order copied! Opening ${contactName} — pay with ${payName}.`);
+    completePayment(payMethod);
 
     cart = [];
+    activePromo = null;
     saveCart();
+    savePromo();
+    promoInput.value = '';
+    promoMessage.textContent = '';
+    promoMessage.className = 'promo-message';
     updateCartUI();
   });
 
@@ -2630,6 +2949,7 @@ function applyStoreLinks() {
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   applyStoreLinks();
+  if (activePromo) promoInput.value = activePromo.code;
   renderProducts();
   updateCartUI();
   initFAQ();
