@@ -105,6 +105,17 @@
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 2rem;
         }
+        
+        /* Better text breathing room */
+        .product-card h3 {
+            font-size: 1.75rem;
+            line-height: 1.25;
+        }
+        
+        .product-card ul {
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
     </style>
 </head>
 <body class="min-h-screen pb-24">
@@ -137,12 +148,12 @@
 
     <div class="max-w-4xl mx-auto px-6 flex justify-center gap-3 mb-16 flex-wrap">
         <button onclick="switchTab(0)" id="tab-0" class="tab-button active">WOOD STOCKS</button>
-        <button onclick="switchTab(1)" id="tab-1" class="tab-button">MONEY ACCOUNTS</button>
+        <button onclick="switchTab(1)" id="tab-1" class="tab-button">LIQUIDITY / MONEY</button>
         <button onclick="switchTab(2)" id="tab-2" class="tab-button">AGED ACCOUNTS</button>
     </div>
 
     <div id="content-0" class="tab-content active max-w-7xl mx-auto px-6">
-        <!-- RAW MATERIAL CACHES -->
+        <!-- RAW -->
         <div class="mb-16">
             <div class="flex items-center gap-x-4 mb-8">
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
@@ -178,8 +189,8 @@
             </div>
         </div>
 
-        <!-- MODDED CORE -->
-        <div class="mb-16">
+        <!-- MODDED -->
+        <div>
             <div class="flex items-center gap-x-4 mb-8">
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
                 <span class="uppercase text-xs tracking-[2px] font-mono text-[#00E676]">02 // STABILIZED MODDED CORE MATRIX</span>
