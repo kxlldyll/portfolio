@@ -8,31 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-        
+       
         :root {
             --neon-green: #00E676;
             --void-violet: #9D4EDD;
         }
-        
+       
         * { transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        
+       
         body {
             font-family: 'Inter', system_ui, sans-serif;
             background-color: #030303;
             color: #e5e5e5;
         }
-        
+       
         .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
         .nav { backdrop-filter: blur(12px); }
         .hero-glow { text-shadow: 0 0 40px rgba(157, 78, 221, 0.6); }
-        
+       
         .product-card {
             background-color: #0b0b0c;
             border: 1px solid #161618;
             position: relative;
             overflow: hidden;
         }
-        
+       
         .product-card::before {
             content: '';
             position: absolute;
@@ -43,12 +43,12 @@
             transition: all 0.7s ease;
             opacity: 0;
         }
-        
+       
         .product-card:hover::before {
             opacity: 1;
             transform: translateX(300%) skewX(-25deg);
         }
-        
+       
         .glow-border::after {
             content: '';
             position: absolute;
@@ -61,28 +61,28 @@
             mask-composite: exclude;
             opacity: 0;
         }
-        
+       
         .product-card:hover .glow-border::after { opacity: 1; }
-        
+       
         .cta-button {
             background: linear-gradient(90deg, #00E676, #9D4EDD);
             color: #030303;
             font-weight: 700;
             letter-spacing: 0.5px;
         }
-        
+       
         .cta-button.violet {
             background: linear-gradient(90deg, #9D4EDD, #C084FC);
         }
-        
+       
         .cta-button:hover {
             transform: translateY(-3px) scale(1.03);
             box-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
         }
-        
+       
         .pulse { animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-        
+       
         .tab-button {
             padding: 12px 32px;
             font-weight: 600;
@@ -91,19 +91,53 @@
             cursor: pointer;
             border: 1px solid #161618;
         }
-        
+       
         .tab-button.active {
             background: linear-gradient(90deg, var(--neon-green), var(--void-violet));
             color: #030303;
         }
-        
+       
         .tab-content { display: none; opacity: 0; transition: opacity 0.4s ease; }
         .tab-content.active { display: block; opacity: 1; }
-        
+       
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 2rem;
+        }
+
+        /* FAQ Dropdown */
+        .faq-item {
+            background-color: #0b0b0c;
+            border: 1px solid #161618;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 24px;
+            color: #a3a3a3;
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding-bottom: 24px;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -157,7 +191,6 @@
                         BUY PHANTOM <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
-
                 <div class="product-card rounded-3xl p-8 glow-border group">
                     <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">MODDED WOOD</span>
                     <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Sinister</h3>
@@ -165,7 +198,6 @@
                         BUY SINISTER <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
-
                 <div class="product-card rounded-3xl p-8 glow-border group">
                     <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">MODDED WOOD</span>
                     <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Spook</h3>
@@ -173,7 +205,6 @@
                         BUY SPOOK <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
-
                 <div class="product-card rounded-3xl p-8 glow-border group">
                     <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">MODDED WOOD</span>
                     <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Cave</h3>
@@ -194,7 +225,7 @@
             <div class="grid-container">
                 <div class="product-card rounded-3xl p-8 glow-border group">
                     <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">BULK</span>
-                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Bulk</h3>
+                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Bulk Wood Bundle</h3>
                     <ul class="space-y-4 mb-12 text-gray-300">
                         <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Modded wood in a bulk</li>
                         <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Randomized per buy</li>
@@ -202,6 +233,57 @@
                     <button onclick="goToCheckout()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
                         BUY BULK BUNDLE <i class="fa-solid fa-arrow-right"></i>
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ SECTION -->
+    <div class="max-w-4xl mx-auto px-6 mt-24 mb-16">
+        <div class="flex items-center gap-x-4 mb-10">
+            <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
+            <span class="uppercase text-xs tracking-[2px] font-mono text-[#9D4EDD]">FAQ</span>
+            <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>How fast is delivery?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-[#00E676]"></i>
+                </div>
+                <div class="faq-answer">
+                    Delivery is fully automated and usually instant. Most orders are delivered within 30 seconds - 3 minutes.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>What payment methods do you accept?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-[#00E676]"></i>
+                </div>
+                <div class="faq-answer">
+                    We accept Robux, LTC (Litecoin), and Roblox Gift Cards.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>Are the accounts dupe-free?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-[#00E676]"></i>
+                </div>
+                <div class="faq-answer">
+                    Yes. All accounts and assets sold here are 100% dupe-free and aged legitimately.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>Do you offer refunds?</span>
+                    <i class="fa-solid fa-chevron-down faq-icon text-[#00E676]"></i>
+                </div>
+                <div class="faq-answer">
+                    No refunds after delivery due to the nature of digital goods. All sales are final.
                 </div>
             </div>
         </div>
@@ -215,6 +297,10 @@
         function switchTab(n) {
             document.querySelectorAll('.tab-button').forEach((b,i) => b.classList.toggle('active', i===n));
             document.querySelectorAll('.tab-content').forEach((c,i) => c.classList.toggle('active', i===n));
+        }
+
+        function toggleFAQ(element) {
+            element.classList.toggle('active');
         }
     </script>
 </body>
