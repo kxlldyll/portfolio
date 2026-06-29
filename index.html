@@ -564,86 +564,205 @@ ul { list-style: none; }
   border-color: var(--accent);
 }
 
+.payment-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  margin-bottom: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.payment-bar-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.payment-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.payment-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.chip-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.chip-icon.ltc { background: rgba(191, 149, 63, 0.2); color: #d4a853; }
+.chip-icon.robux { background: rgba(0, 162, 255, 0.15); color: #38bdf8; }
+.chip-icon.gift { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
 }
 
 .product-card {
-  background: var(--bg-card);
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-card) 0%, rgba(24, 27, 38, 0.95) 100%);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   overflow: hidden;
   transition: var(--transition);
   display: flex;
   flex-direction: column;
 }
 
-.product-card:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+.product-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(145deg, rgba(99, 102, 241, 0.25), transparent 40%, transparent 60%, rgba(168, 85, 247, 0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: var(--transition);
+  pointer-events: none;
 }
 
-.product-image {
+.product-card:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(99, 102, 241, 0.1);
+}
+
+.product-card:hover::before { opacity: 1; }
+
+.product-media {
   position: relative;
-  height: 160px;
+  height: 180px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  background: var(--bg-elevated);
 }
 
-.product-image.scripts { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); }
-.product-image.lt2 { background: linear-gradient(135deg, #14532d 0%, #166534 100%); }
-.product-image.gta { background: linear-gradient(135deg, #78350f 0%, #92400e 100%); }
-.product-image.tools { background: linear-gradient(135deg, #831843 0%, #9d174d 100%); }
-
-.product-badge {
+.product-media::before {
+  content: '';
   position: absolute;
-  top: 12px;
-  left: 12px;
-  padding: 4px 10px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 99px;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: auto, 24px 24px, 24px 24px;
 }
 
-.badge-hot { background: rgba(239, 68, 68, 0.9); color: white; }
-.badge-new { background: rgba(34, 197, 94, 0.9); color: white; }
-.badge-sale { background: rgba(245, 158, 11, 0.9); color: white; }
+.product-media.scripts { background: linear-gradient(160deg, #1a1744 0%, #2d2a6e 45%, #1e1b4b 100%); }
+.product-media.lt2 { background: linear-gradient(160deg, #0f3d24 0%, #166534 45%, #14532d 100%); }
+.product-media.gta { background: linear-gradient(160deg, #5c2d0a 0%, #92400e 45%, #78350f 100%); }
+.product-media.tools { background: linear-gradient(160deg, #5c1a3d 0%, #9d174d 45%, #831843 100%); }
 
-.product-body {
-  padding: 20px;
-  flex: 1;
+.product-icon-wrap {
+  position: relative;
+  z-index: 1;
+  width: 72px;
+  height: 72px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  font-size: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: var(--transition);
 }
 
-.product-category {
-  font-size: 0.75rem;
+.product-card:hover .product-icon-wrap {
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.product-category-pill {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  z-index: 2;
+  padding: 5px 12px;
+  background: rgba(10, 11, 15, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--accent-light);
-  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.product-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  padding: 5px 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 6px;
+}
+
+.badge-hot { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); }
+.badge-new { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35); }
+.badge-sale { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35); }
+
+.product-body {
+  padding: 22px 22px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .product-title {
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   margin-bottom: 8px;
-  line-height: 1.3;
+  line-height: 1.35;
+  color: var(--text-primary);
 }
 
 .product-desc {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: var(--text-secondary);
-  margin-bottom: 16px;
+  line-height: 1.55;
+  margin-bottom: 14px;
   flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -651,46 +770,107 @@ ul { list-style: none; }
   overflow: hidden;
 }
 
-.product-footer {
+.product-meta {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.product-meta-item {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-top: 16px;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.product-meta-item svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+}
+
+.product-meta-item.delivery { color: #86efac; background: rgba(34, 197, 94, 0.08); }
+.product-meta-item.savings { color: #fcd34d; background: rgba(245, 158, 11, 0.1); }
+
+.product-pricing {
+  padding: 14px 0;
+  margin-bottom: 14px;
   border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
-.product-price {
-  font-size: 1.25rem;
-  font-weight: 700;
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 4px;
 }
 
-.product-price .old {
-  font-size: 0.85rem;
+.price-current {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.price-old {
+  font-size: 0.9rem;
   color: var(--text-muted);
   text-decoration: line-through;
-  font-weight: 400;
-  margin-left: 6px;
+  font-weight: 500;
+}
+
+.price-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .add-to-cart {
-  padding: 8px 16px;
-  background: var(--accent);
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--gradient-hero);
   color: white;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px var(--accent-glow);
 }
 
 .add-to-cart:hover {
-  background: var(--accent-light);
-  transform: scale(1.02);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px var(--accent-glow);
 }
 
 .add-to-cart.added {
-  background: var(--success);
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.35);
 }
+
+/* Legacy class for cart thumbnails */
+.product-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.product-image.scripts { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); }
+.product-image.lt2 { background: linear-gradient(135deg, #14532d 0%, #166534 100%); }
+.product-image.gta { background: linear-gradient(135deg, #78350f 0%, #92400e 100%); }
+.product-image.tools { background: linear-gradient(135deg, #831843 0%, #9d174d 100%); }
 
 .no-results {
   grid-column: 1 / -1;
@@ -1177,9 +1357,14 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
   background: var(--bg-elevated);
 }
+
+.ltc-icon { background: rgba(191, 149, 63, 0.15); color: #d4a853; }
+.robux-icon { background: rgba(0, 162, 255, 0.12); color: #38bdf8; }
+.gift-icon { background: rgba(168, 85, 247, 0.12); color: #c084fc; font-size: 0.75rem; }
 
 .modal-option-text strong {
   display: block;
@@ -1429,6 +1614,14 @@ ul { list-style: none; }
           </select>
         </div>
       </div>
+      <div class="payment-bar">
+        <span class="payment-bar-label">We accept</span>
+        <div class="payment-chips">
+          <span class="payment-chip"><span class="chip-icon ltc">Ł</span> Litecoin (LTC)</span>
+          <span class="payment-chip"><span class="chip-icon robux">R$</span> Robux</span>
+          <span class="payment-chip"><span class="chip-icon gift">GC</span> Robux Giftcard</span>
+        </div>
+      </div>
       <div class="products-grid" id="productsGrid"></div>
     </div>
   </section>
@@ -1447,8 +1640,8 @@ ul { list-style: none; }
         </div>
         <div class="feature-card fade-in">
           <div class="feature-icon">🔒</div>
-          <h3>Secure & Private</h3>
-          <p>Encrypted transactions and discreet delivery. Your info stays between us.</p>
+          <h3>Flexible Payments</h3>
+          <p>Pay how you want — LTC, Robux, or Robux Giftcards. Simple and straightforward.</p>
         </div>
         <div class="feature-card fade-in">
           <div class="feature-icon">💬</div>
@@ -1487,7 +1680,7 @@ ul { list-style: none; }
             <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="faq-answer">
-            <p>We accept PayPal, Cash App, Venmo, crypto (BTC, ETH, LTC), and gift cards. Payment details are shared during checkout via Discord.</p>
+            <p>We accept <strong>Litecoin (LTC)</strong>, <strong>Robux</strong>, and <strong>Robux Giftcards</strong> only. Payment instructions are sent after you place an order via Discord.</p>
           </div>
         </div>
         <div class="faq-item">
@@ -1605,27 +1798,27 @@ ul { list-style: none; }
   <div class="modal-overlay" id="checkoutModal">
     <div class="modal">
       <h2>Complete Your Order</h2>
-      <p>Select how you'd like to receive your order. We'll reach out to confirm payment and delivery.</p>
+      <p>Choose your payment method. We'll DM you on Discord with payment details and delivery.</p>
       <div class="modal-options">
-        <div class="modal-option selected" data-method="discord">
-          <div class="modal-option-icon">💬</div>
+        <div class="modal-option selected" data-method="ltc">
+          <div class="modal-option-icon ltc-icon">Ł</div>
           <div class="modal-option-text">
-            <strong>Discord</strong>
-            <span>Fastest response — recommended</span>
+            <strong>Litecoin (LTC)</strong>
+            <span>Fast crypto payment</span>
           </div>
         </div>
-        <div class="modal-option" data-method="telegram">
-          <div class="modal-option-icon">✈️</div>
+        <div class="modal-option" data-method="robux">
+          <div class="modal-option-icon robux-icon">R$</div>
           <div class="modal-option-text">
-            <strong>Telegram</strong>
-            <span>Alternative messaging</span>
+            <strong>Robux</strong>
+            <span>Direct Robux transfer</span>
           </div>
         </div>
-        <div class="modal-option" data-method="email">
-          <div class="modal-option-icon">📧</div>
+        <div class="modal-option" data-method="giftcard">
+          <div class="modal-option-icon gift-icon">GC</div>
           <div class="modal-option-text">
-            <strong>Email</strong>
-            <span>For larger custom orders</span>
+            <strong>Robux Giftcard</strong>
+            <span>Send giftcard code after order</span>
           </div>
         </div>
       </div>
@@ -1712,6 +1905,7 @@ const PRODUCTS = [
     price: 29.99,
     category: 'lt2',
     icon: '🛠️',
+    delivery: '1–24 hours',
   },
   {
     id: 'gta-money',
@@ -1747,6 +1941,7 @@ const PRODUCTS = [
     price: 49.99,
     category: 'gta',
     icon: '🎮',
+    delivery: '1–24 hours',
   },
   {
     id: 'tool-executor',
@@ -1787,6 +1982,19 @@ const CATEGORY_ICONS = {
   lt2: '🌲',
   gta: '🎮',
   tools: '🔧',
+};
+
+const PAYMENT_LABELS = {
+  ltc: 'Litecoin (LTC)',
+  robux: 'Robux',
+  giftcard: 'Robux Giftcard',
+};
+
+const DELIVERY_DEFAULTS = {
+  scripts: 'Instant',
+  lt2: 'Under 1 hour',
+  gta: 'Under 1 hour',
+  tools: 'Instant',
 };
 
 /* ===== State ===== */
@@ -1958,23 +2166,41 @@ function renderProducts() {
         ? `<span class="product-badge badge-${p.badge}">${p.badge}</span>`
         : '';
       const oldPriceHTML = p.oldPrice
-        ? `<span class="old">$${p.oldPrice.toFixed(2)}</span>`
+        ? `<span class="price-old">$${p.oldPrice.toFixed(2)}</span>`
+        : '';
+      const delivery = p.delivery || DELIVERY_DEFAULTS[p.category] || 'Instant';
+      const savingsHTML = p.oldPrice
+        ? `<span class="product-meta-item savings">${Math.round((1 - p.price / p.oldPrice) * 100)}% off</span>`
         : '';
 
       return `
         <article class="product-card fade-in" data-id="${p.id}">
-          <div class="product-image ${p.category}">
+          <div class="product-media ${p.category}">
             ${badgeHTML}
-            ${p.icon}
+            <div class="product-icon-wrap">${p.icon}</div>
+            <span class="product-category-pill">${CATEGORY_LABELS[p.category]}</span>
           </div>
           <div class="product-body">
-            <div class="product-category">${CATEGORY_LABELS[p.category]}</div>
             <h3 class="product-title">${p.title}</h3>
             <p class="product-desc">${p.desc}</p>
-            <div class="product-footer">
-              <div class="product-price">$${p.price.toFixed(2)}${oldPriceHTML}</div>
-              <button class="add-to-cart" data-id="${p.id}">Add to Cart</button>
+            <div class="product-meta">
+              <span class="product-meta-item delivery">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                ${delivery}
+              </span>
+              ${savingsHTML}
             </div>
+            <div class="product-pricing">
+              <div class="price-row">
+                <span class="price-current">$${p.price.toFixed(2)}</span>
+                ${oldPriceHTML}
+              </div>
+              <span class="price-note">LTC · Robux · Giftcard accepted</span>
+            </div>
+            <button class="add-to-cart" data-id="${p.id}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Add to Cart
+            </button>
           </div>
         </article>`;
     })
@@ -2086,10 +2312,10 @@ function initEvents() {
     if (!btn) return;
     const id = btn.dataset.id;
     addToCart(id);
-    btn.textContent = 'Added ✓';
     btn.classList.add('added');
+    btn.innerHTML = 'Added ✓';
     setTimeout(() => {
-      btn.textContent = 'Add to Cart';
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Add to Cart`;
       btn.classList.remove('added');
     }, 1500);
   });
@@ -2133,9 +2359,10 @@ function initEvents() {
 
   modalConfirm.addEventListener('click', () => {
     const selected = $('.modal-option.selected');
-    const method = selected ? selected.dataset.method : 'discord';
+    const method = selected ? selected.dataset.method : 'ltc';
+    const paymentName = PAYMENT_LABELS[method] || 'your selected method';
     closeCheckoutModal();
-    showToast('Order placed! We\'ll contact you shortly.');
+    showToast(`Order placed! Pay with ${paymentName} — check Discord.`);
     cart = [];
     saveCart();
     updateCartUI();
