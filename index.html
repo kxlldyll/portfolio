@@ -105,17 +105,6 @@
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 2rem;
         }
-        
-        /* Better text breathing room */
-        .product-card h3 {
-            font-size: 1.75rem;
-            line-height: 1.25;
-        }
-        
-        .product-card ul {
-            font-size: 0.95rem;
-            line-height: 1.65;
-        }
     </style>
 </head>
 <body class="min-h-screen pb-24">
@@ -153,7 +142,7 @@
     </div>
 
     <div id="content-0" class="tab-content active max-w-7xl mx-auto px-6">
-        <!-- RAW -->
+        <!-- RAW / MODDED WOOD -->
         <div class="mb-16">
             <div class="flex items-center gap-x-4 mb-8">
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
@@ -162,77 +151,60 @@
             </div>
             <div class="grid-container">
                 <div class="product-card rounded-3xl p-8 glow-border group">
-                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">RAW TIMBER</span>
-                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-8 mb-6 text-white">Pile of Phantom Wood</h3>
-                    <ul class="space-y-4 mb-12 text-gray-300">
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Unprocessed End-Times Void logs sourced via Bob's Shack</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Raw heavy trunk dimensions packed across base slots</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Authentic materials ready for seamless whitelist trading</li>
-                    </ul>
-                    <button onclick="claimViaDiscord()" class="w-full cta-button violet py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
-                        CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">MODDED WOOD</span>
+                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Phantom</h3>
+                    <button onclick="goToCheckout()" class="w-full cta-button violet py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                        BUY PHANTOM <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
 
                 <div class="product-card rounded-3xl p-8 glow-border group">
-                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">RAW TIMBER</span>
-                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-8 mb-6 text-white">Pile of Spook Wood</h3>
-                    <ul class="space-y-4 mb-12 text-gray-300">
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Seasonal night-spawn timber (1-in-20 spawn event clear)</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>High-volume raw logs preserved in pristine storage blocks</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>100% legitimate sourcing - zero mod menus utilized</li>
-                    </ul>
-                    <button onclick="claimViaDiscord()" class="w-full cta-button violet py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
-                        CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">MODDED WOOD</span>
+                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Spook</h3>
+                    <button onclick="goToCheckout()" class="w-full cta-button violet py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                        BUY SPOOK <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- MODDED -->
+        <!-- BULK BUNDLES -->
         <div>
             <div class="flex items-center gap-x-4 mb-8">
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
-                <span class="uppercase text-xs tracking-[2px] font-mono text-[#00E676]">02 // STABILIZED MODDED CORE MATRIX</span>
+                <span class="uppercase text-xs tracking-[2px] font-mono text-[#00E676]">02 // BULK BUNDLES</span>
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
             </div>
             <div class="grid-container">
                 <div class="product-card rounded-3xl p-8 glow-border group">
-                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">PHANTOM MODDED</span>
-                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-8 mb-6 text-white">Modded Phantom Matrix</h3>
-                    <ul class="space-y-4 mb-12 text-gray-300">
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Ultra-high density glitched structural plank blueprints</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Pre-saved data vectors protected from platform server rollbacks</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Pre-loaded infinite-size log glitch base architecture</li>
-                    </ul>
-                    <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
-                        CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">MODDED WOOD</span>
+                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Phantom</h3>
+                    <button onclick="goToCheckout()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                        BUY PHANTOM <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
 
                 <div class="product-card rounded-3xl p-8 glow-border group">
-                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">CAVE MODDED</span>
-                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-8 mb-6 text-white">Modded Cave Crawler System</h3>
-                    <ul class="space-y-4 mb-12 text-gray-300">
-                        <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Deep-abyss isolated cave reserves routed past Bridge 4 tolls</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Max-volume milled planks optimized for immediate custom mansion construction</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Isolated base slot storage mapped with Rukiryaxe tools</li>
-                    </ul>
-                    <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
-                        CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">MODDED WOOD</span>
+                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Cave Wood</h3>
+                    <button onclick="goToCheckout()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                        BUY CAVE WOOD <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
 
                 <div class="product-card rounded-3xl p-8 glow-border group">
-                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">SINISTER MODDED</span>
-                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-8 mb-6 text-white">Modded Sinister Vault</h3>
-                    <ul class="space-y-4 mb-12 text-gray-300">
-                        <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Execution maze-locked timber featuring matte obsidian textures</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>High-capacity hoarder storage secured via server verification</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>100% dupe-free parameters to completely prevent developer wipes</li>
-                    </ul>
-                    <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
-                        CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">MODDED WOOD</span>
+                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Sinister</h3>
+                    <button onclick="goToCheckout()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                        BUY SINISTER <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="product-card rounded-3xl p-8 glow-border group">
+                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">BULK</span>
+                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-12 mb-8 text-white">Bulk Wood Bundle</h3>
+                    <button onclick="goToCheckout()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                        BUY BULK BUNDLE <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
@@ -240,8 +212,8 @@
     </div>
 
     <script>
-        function claimViaDiscord() {
-            window.open("https://discord.gg/yourinvite", "_blank");
+        function goToCheckout() {
+            window.open("checkout.html", "_blank");
         }
 
         function switchTab(n) {
