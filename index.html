@@ -410,14 +410,17 @@ ul { list-style: none; }
 .menu-toggle.active span:nth-child(2) { opacity: 0; }
 .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-/* ===== Hero ===== */
+/* ===== Hero (HeroSection) ===== */
 .hero {
   position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding-top: var(--nav-height);
+  justify-content: center;
+  padding: calc(var(--nav-height) + 48px) 24px 80px;
   overflow: hidden;
+  background: #000000;
+  text-align: center;
 }
 
 .hero-bg {
@@ -426,115 +429,101 @@ ul { list-style: none; }
   pointer-events: none;
 }
 
-.hero-grid {
+.hero-radial-glow {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent);
-}
-
-.hero-glow {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.4;
-}
-
-.hero-glow-1 {
-  top: -200px;
-  right: -100px;
-  background: #6366f1;
-}
-
-.hero-glow-2 {
-  bottom: -200px;
-  left: -100px;
-  background: #a855f7;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(820px, 92vw);
+  height: min(420px, 50vh);
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 35%, transparent 72%);
+  filter: blur(2px);
 }
 
 .hero-content {
   position: relative;
   z-index: 1;
-  max-width: 680px;
-}
-
-.hero-badge {
-  display: inline-flex;
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.25);
-  border-radius: 99px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--accent-light);
-  margin-bottom: 24px;
 }
 
-.hero-badge-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--success);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+.hero-headline {
+  font-size: clamp(2.75rem, 7.5vw, 5.25rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin-bottom: 20px;
-}
-
-.hero h1 span {
-  background: var(--gradient-hero);
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+  margin-bottom: 24px;
+  background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 42%, #a1a1aa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.hero p {
-  font-size: 1.15rem;
-  color: var(--text-secondary);
-  margin-bottom: 32px;
-  max-width: 520px;
+.hero-subtitle {
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  font-weight: 400;
+  color: #71717a;
+  line-height: 1.65;
+  max-width: 580px;
+  margin: 0 auto 40px;
 }
 
-.hero-actions {
+.hero-cta-group {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   gap: 12px;
-  margin-bottom: 48px;
+  margin-bottom: 18px;
 }
 
-.hero-stats {
-  display: flex;
-  gap: 40px;
-  flex-wrap: wrap;
+.hero-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 30px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s ease;
 }
 
-.stat-item strong {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
+.hero-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(255, 255, 255, 0.14);
 }
 
-.stat-item span {
-  font-size: 0.85rem;
-  color: var(--text-muted);
+.hero-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 30px;
+  background: transparent;
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.hero-btn-ghost:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.hero-platform-note {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #52525b;
+  letter-spacing: 0.03em;
 }
 
 /* ===== Categories ===== */
@@ -1725,8 +1714,6 @@ textarea.support-field {
 
   .nav-actions .btn-primary { display: none; }
 
-  .hero-stats { gap: 24px; }
-
   .products-header { flex-direction: column; align-items: stretch; }
 
   .search-box input { width: 100%; }
@@ -1737,8 +1724,9 @@ textarea.support-field {
 }
 
 @media (max-width: 480px) {
-  .hero-actions { flex-direction: column; }
-  .hero-actions .btn { width: 100%; }
+  .hero-cta-group { flex-direction: column; width: 100%; max-width: 280px; }
+  .hero-btn-primary,
+  .hero-btn-ghost { width: 100%; }
   .products-grid { grid-template-columns: 1fr; }
 }
 </style>
@@ -1793,38 +1781,19 @@ textarea.support-field {
     </div>
   </nav>
 
-  <!-- Hero -->
-  <section class="hero" id="home">
-    <div class="hero-bg">
-      <div class="hero-grid"></div>
-      <div class="hero-glow hero-glow-1"></div>
-      <div class="hero-glow hero-glow-2"></div>
+  <!-- HeroSection -->
+  <section class="hero" id="home" data-component="HeroSection">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-radial-glow"></div>
     </div>
-    <div class="container hero-content">
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        Trusted by 2,400+ customers
+    <div class="hero-content">
+      <h1 class="hero-headline">The Next-Gen Digital Ecosystem</h1>
+      <p class="hero-subtitle">Scripts, game accounts, modding services, and digital tools — engineered for speed, built for the community.</p>
+      <div class="hero-cta-group">
+        <a href="#products" class="hero-btn-primary">Explore Projects</a>
+        <a href="#categories" class="hero-btn-ghost">Get Started</a>
       </div>
-      <h1>Your <span>Digital Gaming</span> Marketplace</h1>
-      <p>Premium scripts, LT2 accounts, GTA modding services, and tools — all in one place. Fast delivery, secure checkout, and 24/7 support.</p>
-      <div class="hero-actions">
-        <a href="#products" class="btn btn-primary">Browse Products</a>
-        <a href="#categories" class="btn btn-secondary">View Categories</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <strong>20+</strong>
-          <span>Products</span>
-        </div>
-        <div class="stat-item">
-          <strong>4.9★</strong>
-          <span>Avg. Rating</span>
-        </div>
-        <div class="stat-item">
-          <strong>&lt;1hr</strong>
-          <span>Delivery</span>
-        </div>
-      </div>
+      <p class="hero-platform-note">Available for Windows, macOS, and Linux.</p>
     </div>
   </section>
 
