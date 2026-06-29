@@ -20,7 +20,6 @@
             font-family: 'Inter', system_ui, sans-serif;
             background-color: #030303;
             color: #e5e5e5;
-            overflow-x: hidden;
         }
         
         .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -72,6 +71,10 @@
             letter-spacing: 0.5px;
         }
         
+        .cta-button.violet {
+            background: linear-gradient(90deg, #9D4EDD, #C084FC);
+        }
+        
         .cta-button:hover {
             transform: translateY(-3px) scale(1.03);
             box-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
@@ -102,8 +105,6 @@
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 2rem;
         }
-        
-        @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body class="min-h-screen pb-24">
@@ -140,9 +141,8 @@
         <button onclick="switchTab(2)" id="tab-2" class="tab-button">AGED ACCOUNTS</button>
     </div>
 
-    <!-- WOOD STOCKS TAB -->
     <div id="content-0" class="tab-content active max-w-7xl mx-auto px-6">
-        <!-- RAW MATERIAL CACHES -->
+        <!-- RAW MATERIAL CACHES (Purple accent) -->
         <div class="mb-16">
             <div class="flex items-center gap-x-4 mb-8">
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
@@ -158,10 +158,11 @@
                         <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Raw heavy trunk dimensions packed across base slots</li>
                         <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Authentic materials ready for seamless whitelist trading</li>
                     </ul>
-                    <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                    <button onclick="claimViaDiscord()" class="w-full cta-button violet py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
                         CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
                     </button>
                 </div>
+
                 <div class="product-card rounded-3xl p-8 glow-border group">
                     <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">RAW TIMBER</span>
                     <h3 class="heading-font text-4xl font-bold tracking-tighter mt-8 mb-6 text-white">Pile of Spook Wood</h3>
@@ -170,14 +171,14 @@
                         <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>High-volume raw logs preserved in pristine storage blocks</li>
                         <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>100% legitimate sourcing - zero mod menus utilized</li>
                     </ul>
-                    <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
+                    <button onclick="claimViaDiscord()" class="w-full cta-button violet py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
                         CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- STABILIZED MODDED CORE MATRIX -->
+        <!-- MODDED CORE MATRIX (Green accent) -->
         <div class="mb-16">
             <div class="flex items-center gap-x-4 mb-8">
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
@@ -197,6 +198,7 @@
                         CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
                     </button>
                 </div>
+
                 <div class="product-card rounded-3xl p-8 glow-border group">
                     <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">CAVE MODDED</span>
                     <h3 class="heading-font text-4xl font-bold tracking-tighter mt-8 mb-6 text-white">Modded Cave Crawler System</h3>
@@ -209,6 +211,7 @@
                         CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
                     </button>
                 </div>
+
                 <div class="product-card rounded-3xl p-8 glow-border group">
                     <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/30 rounded-full">SINISTER MODDED</span>
                     <h3 class="heading-font text-4xl font-bold tracking-tighter mt-8 mb-6 text-white">Modded Sinister Vault</h3>
@@ -216,29 +219,6 @@
                         <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>Execution maze-locked timber featuring matte obsidian textures</li>
                         <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>High-capacity hoarder storage secured via server verification</li>
                         <li class="flex items-start gap-x-3"><span class="text-[#00E676] mt-1">◉</span>100% dupe-free parameters to completely prevent developer wipes</li>
-                    </ul>
-                    <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
-                        CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- LIMITED HOLIDAY COLLECTIBLES -->
-        <div>
-            <div class="flex items-center gap-x-4 mb-8">
-                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
-                <span class="uppercase text-xs tracking-[2px] font-mono text-[#9D4EDD]">03 // LIMITED HOLIDAY COLLECTIBLES</span>
-                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-[#161618] to-transparent"></div>
-            </div>
-            <div class="grid-container">
-                <div class="product-card rounded-3xl p-8 glow-border group">
-                    <span class="inline-block px-4 py-1 text-xs font-mono tracking-widest bg-[#9D4EDD]/10 text-[#9D4EDD] border border-[#9D4EDD]/30 rounded-full">VAULT GLITCH</span>
-                    <h3 class="heading-font text-4xl font-bold tracking-tighter mt-8 mb-6 text-white">Vintage Event Artifacts</h3>
-                    <ul class="space-y-4 mb-12 text-gray-300">
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Mint-condition legacy Spook Pumpkins (2015-2016 era collectibles)</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Sealed holiday gift crates and rare fine art bobbleheads</li>
-                        <li class="flex items-start gap-x-3"><span class="text-[#9D4EDD] mt-1">◉</span>Secured base slot delivery with zero wipe footprint</li>
                     </ul>
                     <button onclick="claimViaDiscord()" class="w-full cta-button py-6 rounded-2xl text-lg flex items-center justify-center gap-x-3">
                         CLAIM VIA DISCORD VAULT <i class="fa-brands fa-discord"></i>
