@@ -471,6 +471,100 @@
     [data-theme="invert"] .code-block { background: #f0f0f0; color: #444; }
     .code-block .cm { color: #555; }
     
+    /* FEATURED SCRIPT CARD */
+    .script-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 2rem;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .script-card:hover {
+      border-color: rgba(255,255,255,0.16);
+    }
+    [data-theme="invert"] .script-card:hover {
+      border-color: rgba(0,0,0,0.18);
+    }
+    .script-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+      gap: 1rem;
+    }
+    .script-title {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .script-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 0.22rem 0.55rem;
+      border-radius: 6px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    [data-theme="invert"] .script-badge {
+      border-color: rgba(0,0,0,0.1);
+    }
+    .script-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .script-copy:hover {
+      color: var(--text);
+      border-color: var(--text);
+      background: rgba(255,255,255,0.04);
+    }
+    .script-copy.copied {
+      color: #22c55e;
+      border-color: #22c55e;
+    }
+    .script-desc {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 1rem;
+    }
+    .script-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      color: #c9d1d9;
+    }
+    [data-theme="invert"] .script-code {
+      background: #f4f4f4;
+      color: #24292f;
+    }
+    .script-code .code-fn { color: #d2a8ff; }      /* purple-ish for functions */
+    .script-code .code-method { color: #79c0ff; }  /* blue for methods */
+    .script-code .code-str { color: #a5d6ff; }     /* light blue for strings */
+    [data-theme="invert"] .script-code .code-fn { color: #8250df; }
+    [data-theme="invert"] .script-code .code-method { color: #0550ae; }
+    [data-theme="invert"] .script-code .code-str { color: #0a3069; }
+    
     /* PROJECTS */
     .projects-grid {
       display: grid;
@@ -893,6 +987,25 @@
     <section id="work" class="reveal">
       <div class="section-label">02 — Work</div>
       <h2 class="section-title" data-i18n="work_title">Selected things<br>I've built.</h2>
+      
+      <!-- Featured Universal Script Card -->
+      <div class="script-card reveal" id="scriptCard">
+        <div class="script-header">
+          <div class="script-title">
+            <span class="script-badge">UNIVERSAL</span>
+            <span>Novoline</span>
+          </div>
+          <button class="script-copy" id="copyScriptBtn" title="Copy loadstring">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span id="copyScriptText">Copy</span>
+          </button>
+        </div>
+        <p class="script-desc">Try out the universal script. Loadstring ready — paste into your executor.</p>
+        <div class="script-code" id="scriptCode">
+          <span class="code-fn">loadstring</span>(<span class="code-fn">game</span>:<span class="code-method">HttpGet</span>(<span class="code-str">"https://novoline.pro"</span>))()
+        </div>
+      </div>
+      
       <div class="projects-grid" id="projectsGrid">
         
         <article class="project-card reveal"
@@ -1569,6 +1682,34 @@
       }
     }
     loadViews();
+    
+    // Novoline loadstring copy
+    const SCRIPT_LOADSTRING = 'loadstring(game:HttpGet("https://novoline.pro"))()';
+    const copyScriptBtn = document.getElementById("copyScriptBtn");
+    const copyScriptText = document.getElementById("copyScriptText");
+    if (copyScriptBtn) {
+      copyScriptBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(SCRIPT_LOADSTRING).then(() => {
+          copyScriptBtn.classList.add("copied");
+          copyScriptText.textContent = "Copied";
+          spawnNotif("Script", "Loadstring copied to clipboard");
+          setTimeout(() => {
+            copyScriptBtn.classList.remove("copied");
+            copyScriptText.textContent = "Copy";
+          }, 1800);
+        }).catch(() => {
+          // fallback
+          const ta = document.createElement("textarea");
+          ta.value = SCRIPT_LOADSTRING;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          copyScriptText.textContent = "Copied";
+          setTimeout(() => copyScriptText.textContent = "Copy", 1800);
+        });
+      });
+    }
     
     // Keyboard focus terminal
     document.addEventListener("keydown", e => {
