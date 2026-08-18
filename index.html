@@ -149,41 +149,116 @@
     }
     .nav-links a:hover { color: var(--text); }
     
-    .control-panel {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .settings-wrap {
+      position: relative;
+    }
+    .settings-btn {
+      width: 34px; height: 34px;
+      border-radius: 9px;
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.3rem 0.45rem 0.3rem 0.55rem;
+      color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s;
     }
-    [data-theme="invert"] .control-panel {
+    .settings-btn:hover, .settings-btn.active {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.06);
+    }
+    [data-theme="invert"] .settings-btn {
       background: rgba(0,0,0,0.04);
     }
+    [data-theme="invert"] .settings-btn:hover,
+    [data-theme="invert"] .settings-btn.active {
+      background: rgba(0,0,0,0.07);
+      border-color: rgba(0,0,0,0.2);
+    }
+    .settings-btn svg { width: 15px; height: 15px; }
+    
+    .settings-panel {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 220px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.55);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px) scale(0.98);
+      transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+      z-index: 120;
+    }
+    .settings-panel.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+    .settings-section {
+      margin-bottom: 1rem;
+    }
+    .settings-section:last-child { margin-bottom: 0; }
+    .settings-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.55rem;
+    }
     .theme-btns {
-      display: flex; gap: 0.3rem; align-items: center;
+      display: flex; gap: 0.45rem; align-items: center;
     }
     .theme-btn {
-      width: 13px; height: 13px; border-radius: 50%;
-      border: 1px solid transparent;
-      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
       padding: 0;
     }
-    .theme-btn:hover { transform: scale(1.18); }
+    .theme-btn:hover { transform: scale(1.12); }
+    .theme-btn.active {
+      border-color: var(--text);
+      box-shadow: 0 0 0 2px var(--bg);
+    }
     .theme-btn[data-t="default"] { background: #fff; }
     .theme-btn[data-t="crimson"] { background: #ef4444; }
     .theme-btn[data-t="cyan"] { background: #22d3ee; }
-    .theme-btn[data-t="invert"] { background: #222; border-color: #666; }
+    .theme-btn[data-t="invert"] { background: #333; border-color: #666; }
     
-    .lang-btn {
-      background: transparent; border: none;
-      color: var(--muted); font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem; padding: 0.25rem 0.9rem 0.25rem 0.35rem;
-      border-radius: 6px; cursor: pointer; transition: color 0.25s;
-      appearance: none;
+    .lang-options {
+      display: flex; flex-direction: column; gap: 0.15rem;
     }
-    .lang-btn:hover { color: var(--text); }
+    .lang-option {
+      background: transparent;
+      border: none;
+      text-align: left;
+      padding: 0.45rem 0.65rem;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .lang-option:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+    .lang-option.active {
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+    [data-theme="invert"] .lang-option:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    [data-theme="invert"] .lang-option.active {
+      background: rgba(0,0,0,0.08);
+    }
     
     /* Hamburger */
     .hamburger {
@@ -879,7 +954,7 @@
     @media (max-width: 768px) {
       nav { padding: 1rem 1.2rem; }
       .nav-links { display: none; }
-      .control-panel { display: none; }
+      .settings-wrap { display: none; }
       .hamburger { display: block; }
       .hero { padding: 5rem 1.2rem 3rem; }
       section { padding: 3.5rem 1.2rem; }
@@ -906,20 +981,34 @@
         <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
       </ul>
       
-      <div class="control-panel">
-        <div class="theme-btns" title="Theme">
-          <button class="theme-btn" data-t="default" aria-label="Default"></button>
-          <button class="theme-btn" data-t="crimson" aria-label="Crimson"></button>
-          <button class="theme-btn" data-t="cyan" aria-label="Cyan"></button>
-          <button class="theme-btn" data-t="invert" aria-label="Invert"></button>
+      <div class="settings-wrap">
+        <button class="settings-btn" id="settingsBtn" aria-label="Settings" title="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+        <div class="settings-panel" id="settingsPanel">
+          <div class="settings-section">
+            <div class="settings-label">Theme</div>
+            <div class="theme-btns">
+              <button class="theme-btn active" data-t="default" aria-label="Default"></button>
+              <button class="theme-btn" data-t="crimson" aria-label="Crimson"></button>
+              <button class="theme-btn" data-t="cyan" aria-label="Cyan"></button>
+              <button class="theme-btn" data-t="invert" aria-label="Invert"></button>
+            </div>
+          </div>
+          <div class="settings-section">
+            <div class="settings-label">Language</div>
+            <div class="lang-options" id="langOptions">
+              <button class="lang-option active" data-lang="en">English</button>
+              <button class="lang-option" data-lang="ru">Русский</button>
+              <button class="lang-option" data-lang="es">Español</button>
+              <button class="lang-option" data-lang="de">Deutsch</button>
+              <button class="lang-option" data-lang="fil">Filipino</button>
+            </div>
+          </div>
         </div>
-        <select class="lang-btn" id="langSelect" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%2210%22 fill=%22%23888%22><path d=%22M2 4l4 4 4-4%22/></svg>');background-repeat:no-repeat;background-position:right 0.25rem center;">
-          <option value="en">EN</option>
-          <option value="ru">RU</option>
-          <option value="es">ES</option>
-          <option value="de">DE</option>
-          <option value="fil">FIL</option>
-        </select>
       </div>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -1247,7 +1336,7 @@
   <footer>
     Kira · Кира · Support @ Prism Softworks · 
     <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">nohello.net</a> · 
-    <span id="viewCount">—</span> views · v2.5 · 2026
+    <span id="viewCount">—</span> views · v2.6 · 2026
   </footer>
   
   <div class="modal-overlay" id="modal">
@@ -1353,10 +1442,41 @@
       });
     }
     
-    document.getElementById("langSelect").addEventListener("change", (e) => {
-      lang = e.target.value;
-      applyLang();
+    // Settings panel toggle
+    const settingsBtn = document.getElementById("settingsBtn");
+    const settingsPanel = document.getElementById("settingsPanel");
+    settingsBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      settingsPanel.classList.toggle("open");
+      settingsBtn.classList.toggle("active");
     });
+    document.addEventListener("click", (e) => {
+      if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target)) {
+        settingsPanel.classList.remove("open");
+        settingsBtn.classList.remove("active");
+      }
+    });
+    
+    // Language options
+    document.querySelectorAll(".lang-option").forEach(btn => {
+      btn.addEventListener("click", () => {
+        lang = btn.dataset.lang;
+        applyLang();
+        document.querySelectorAll(".lang-option").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        localStorage.setItem("kira-lang", lang);
+        spawnNotif("Language", btn.textContent);
+      });
+    });
+    // restore language
+    const savedLang = localStorage.getItem("kira-lang");
+    if (savedLang && i18n[savedLang]) {
+      lang = savedLang;
+      applyLang();
+      document.querySelectorAll(".lang-option").forEach(b => {
+        b.classList.toggle("active", b.dataset.lang === lang);
+      });
+    }
     
     // Theme switcher
     document.querySelectorAll(".theme-btn").forEach(btn => {
@@ -1367,15 +1487,20 @@
         } else {
           document.documentElement.setAttribute("data-theme", t);
         }
+        document.querySelectorAll(".theme-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
         localStorage.setItem("kira-theme", t);
         spawnNotif("Theme", `Switched to ${t === "default" ? "default" : t}`);
       });
     });
     // restore theme
-    const savedTheme = localStorage.getItem("kira-theme");
-    if (savedTheme && savedTheme !== "default") {
+    const savedTheme = localStorage.getItem("kira-theme") || "default";
+    if (savedTheme !== "default") {
       document.documentElement.setAttribute("data-theme", savedTheme);
     }
+    document.querySelectorAll(".theme-btn").forEach(b => {
+      b.classList.toggle("active", b.dataset.t === savedTheme);
+    });
     
     // Custom cursor
     const cursor = document.getElementById("cursor");
@@ -1389,7 +1514,7 @@
       cursorDot.style.left = mouseX + "px";
       cursorDot.style.top = mouseY + "px";
     });
-    document.querySelectorAll("a, button, .project-card, .skill, .lang-btn, .theme-btn, .btn-copy").forEach(el => {
+    document.querySelectorAll("a, button, .project-card, .skill, .theme-btn, .lang-option, .btn-copy, .settings-btn").forEach(el => {
       el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
       el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
     });
