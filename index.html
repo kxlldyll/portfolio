@@ -29,14 +29,14 @@
   
   <style>
     :root {
-      --bg: #050505;
-      --surface: #0d0d0d;
+      --bg: #020202;
+      --surface: #0b0b0b;
       --text: #f0f0f0;
       --muted: #777;
-      --border: rgba(255,255,255,0.08);
-      --gray: #a0a0a0;
+      --border: rgba(255,255,255,0.07);
+      --gray: #858585;
       --accent: #ffffff;
-      --accent-dim: rgba(255,255,255,0.12);
+      --accent-dim: rgba(255,255,255,0.1);
     }
     
     /* Themes */
@@ -67,9 +67,11 @@
       font-family: 'Syne', system-ui, sans-serif;
       overflow-x: hidden;
       line-height: 1.6;
-      background-image: radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-dim), transparent);
+      background-image: 
+        radial-gradient(ellipse 90% 60% at 50% -25%, var(--accent-dim), transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 20%, rgba(255,255,255,0.02), transparent);
       transition: background 0.4s, color 0.4s;
-      cursor: none; /* custom cursor */
+      cursor: none;
     }
     
     /* Custom cursor */
@@ -147,28 +149,41 @@
     }
     .nav-links a:hover { color: var(--text); }
     
+    .control-panel {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.3rem 0.45rem 0.3rem 0.55rem;
+    }
+    [data-theme="invert"] .control-panel {
+      background: rgba(0,0,0,0.04);
+    }
     .theme-btns {
-      display: flex; gap: 0.35rem; align-items: center;
+      display: flex; gap: 0.3rem; align-items: center;
     }
     .theme-btn {
-      width: 14px; height: 14px; border-radius: 50%;
-      border: 1px solid var(--border);
-      cursor: pointer; transition: transform 0.2s, border-color 0.2s;
+      width: 13px; height: 13px; border-radius: 50%;
+      border: 1px solid transparent;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
       padding: 0;
     }
-    .theme-btn:hover { transform: scale(1.2); }
+    .theme-btn:hover { transform: scale(1.18); }
     .theme-btn[data-t="default"] { background: #fff; }
     .theme-btn[data-t="crimson"] { background: #ef4444; }
     .theme-btn[data-t="cyan"] { background: #22d3ee; }
-    .theme-btn[data-t="invert"] { background: #111; border-color: #888; }
+    .theme-btn[data-t="invert"] { background: #222; border-color: #666; }
     
     .lang-btn {
-      background: transparent; border: 1px solid var(--border);
+      background: transparent; border: none;
       color: var(--muted); font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; padding: 0.35rem 0.7rem;
-      border-radius: 6px; cursor: pointer; transition: all 0.25s;
+      font-size: 0.68rem; padding: 0.25rem 0.9rem 0.25rem 0.35rem;
+      border-radius: 6px; cursor: pointer; transition: color 0.25s;
+      appearance: none;
     }
-    .lang-btn:hover { border-color: var(--text); color: var(--text); }
+    .lang-btn:hover { color: var(--text); }
     
     /* Hamburger */
     .hamburger {
@@ -654,20 +669,32 @@
     }
     
     /* SKILLS */
-    .skills-wrap { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+    .skills-wrap { display: flex; flex-direction: column; gap: 1.1rem; }
+    .skill-group {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
+    }
+    .skill-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      min-width: 64px;
+      opacity: 0.7;
+    }
     .skill {
-      padding: 0.6rem 1.1rem; border-radius: 9px;
+      padding: 0.45rem 0.95rem; border-radius: 8px;
       background: var(--surface); border: 1px solid var(--border);
-      font-weight: 600; font-size: 0.88rem;
+      font-weight: 600; font-size: 0.84rem;
       transition: all 0.25s;
     }
     .skill:hover {
-      border-color: rgba(255,255,255,0.25);
+      border-color: rgba(255,255,255,0.22);
       background: rgba(255,255,255,0.04);
-      transform: scale(1.04);
+      transform: translateY(-1px);
     }
     [data-theme="invert"] .skill:hover {
-      border-color: rgba(0,0,0,0.2);
+      border-color: rgba(0,0,0,0.18);
       background: rgba(0,0,0,0.04);
     }
     
@@ -852,7 +879,7 @@
     @media (max-width: 768px) {
       nav { padding: 1rem 1.2rem; }
       .nav-links { display: none; }
-      .theme-btns { display: none; }
+      .control-panel { display: none; }
       .hamburger { display: block; }
       .hero { padding: 5rem 1.2rem 3rem; }
       section { padding: 3.5rem 1.2rem; }
@@ -879,20 +906,21 @@
         <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
       </ul>
       
-      <div class="theme-btns" title="Theme">
-        <button class="theme-btn" data-t="default" aria-label="Default"></button>
-        <button class="theme-btn" data-t="crimson" aria-label="Crimson"></button>
-        <button class="theme-btn" data-t="cyan" aria-label="Cyan"></button>
-        <button class="theme-btn" data-t="invert" aria-label="Invert"></button>
+      <div class="control-panel">
+        <div class="theme-btns" title="Theme">
+          <button class="theme-btn" data-t="default" aria-label="Default"></button>
+          <button class="theme-btn" data-t="crimson" aria-label="Crimson"></button>
+          <button class="theme-btn" data-t="cyan" aria-label="Cyan"></button>
+          <button class="theme-btn" data-t="invert" aria-label="Invert"></button>
+        </div>
+        <select class="lang-btn" id="langSelect" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%2210%22 fill=%22%23888%22><path d=%22M2 4l4 4 4-4%22/></svg>');background-repeat:no-repeat;background-position:right 0.25rem center;">
+          <option value="en">EN</option>
+          <option value="ru">RU</option>
+          <option value="es">ES</option>
+          <option value="de">DE</option>
+          <option value="fil">FIL</option>
+        </select>
       </div>
-      
-      <select class="lang-btn" id="langSelect" style="appearance:none;cursor:pointer;padding-right:1.4rem;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22%23888%22><path d=%22M2 4l4 4 4-4%22/></svg>');background-repeat:no-repeat;background-position:right 0.5rem center;">
-        <option value="en">English</option>
-        <option value="ru">Русский</option>
-        <option value="es">Español</option>
-        <option value="de">Deutsch</option>
-        <option value="fil">Filipino</option>
-      </select>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -977,7 +1005,6 @@
             <div><div class="stat-num">Luau</div><div class="stat-label" data-i18n="stat_luau">External + cheating</div></div>
           </div>
           <div class="code-block" id="codeBlock">
-            <span class="cm">-- kira.lua</span><br>
             <span id="typedCode"></span><span style="opacity:0.5">_</span>
           </div>
         </div>
@@ -1132,19 +1159,28 @@
       <div class="section-label">03 — Skills</div>
       <h2 class="section-title" data-i18n="skills_title">What I work with.</h2>
       <div class="skills-wrap">
-        <div class="skill">HTML</div>
-        <div class="skill">CSS</div>
-        <div class="skill">JavaScript</div>
-        <div class="skill">Lua</div>
-        <div class="skill">Luau</div>
-        <div class="skill">Roblox</div>
-        <div class="skill">External tools</div>
-        <div class="skill">Discord.js</div>
-        <div class="skill">Node.js</div>
-        <div class="skill">Python</div>
-        <div class="skill">Canvas</div>
-        <div class="skill">Git</div>
-        <div class="skill">Support</div>
+        <div class="skill-group">
+          <div class="skill-label">Web</div>
+          <div class="skill">HTML</div>
+          <div class="skill">CSS</div>
+          <div class="skill">JavaScript</div>
+          <div class="skill">Canvas</div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-label">Lua</div>
+          <div class="skill">Lua</div>
+          <div class="skill">Luau</div>
+          <div class="skill">Roblox</div>
+          <div class="skill">External</div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-label">Tools</div>
+          <div class="skill">Discord.js</div>
+          <div class="skill">Node.js</div>
+          <div class="skill">Python</div>
+          <div class="skill">Git</div>
+          <div class="skill">Support</div>
+        </div>
       </div>
       
       <div class="terminal" id="terminal">
@@ -1211,7 +1247,7 @@
   <footer>
     Kira · Кира · Support @ Prism Softworks · 
     <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">nohello.net</a> · 
-    <span id="viewCount">—</span> views · v2.4 · 2026
+    <span id="viewCount">—</span> views · v2.5 · 2026
   </footer>
   
   <div class="modal-overlay" id="modal">
@@ -1398,8 +1434,8 @@
         this.y = Math.random() * h;
         this.vx = (Math.random() - 0.5) * 0.35;
         this.vy = (Math.random() - 0.5) * 0.35;
-        this.size = Math.random() * 1.5 + 0.4;
-        this.alpha = Math.random() * 0.35 + 0.08;
+        this.size = Math.random() * 1.1 + 0.25;
+        this.alpha = Math.random() * 0.45 + 0.12;
       }
       update() {
         const dx = this.x - mouse.x;
@@ -1424,7 +1460,7 @@
       }
     }
     
-    const particleCount = window.innerWidth < 768 ? 35 : 70;
+    const particleCount = window.innerWidth < 768 ? 55 : 110;
     for (let i = 0; i < particleCount; i++) particles.push(new Particle());
     
     function animate() {
@@ -1540,7 +1576,7 @@
       source: "Pure HTML/CSS/vanilla JS · no frameworks · no build step · Lanyard + Cloudflare Pages",
       built: "100% vanilla. Particles, presence, terminal, themes, easter eggs — all hand-written.",
       how: "Open the source. It's one file. That's the point.",
-      neofetch: "kira@prism\nOS: Portfolio v2.4\nShell: vanilla js\nTheme: black & white (+ accents)\nUptime: since 2026",
+      neofetch: "kira@prism\nOS: Portfolio v2.5\nShell: vanilla js\nTheme: black & white (+ accents)\nUptime: since 2026",
       prism: "discord.gg/NNZVxQzBRS — Support team",
       now: "probably writing luau or tweaking this site",
       matrix: "01001011 01101001 01110010 01100001\nWake up, Kira...",
