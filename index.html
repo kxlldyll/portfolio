@@ -3,1403 +3,492 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kira — Кира</title>
-  <meta name="description" content="Kira (Кира) — Web, Lua & Luau developer. Support at Prism Softworks. Clean code, clean design, a little chaos.">
-  <meta name="theme-color" content="#020202">
-  <meta property="og:title" content="Kira — Кира">
-  <meta property="og:description" content="I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks. Clean code, clean design, a little chaos on the side.">
+  <title>Kira</title>
+  <meta name="description" content="Kira — Web, Lua & Luau. Support at Prism Softworks.">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta property="og:title" content="Kira">
+  <meta property="og:description" content="Web, Lua & Luau. Support at Prism Softworks.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kiraa.pages.dev/">
-  <meta property="og:site_name" content="Kira">
-  <meta property="og:locale" content="en_US">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Kira — Кира">
-  <meta name="twitter:description" content="Web · Lua · Luau · Support @ Prism Softworks">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23020202'/%3E%3Ctext x='50' y='68' font-family='system-ui,sans-serif' font-size='58' font-weight='800' fill='%23f0f0f0' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
-  
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='system-ui' font-size='56' font-weight='700' fill='%23eee' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #020202;
-      --surface: #0b0b0b;
-      --text: #f0f0f0;
-      --muted: #777;
-      --border: rgba(255,255,255,0.07);
-      --gray: #858585;
-      --accent: #ffffff;
-      --accent-dim: rgba(255,255,255,0.1);
+      --bg: #0a0a0a;
+      --surface: #111;
+      --text: #e8e8e8;
+      --muted: #888;
+      --border: rgba(255,255,255,0.08);
+      --hover: rgba(255,255,255,0.04);
     }
-    
-    /* Themes */
-    [data-theme="crimson"] {
-      --accent: #ef4444;
-      --accent-dim: rgba(239,68,68,0.15);
-    }
-    [data-theme="cyan"] {
-      --accent: #22d3ee;
-      --accent-dim: rgba(34,211,238,0.15);
-    }
-    [data-theme="violet"] {
-      --accent: #a78bfa;
-      --accent-dim: rgba(167,139,250,0.15);
-    }
-    [data-theme="emerald"] {
-      --accent: #34d399;
-      --accent-dim: rgba(52,211,153,0.15);
-    }
-    [data-theme="invert"] {
-      --bg: #f5f5f5;
-      --surface: #ffffff;
-      --text: #111;
-      --muted: #555;
-      --border: rgba(0,0,0,0.1);
-      --gray: #666;
-      --accent: #111;
-      --accent-dim: rgba(0,0,0,0.08);
-    }
-    
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Syne', system-ui, sans-serif;
-      overflow-x: hidden;
+      font-family: 'DM Sans', system-ui, sans-serif;
       line-height: 1.6;
-      background-image: 
-        radial-gradient(ellipse 90% 60% at 50% -25%, var(--accent-dim), transparent 70%),
-        radial-gradient(ellipse 50% 40% at 80% 20%, rgba(255,255,255,0.02), transparent);
-      transition: background 0.4s, color 0.4s;
-      cursor: none;
+      -webkit-font-smoothing: antialiased;
     }
+    a { color: inherit; text-decoration: none; }
     
-    /* Custom cursor */
-    .cursor {
-      position: fixed;
-      width: 12px; height: 12px;
-      border: 1.5px solid var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.15s, height 0.15s, border-color 0.3s, background 0.15s;
-      mix-blend-mode: difference;
-    }
-    .cursor.hover {
-      width: 28px; height: 28px;
-      background: var(--accent-dim);
-    }
-    .cursor-dot {
-      position: fixed;
-      width: 4px; height: 4px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: background 0.3s;
-    }
-    @media (max-width: 768px), (pointer: coarse) {
-      body { cursor: auto; }
-      .cursor, .cursor-dot { display: none !important; }
-    }
-    
-    #progress {
-      position: fixed; top: 0; left: 0; height: 2px;
-      background: var(--accent); width: 0%; z-index: 999;
-      transition: width 0.1s linear, background 0.3s;
-    }
-    canvas#bg {
-      position: fixed; inset: 0; z-index: 0;
-      pointer-events: none; opacity: 0.55;
-    }
-    .noise {
-      position: fixed; inset: 0; z-index: 1;
-      pointer-events: none; opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-    
-    /* NAV */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.2rem 2.5rem;
-      background: rgba(5,5,5,0.8);
-      backdrop-filter: blur(16px);
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 2rem;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      transition: background 0.4s, border-color 0.4s;
-    }
-    [data-theme="invert"] nav {
-      background: rgba(245,245,245,0.85);
     }
     .logo {
-      font-weight: 800; font-size: 1.3rem; letter-spacing: -0.03em;
-      background: linear-gradient(135deg, var(--text), var(--muted));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      cursor: pointer; user-select: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
     }
-    .nav-right { display: flex; align-items: center; gap: 1.4rem; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+    }
     .nav-links a {
-      color: var(--muted); text-decoration: none;
-      font-size: 0.8rem; font-weight: 600;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      transition: color 0.25s;
+      font-size: 0.85rem;
+      color: var(--muted);
+      transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
     
-    .settings-wrap {
-      position: relative;
-    }
-    .settings-btn {
-      width: 34px; height: 34px;
-      border-radius: 9px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: all 0.25s;
-    }
-    .settings-btn:hover, .settings-btn.active {
-      color: var(--text);
-      border-color: rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.06);
-    }
-    [data-theme="invert"] .settings-btn {
-      background: rgba(0,0,0,0.04);
-    }
-    [data-theme="invert"] .settings-btn:hover,
-    [data-theme="invert"] .settings-btn.active {
-      background: rgba(0,0,0,0.07);
-      border-color: rgba(0,0,0,0.2);
-    }
-    .settings-btn svg { width: 15px; height: 15px; }
-    
-    .settings-panel {
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      width: 220px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.55);
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-6px) scale(0.98);
-      transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
-      z-index: 120;
-    }
-    .settings-panel.open {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0) scale(1);
-    }
-    .settings-section {
-      margin-bottom: 1rem;
-    }
-    .settings-section:last-child { margin-bottom: 0; }
-    .settings-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gray);
-      margin-bottom: 0.55rem;
-    }
-    .theme-btns {
-      display: flex; gap: 0.45rem; align-items: center;
-    }
-    .theme-btn {
-      width: 22px; height: 22px; border-radius: 50%;
-      border: 2px solid transparent;
-      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-      padding: 0;
-    }
-    .theme-btn:hover { transform: scale(1.12); }
-    .theme-btn.active {
-      border-color: var(--text);
-      box-shadow: 0 0 0 2px var(--bg);
-    }
-    .theme-btn[data-t="default"] { background: #fff; }
-    .theme-btn[data-t="crimson"] { background: #ef4444; }
-    .theme-btn[data-t="cyan"] { background: #22d3ee; }
-    .theme-btn[data-t="violet"] { background: #a78bfa; }
-    .theme-btn[data-t="emerald"] { background: #34d399; }
-    .theme-btn[data-t="invert"] { background: #333; border-color: #666; }
-    
-    .lang-options {
-      display: flex; flex-direction: column; gap: 0.15rem;
-    }
-    .lang-option {
-      background: transparent;
-      border: none;
-      text-align: left;
-      padding: 0.45rem 0.65rem;
-      border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.2s;
-      width: 100%;
-    }
-    .lang-option:hover {
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-    }
-    .lang-option.active {
-      background: rgba(255,255,255,0.08);
-      color: var(--text);
-    }
-    [data-theme="invert"] .lang-option:hover {
-      background: rgba(0,0,0,0.05);
-    }
-    [data-theme="invert"] .lang-option.active {
-      background: rgba(0,0,0,0.08);
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
     }
     
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      background: none; border: none; cursor: pointer;
-      width: 28px; height: 20px; position: relative;
-      z-index: 110;
-    }
-    .hamburger span {
-      display: block; width: 100%; height: 2px;
-      background: var(--text); position: absolute; left: 0;
-      transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
-    }
-    .hamburger span:nth-child(1) { top: 0; }
-    .hamburger span:nth-child(2) { top: 9px; }
-    .hamburger span:nth-child(3) { top: 18px; }
-    .hamburger.active span:nth-child(1) { top: 9px; transform: rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { top: 9px; transform: rotate(-45deg); }
-    
-    .mobile-menu {
-      display: none;
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(5,5,5,0.97); z-index: 105;
-      flex-direction: column; align-items: center; justify-content: center;
-      gap: 2rem;
-    }
-    [data-theme="invert"] .mobile-menu { background: rgba(245,245,245,0.97); }
-    .mobile-menu.active { display: flex; }
-    .mobile-menu a {
-      color: var(--text); text-decoration: none;
-      font-size: 1.4rem; font-weight: 700;
-      letter-spacing: 0.04em; text-transform: uppercase;
-      opacity: 0.85; transition: opacity 0.2s;
-    }
-    .mobile-menu a:hover { opacity: 1; }
-    
-    main { position: relative; z-index: 2; }
-    
-    /* Reveal animations */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    /* HERO */
     .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 6rem 2.5rem 4rem;
-      max-width: 1200px; margin: 0 auto;
-    }
-    .hero-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem; color: var(--gray);
-      margin-bottom: 1.2rem; letter-spacing: 0.05em;
+      padding: 8.5rem 0 4.5rem;
     }
     .hero h1 {
-      font-size: clamp(3.2rem, 8vw, 6.5rem);
-      font-weight: 800; line-height: 0.92;
-      letter-spacing: -0.04em; margin-bottom: 1.2rem;
-    }
-    .hero h1 .grad {
-      background: linear-gradient(120deg, var(--text) 0%, var(--muted) 45%, #555 75%, var(--text) 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      animation: shimmer 6s linear infinite;
+      font-size: clamp(2.6rem, 7vw, 3.6rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 0.9rem;
     }
     .hero-sub {
-      font-size: 1.1rem; color: var(--muted);
-      max-width: 500px; margin-bottom: 1.8rem;
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 440px;
+      margin-bottom: 1.8rem;
     }
-    .presence-box {
-      display: flex; align-items: center; gap: 1rem;
-      margin-bottom: 1rem; padding: 0.9rem 1.2rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border); border-radius: 14px;
-      max-width: 420px;
-      transition: border-color 0.3s, background 0.3s;
+    
+    .presence {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.55rem 0.9rem 0.55rem 0.55rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      margin-bottom: 1.6rem;
     }
-    [data-theme="invert"] .presence-box {
-      background: rgba(0,0,0,0.04);
+    .presence img {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #222;
     }
-    .presence-avatar {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: #222; object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.1);
+    .presence-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.05rem;
     }
-    .presence-info { flex: 1; min-width: 0; }
     .presence-name {
-      font-weight: 700; font-size: 0.95rem;
-      margin-bottom: 0.15rem;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-size: 0.85rem;
+      font-weight: 600;
     }
     .presence-status {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem; color: var(--gray);
-      display: flex; align-items: center; gap: 0.45rem;
-    }
-    .presence-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: #555; flex-shrink: 0;
-    }
-    .presence-dot.online { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
-    .presence-dot.idle { background: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.2); }
-    .presence-dot.dnd { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
-    .presence-dot.offline { background: #6b7280; }
-    .spotify-bar { margin-top: 0.6rem; display: none; }
-    .spotify-bar.active { display: block; }
-    .spotify-track {
-      font-size: 0.78rem; color: #ccc;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    [data-theme="invert"] .spotify-track { color: #444; }
-    .spotify-progress {
-      height: 3px; background: rgba(255,255,255,0.1);
-      border-radius: 2px; margin-top: 0.4rem; overflow: hidden;
-    }
-    .spotify-progress-fill {
-      height: 100%; background: var(--accent); width: 0%;
-      transition: width 1s linear, background 0.3s;
-    }
-    
-    .currently {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; color: var(--gray);
-      margin-bottom: 1.6rem;
-      padding-left: 0.2rem;
-      opacity: 0.85;
-    }
-    .currently span { color: var(--muted); }
-    
-    .hero-cta { display: flex; gap: 0.9rem; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.8rem 1.5rem; border-radius: 999px;
-      font-weight: 700; font-size: 0.88rem;
-      text-decoration: none; transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
-      border: none; cursor: pointer;
-    }
-    .btn-primary { background: var(--accent); color: var(--bg); }
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px var(--accent-dim);
-    }
-    .btn-ghost {
-      background: transparent; color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover {
-      border-color: rgba(255,255,255,0.3);
-      background: rgba(255,255,255,0.04);
-    }
-    [data-theme="invert"] .btn-ghost:hover {
-      border-color: rgba(0,0,0,0.25);
-      background: rgba(0,0,0,0.04);
-    }
-    .btn-copy {
-      background: transparent; border: 1px solid var(--border);
-      color: var(--muted); font-size: 0.75rem;
-      padding: 0.35rem 0.7rem; border-radius: 6px;
-      cursor: pointer; margin-left: 0.5rem;
-    }
-    .btn-copy:hover { color: var(--text); border-color: var(--text); }
-    
-    /* SECTIONS */
-    section {
-      padding: 5.5rem 2.5rem;
-      max-width: 1100px; margin: 0 auto;
-    }
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; color: var(--gray);
-      letter-spacing: 0.12em; text-transform: uppercase;
-      margin-bottom: 0.8rem;
-    }
-    .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800; letter-spacing: -0.03em;
-      margin-bottom: 2.5rem;
-      background: linear-gradient(135deg, var(--text), var(--muted));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    
-    /* ABOUT */
-    .about-grid {
-      display: grid; grid-template-columns: 1fr 1.5fr;
-      gap: 3rem; align-items: start;
-    }
-    .about-visual {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      display: flex; flex-direction: column;
-      transition: background 0.4s, border-color 0.4s;
-    }
-    .window-bar {
-      display: flex; align-items: center; gap: 0.6rem;
-      padding: 0.65rem 1rem;
-      background: #111;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-    [data-theme="invert"] .window-bar { background: #eee; }
-    .window-dots { display: flex; gap: 0.35rem; }
-    .window-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: #333;
-    }
-    .window-dot:nth-child(1) { background: #ff5f57; }
-    .window-dot:nth-child(2) { background: #febc2e; }
-    .window-dot:nth-child(3) { background: #28c840; }
-    .window-title {
-      display: flex; align-items: center; gap: 0.45rem;
-      margin-left: 0.4rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; color: #888;
-    }
-    .window-k {
-      width: 16px; height: 16px; border-radius: 4px;
-      background: #1a1a1a; border: 1px solid rgba(255,255,255,0.12);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; font-weight: 800; color: #ddd;
-    }
-    [data-theme="invert"] .window-k {
-      background: #ddd; border-color: rgba(0,0,0,0.15); color: #222;
-    }
-    .about-visual-body {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-    .about-visual-body::before {
-      content: '';
-      position: absolute; inset: -40%;
-      background: conic-gradient(from 0deg, transparent, var(--accent-dim), transparent 30%);
-      animation: spin 14s linear infinite;
-    }
-    .avatar {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      background: linear-gradient(145deg, #2a2a2a, #111);
-      position: relative; z-index: 2;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.4rem; font-weight: 800; color: #ddd;
-      border: 1px solid rgba(255,255,255,0.1);
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .avatar img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center;
-      border-radius: 50%;
-      display: block;
-    }
-    .about-text p {
-      color: var(--muted); margin-bottom: 1rem; font-size: 1.02rem;
-    }
-    .about-text strong { color: var(--text); }
-    .prism-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      margin-top: 1.2rem; padding: 0.6rem 1.1rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border); border-radius: 10px;
-      text-decoration: none; color: #ccc;
-      font-weight: 600; font-size: 0.88rem;
-      transition: all 0.3s;
-    }
-    [data-theme="invert"] .prism-badge { color: #444; background: rgba(0,0,0,0.03); }
-    .prism-badge:hover {
-      background: rgba(255,255,255,0.07);
-      border-color: rgba(255,255,255,0.2);
-      transform: translateY(-2px);
-    }
-    .prism-badge svg { width: 16px; height: 16px; fill: currentColor; }
-    .stats {
-      display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;
-    }
-    .stat-num {
-      font-size: 1.7rem; font-weight: 800;
-      background: linear-gradient(135deg, var(--text), var(--muted));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .stat-label {
-      font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem;
-    }
-    .code-block {
-      margin-top: 2rem;
-      background: #0a0a0a; border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.2rem 1.4rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem; color: #aaa;
-      overflow: hidden; min-height: 90px;
-      transition: background 0.4s, border-color 0.4s;
-    }
-    [data-theme="invert"] .code-block { background: #f0f0f0; color: #444; }
-    .code-block .cm { color: #555; }
-    
-    /* FEATURED SCRIPT CARD */
-    .script-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.4rem 1.6rem;
-      margin-bottom: 2rem;
-      transition: border-color 0.3s, background 0.3s;
-    }
-    .script-card:hover {
-      border-color: rgba(255,255,255,0.16);
-    }
-    [data-theme="invert"] .script-card:hover {
-      border-color: rgba(0,0,0,0.18);
-    }
-    .script-header {
+      font-size: 0.72rem;
+      color: var(--muted);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.6rem;
-      gap: 1rem;
+      gap: 0.35rem;
     }
-    .script-title {
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #555;
+    }
+    .dot.online { background: #3ecf8e; }
+    .dot.idle { background: #f5a623; }
+    .dot.dnd { background: #ef4444; }
+    .dot.offline { background: #666; }
+    
+    .hero-actions {
       display: flex;
-      align-items: center;
       gap: 0.7rem;
-      font-weight: 700;
-      font-size: 1.05rem;
+      flex-wrap: wrap;
     }
-    .script-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      padding: 0.22rem 0.55rem;
-      border-radius: 6px;
-      background: var(--accent-dim);
-      color: var(--accent);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    [data-theme="invert"] .script-badge {
-      border-color: rgba(0,0,0,0.1);
-    }
-    .script-copy {
+    .btn {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
+      padding: 0.65rem 1.15rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--hover); }
+    
+    section {
+      padding: 3.5rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+    }
+    
+    .about p {
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+      font-size: 1rem;
+    }
+    .about strong { color: var(--text); font-weight: 600; }
+    
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .project {
+      padding: 1.15rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .project:hover {
+      border-color: rgba(255,255,255,0.14);
+      background: #141414;
+    }
+    .project h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .project p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.18rem 0.5rem;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.04);
+      color: #aaa;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    
+    .script-box {
+      margin-top: 1.2rem;
+      padding: 1.1rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .script-box .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+    }
+    .script-code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: #ccc;
+      background: #0d0d0d;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      overflow-x: auto;
+      margin-bottom: 0.7rem;
+      white-space: nowrap;
+    }
+    .script-code .fn { color: #c4b5fd; }
+    .script-code .method { color: #7dd3fc; }
+    .script-code .str { color: #86efac; }
+    .copy-btn {
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
       background: transparent;
       border: 1px solid var(--border);
       color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      padding: 0.4rem 0.75rem;
-      border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .script-copy:hover {
-      color: var(--text);
-      border-color: var(--text);
-      background: rgba(255,255,255,0.04);
-    }
-    .script-copy.copied {
-      color: #22c55e;
-      border-color: #22c55e;
-    }
-    .script-desc {
-      color: var(--muted);
-      font-size: 0.88rem;
-      margin-bottom: 1rem;
-    }
-    .script-code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      line-height: 1.6;
-      background: #0a0a0a;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem 1.2rem;
-      overflow-x: auto;
-      white-space: nowrap;
-      color: #c9d1d9;
-    }
-    [data-theme="invert"] .script-code {
-      background: #f4f4f4;
-      color: #24292f;
-    }
-    .script-code .code-fn { color: #d2a8ff; }      /* purple-ish for functions */
-    .script-code .code-method { color: #79c0ff; }  /* blue for methods */
-    .script-code .code-str { color: #a5d6ff; }     /* light blue for strings */
-    [data-theme="invert"] .script-code .code-fn { color: #8250df; }
-    [data-theme="invert"] .script-code .code-method { color: #0550ae; }
-    [data-theme="invert"] .script-code .code-str { color: #0a3069; }
+    .copy-btn:hover { color: var(--text); border-color: #666; }
+    .copy-btn.copied { color: #3ecf8e; border-color: #3ecf8e; }
     
-    /* PROJECTS */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.2rem;
-    }
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden;
-      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-      cursor: pointer; transform-style: preserve-3d;
-    }
-    .project-card:hover {
-      border-color: rgba(255,255,255,0.18);
-      box-shadow: 0 18px 45px rgba(0,0,0,0.45);
-    }
-    [data-theme="invert"] .project-card:hover {
-      border-color: rgba(0,0,0,0.2);
-      box-shadow: 0 18px 45px rgba(0,0,0,0.12);
-    }
-    
-    /* Improved thumbs */
-    .project-thumb {
-      height: 140px;
-      position: relative;
-      background: linear-gradient(145deg, #141414, #0a0a0a);
-      overflow: hidden;
-      display: flex; flex-direction: column;
-    }
-    [data-theme="invert"] .project-thumb {
-      background: linear-gradient(145deg, #eee, #f8f8f8);
-    }
-    .thumb-bar {
-      display: flex; align-items: center; gap: 0.3rem;
-      padding: 0.45rem 0.7rem;
-      background: rgba(0,0,0,0.4);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.58rem; color: #666;
-    }
-    [data-theme="invert"] .thumb-bar {
-      background: rgba(0,0,0,0.06);
-      color: #999;
-    }
-    .thumb-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: #333;
-    }
-    .thumb-dot:nth-child(1) { background: #ff5f57; }
-    .thumb-dot:nth-child(2) { background: #febc2e; }
-    .thumb-dot:nth-child(3) { background: #28c840; }
-    .thumb-content {
-      flex: 1; padding: 0.7rem 0.85rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem; line-height: 1.45;
-      color: #555;
-      overflow: hidden;
-    }
-    [data-theme="invert"] .thumb-content { color: #999; }
-    .thumb-content .hl { color: #888; }
-    .thumb-content .kw { color: #aaa; }
-    .project-thumb::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, var(--surface), transparent 50%);
-      pointer-events: none;
-    }
-    
-    .project-body { padding: 1.25rem; }
-    .project-body h3 {
-      font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem;
-    }
-    .project-body p {
-      color: var(--muted); font-size: 0.88rem; margin-bottom: 1rem;
-    }
-    .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-    .tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem; padding: 0.22rem 0.55rem;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      color: #bbb; border: 1px solid rgba(255,255,255,0.07);
-    }
-    [data-theme="invert"] .tag {
-      background: rgba(0,0,0,0.04);
-      color: #555; border-color: rgba(0,0,0,0.1);
-    }
-    
-    /* SKILLS */
-    .skills-wrap { display: flex; flex-direction: column; gap: 1.1rem; }
-    .skill-group {
-      display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
-    }
-    .skill-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--gray);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      min-width: 64px;
-      opacity: 0.7;
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
     }
     .skill {
-      padding: 0.45rem 0.95rem; border-radius: 8px;
-      background: var(--surface); border: 1px solid var(--border);
-      font-weight: 600; font-size: 0.84rem;
-      transition: all 0.25s;
-    }
-    .skill:hover {
-      border-color: rgba(255,255,255,0.22);
-      background: rgba(255,255,255,0.04);
-      transform: translateY(-1px);
-    }
-    [data-theme="invert"] .skill:hover {
-      border-color: rgba(0,0,0,0.18);
-      background: rgba(0,0,0,0.04);
-    }
-    
-    /* TERMINAL */
-    .terminal {
-      background: #0a0a0a; border: 1px solid var(--border);
-      border-radius: 12px; overflow: hidden; margin-top: 2rem;
-      transition: background 0.4s, border-color 0.4s;
-    }
-    [data-theme="invert"] .terminal { background: #f0f0f0; }
-    .terminal-bar {
-      background: #111; padding: 0.5rem 1rem;
-      display: flex; gap: 0.4rem;
-      border-bottom: 1px solid var(--border);
-    }
-    [data-theme="invert"] .terminal-bar { background: #e8e8e8; }
-    .terminal-dot {
-      width: 10px; height: 10px; border-radius: 50%; background: #333;
-    }
-    .terminal-body {
-      padding: 1rem 1.2rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      min-height: 160px; max-height: 240px; overflow-y: auto;
-    }
-    .terminal-line { margin-bottom: 0.35rem; color: #aaa; }
-    [data-theme="invert"] .terminal-line { color: #555; }
-    .terminal-line .cmd { color: var(--text); }
-    .terminal-input-line {
-      display: flex; align-items: center; gap: 0.4rem; margin-top: 0.5rem;
-    }
-    .terminal-input-line span { color: #888; }
-    .terminal-input {
-      background: transparent; border: none; outline: none;
-      color: var(--text); font-family: inherit; font-size: inherit; flex: 1;
-    }
-    
-    /* CONTACT */
-    .contact-box {
-      background: linear-gradient(160deg, rgba(255,255,255,0.03), transparent);
-      border: 1px solid var(--border); border-radius: 20px;
-      padding: 3rem; text-align: center;
-    }
-    .contact-box h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-      font-weight: 800; margin-bottom: 0.8rem;
-      background: linear-gradient(135deg, var(--text), var(--muted));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .contact-box p {
-      color: var(--muted); margin-bottom: 1.6rem;
-      max-width: 400px; margin-left: auto; margin-right: auto;
-    }
-    
-    /* BUILT WITH */
-    .built-with {
-      margin-top: 2.5rem;
-      padding: 1.4rem 1.6rem;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.02);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    .built-with strong { color: var(--text); }
-    
-    /* MODAL */
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0);
-      z-index: 200;
-      display: flex; align-items: center; justify-content: center;
-      padding: 1.5rem;
-      backdrop-filter: blur(0px);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.35s cubic-bezier(0.16,1,0.3,1),
-                  visibility 0.35s,
-                  background 0.35s cubic-bezier(0.16,1,0.3,1),
-                  backdrop-filter 0.35s cubic-bezier(0.16,1,0.3,1);
-    }
-    .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
-      background: rgba(0,0,0,0.72);
-      backdrop-filter: blur(10px);
-    }
-    .modal {
+      padding: 0.4rem 0.85rem;
+      border-radius: 7px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      max-width: 520px;
-      width: 100%;
-      padding: 1.8rem 1.9rem 1.7rem;
-      position: relative;
-      transform: scale(0.92) translateY(12px);
-      opacity: 0;
-      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
-                  opacity 0.35s cubic-bezier(0.16,1,0.3,1);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.45);
-    }
-    .modal-overlay.active .modal {
-      transform: scale(1) translateY(0);
-      opacity: 1;
-    }
-    .modal h3 {
-      font-size: 1.35rem;
-      margin-bottom: 0.55rem;
-      padding-right: 2rem;
-    }
-    .modal p {
+      font-size: 0.85rem;
+      font-weight: 500;
       color: var(--muted);
-      margin-bottom: 1.1rem;
-      font-size: 0.95rem;
-      line-height: 1.55;
     }
-    .modal-close {
-      position: absolute;
-      top: 1rem; right: 1rem;
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.04);
+    
+    .contact-box {
+      text-align: center;
+      padding: 2.2rem 1.5rem;
+      background: var(--surface);
       border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
-      line-height: 1;
+      border-radius: 14px;
     }
-    .modal-close:hover {
-      color: var(--text);
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.18);
+    .contact-box h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .contact-box p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.3rem;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     footer {
-      text-align: center; padding: 2.2rem;
-      color: var(--muted); font-size: 0.78rem;
+      text-align: center;
+      padding: 2rem 1.5rem 3rem;
+      color: var(--muted);
+      font-size: 0.78rem;
       border-top: 1px solid var(--border);
-      position: relative; z-index: 2;
     }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
     
-    /* TIMEZONE BAR */
-    .tz-bar {
-      position: fixed; bottom: 1.2rem; left: 50%;
-      transform: translateX(-50%); z-index: 90;
-      display: flex; gap: 0.6rem;
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(12px);
+    .modal-bg {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s;
+    }
+    .modal-bg.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      background: #121212;
       border: 1px solid var(--border);
-      border-radius: 12px; padding: 0.55rem 0.9rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem; color: var(--gray);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-      transition: background 0.4s, border-color 0.4s;
+      border-radius: 14px;
+      max-width: 420px;
+      width: 100%;
+      padding: 1.5rem;
+      position: relative;
+      transform: scale(0.96);
+      transition: transform 0.25s;
     }
-    [data-theme="invert"] .tz-bar {
-      background: rgba(255,255,255,0.9);
+    .modal-bg.open .modal { transform: scale(1); }
+    .modal h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.45rem;
+      padding-right: 1.8rem;
     }
-    .tz-item {
-      display: flex; flex-direction: column;
-      align-items: center; min-width: 52px;
+    .modal p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
     }
-    .tz-label {
-      font-size: 0.58rem; opacity: 0.6;
-      margin-bottom: 0.15rem; letter-spacing: 0.04em;
+    .modal-close {
+      position: absolute;
+      top: 0.9rem; right: 0.9rem;
+      width: 28px; height: 28px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .tz-time { color: var(--text); font-weight: 500; opacity: 0.9; }
+    .modal-close:hover { color: var(--text); background: var(--hover); }
     
-    /* NOTIFS */
-    .notif-container {
-      position: fixed; bottom: 4.5rem; right: 1.2rem;
-      z-index: 95; display: flex; flex-direction: column;
-      gap: 0.6rem; pointer-events: none;
-    }
-    .notif {
-      background: rgba(15,15,15,0.92);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px; padding: 0.75rem 1rem;
-      min-width: 240px; max-width: 290px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.45);
-      transform: translateX(120%); opacity: 0;
-      transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
-      pointer-events: auto; font-size: 0.82rem;
-    }
-    [data-theme="invert"] .notif {
-      background: rgba(255,255,255,0.95);
-      border-color: rgba(0,0,0,0.1);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.12);
-    }
-    .notif.show { transform: translateX(0); opacity: 1; }
-    .notif-header {
-      display: flex; align-items: center; gap: 0.5rem;
-      margin-bottom: 0.25rem; font-weight: 600; font-size: 0.78rem;
-    }
-    .notif-dot {
-      width: 7px; height: 7px; border-radius: 50%; background: #22c55e;
-    }
-    .notif-body { color: var(--muted); font-size: 0.78rem; line-height: 1.4; }
-    .notif-time {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; color: #555; margin-top: 0.3rem;
-    }
-    
-    .ascii {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem; line-height: 1.1;
-      color: rgba(255,255,255,0.08);
-      white-space: pre; text-align: center;
-      margin: 2rem 0 1rem; user-select: none;
-    }
-    [data-theme="invert"] .ascii { color: rgba(0,0,0,0.08); }
-    
-    @keyframes shimmer { to { background-position: 200% center; } }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    
-    @media (max-width: 700px) {
-      .tz-bar {
-        font-size: 0.6rem; padding: 0.4rem 0.6rem;
-        gap: 0.4rem; bottom: 0.8rem;
-      }
-      .tz-item { min-width: 42px; }
-      .notif-container { bottom: 3.8rem; right: 0.8rem; }
-      .notif { min-width: 200px; max-width: 240px; }
-    }
-    
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
       nav { padding: 1rem 1.2rem; }
       .nav-links { display: none; }
-      .settings-wrap { display: none; }
-      .hamburger { display: block; }
-      .hero { padding: 5rem 1.2rem 3rem; }
-      section { padding: 3.5rem 1.2rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 1.8rem; }
-      .contact-box { padding: 2rem 1.2rem; }
+      .hero { padding: 7rem 0 3.5rem; }
+      section { padding: 2.8rem 0; }
     }
   </style>
 </head>
 <body>
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
-  
-  <div id="progress"></div>
-  <canvas id="bg"></canvas>
-  <div class="noise"></div>
-  
   <nav>
-    <div class="logo" id="logo">KIRA</div>
-    <div class="nav-right">
-      <ul class="nav-links">
-        <li><a href="#about" data-i18n="nav_about">About</a></li>
-        <li><a href="#work" data-i18n="nav_work">Work</a></li>
-        <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
-        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-      </ul>
-      
-      <div class="settings-wrap">
-        <button class="settings-btn" id="settingsBtn" aria-label="Settings" title="Settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-          </svg>
-        </button>
-        <div class="settings-panel" id="settingsPanel">
-          <div class="settings-section">
-            <div class="settings-label">Theme</div>
-            <div class="theme-btns">
-              <button class="theme-btn active" data-t="default" aria-label="Default"></button>
-              <button class="theme-btn" data-t="crimson" aria-label="Crimson"></button>
-              <button class="theme-btn" data-t="cyan" aria-label="Cyan"></button>
-              <button class="theme-btn" data-t="violet" aria-label="Violet"></button>
-              <button class="theme-btn" data-t="emerald" aria-label="Emerald"></button>
-              <button class="theme-btn" data-t="invert" aria-label="Invert"></button>
-            </div>
-          </div>
-          <div class="settings-section">
-            <div class="settings-label">Language</div>
-            <div class="lang-options" id="langOptions">
-              <button class="lang-option active" data-lang="en">English</button>
-              <button class="lang-option" data-lang="ru">Русский</button>
-              <button class="lang-option" data-lang="es">Español</button>
-              <button class="lang-option" data-lang="de">Deutsch</button>
-              <button class="lang-option" data-lang="fil">Filipino</button>
-              <button class="lang-option" data-lang="fr">Français</button>
-              <button class="lang-option" data-lang="pt">Português</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+    <div class="logo">Kira</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
   </nav>
-  
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#about" data-i18n="nav_about">About</a>
-    <a href="#work" data-i18n="nav_work">Work</a>
-    <a href="#skills" data-i18n="nav_skills">Skills</a>
-    <a href="#contact" data-i18n="nav_contact">Contact</a>
-  </div>
   
   <main>
     <section class="hero">
-      <div class="hero-tag" data-i18n="hero_tag">// kira · кира · web · lua · luau</div>
-      <h1>Kira<br><span class="grad">Кира</span></h1>
-      <p class="hero-sub" data-i18n="hero_sub">I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks. Clean code, clean design, a little chaos on the side.</p>
+      <h1>Kira</h1>
+      <p class="hero-sub">I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks.</p>
       
-      <div class="presence-box" id="presenceBox">
-        <img class="presence-avatar" id="presenceAvatar" src="" alt="" style="display:none">
+      <div class="presence" id="presence">
+        <img id="avatar" src="" alt="" style="display:none">
         <div class="presence-info">
-          <div class="presence-name" id="presenceName">Kira</div>
+          <div class="presence-name" id="name">Kira</div>
           <div class="presence-status">
-            <div class="presence-dot" id="statusDot"></div>
-            <span id="statusText">loading…</span>
-            <button class="btn-copy" id="copyBtn" title="Copy username">copy</button>
-          </div>
-          <div class="spotify-bar" id="spotifyBar">
-            <div class="spotify-track" id="spotifyTrack"></div>
-            <div class="spotify-progress"><div class="spotify-progress-fill" id="spotifyFill"></div></div>
+            <span class="dot" id="dot"></span>
+            <span id="status">loading…</span>
           </div>
         </div>
       </div>
       
-      <div class="currently" id="currently">
-        <span>currently:</span> <span id="currentlyText">loading…</span>
-        <span style="opacity:0.4;margin:0 0.45rem;">·</span>
-        <span id="viewCountHero" style="opacity:0.75;">—</span> views
-      </div>
-      
-      <div class="hero-cta">
-        <a href="#work" class="btn btn-primary" data-i18n="btn_work">View work</a>
-        <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="btn btn-ghost">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-          Prism Softworks
-        </a>
+      <div class="hero-actions">
+        <a href="#work" class="btn btn-primary">View work</a>
+        <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="btn btn-ghost">Prism Softworks</a>
       </div>
     </section>
     
-    <section id="about" class="reveal">
-      <div class="section-label">01 — About</div>
-      <h2 class="section-title" data-i18n="about_title">Basic on the outside.<br>Complex underneath.</h2>
-      <div class="about-grid">
-        <div class="about-visual">
-          <div class="window-bar">
-            <div class="window-dots">
-              <div class="window-dot"></div>
-              <div class="window-dot"></div>
-              <div class="window-dot"></div>
-            </div>
-            <div class="window-title">
-              <div class="window-k">K</div>
-              <span>kira</span>
-            </div>
+    <section id="about" class="about">
+      <div class="section-title">About</div>
+      <p>I'm <strong>Kira</strong>. I build clean web interfaces and write Lua/Luau for game systems and tools.</p>
+      <p>I do support at <strong>Prism Softworks</strong> — help with tickets, keep the Discord running, that kind of thing.</p>
+      <p>When I'm not coding I'm usually in some Lua script or messing with another dark layout late at night.</p>
+    </section>
+    
+    <section id="work">
+      <div class="section-title">Work</div>
+      <div class="projects">
+        <article class="project" data-title="Custom UI Frameworks" data-desc="Custom Luau UI systems built from scratch with Instance.new and OOP. Draggable menus, themes, config saving. No external UI libraries.">
+          <h3>Custom UI Frameworks</h3>
+          <p>Full Luau UI systems from scratch — draggable, themeable, persistent.</p>
+          <div class="tags">
+            <span class="tag">Luau</span>
+            <span class="tag">UI</span>
+            <span class="tag">OOP</span>
           </div>
-          <div class="about-visual-body">
-            <div class="avatar" id="aboutAvatar">K</div>
+        </article>
+        
+        <article class="project" data-title="Client Systems" data-desc="Silent aim, ESP, hooks, and related client-side tooling for Roblox. Built to work with common executors.">
+          <h3>Client Systems</h3>
+          <p>Silent aim, ESP, hooks and external tooling for Roblox.</p>
+          <div class="tags">
+            <span class="tag">Luau</span>
+            <span class="tag">External</span>
           </div>
+        </article>
+        
+        <article class="project" data-title="Web Interfaces" data-desc="Minimal sites and dashboards with pure HTML, CSS and vanilla JavaScript. No frameworks.">
+          <h3>Web Interfaces</h3>
+          <p>Minimal high-contrast sites with pure HTML/CSS/JS.</p>
+          <div class="tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JS</span>
+          </div>
+        </article>
+        
+        <article class="project" data-title="Discord Tools" data-desc="Bots, slash commands and support helpers for Discord servers.">
+          <h3>Discord Tools</h3>
+          <p>Bots and support utilities for Discord communities.</p>
+          <div class="tags">
+            <span class="tag">JS</span>
+            <span class="tag">Discord</span>
+          </div>
+        </article>
+      </div>
+      
+      <div class="script-box">
+        <div class="label">Universal script · Novoline</div>
+        <div class="script-code">
+          <span class="fn">loadstring</span>(<span class="fn">game</span>:<span class="method">HttpGet</span>(<span class="str">"https://novoline.pro"</span>))()
         </div>
-        <div class="about-text">
-          <p data-i18n="about_p1">I'm <strong>Kira</strong> (Кира). I build clean web interfaces with HTML, CSS & JS, and I write Lua + Luau for game systems, tools, and more experimental stuff.</p>
-          <p data-i18n="about_p2">Support at <strong>Prism Softworks</strong>. I help the community, answer tickets, and keep the Discord running smooth.</p>
-          <p data-i18n="about_p3">When I'm not shipping code I'm usually deep in some Lua script or tweaking another black & white layout at 3am.</p>
-          <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="prism-badge">
-            <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-            Support @ Prism Softworks
-          </a>
-          <div class="stats">
-            <div><div class="stat-num">Web</div><div class="stat-label">HTML · CSS · JS</div></div>
-            <div><div class="stat-num">Lua</div><div class="stat-label" data-i18n="stat_lua">Cheating scripts</div></div>
-            <div><div class="stat-num">Luau</div><div class="stat-label" data-i18n="stat_luau">External + cheating</div></div>
-          </div>
-          <div class="code-block" id="codeBlock">
-            <span id="typedCode"></span><span style="opacity:0.5">_</span>
-          </div>
-        </div>
+        <button class="copy-btn" id="copyScript">Copy loadstring</button>
       </div>
     </section>
     
-    <section id="work" class="reveal">
-      <div class="section-label">02 — Work</div>
-      <h2 class="section-title" data-i18n="work_title">Selected things<br>I've built.</h2>
-      
-      <!-- Featured Universal Script Card -->
-      <div class="script-card reveal" id="scriptCard">
-        <div class="script-header">
-          <div class="script-title">
-            <span class="script-badge">UNIVERSAL</span>
-            <span>Novoline</span>
-          </div>
-          <button class="script-copy" id="copyScriptBtn" title="Copy loadstring">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span id="copyScriptText">Copy</span>
-          </button>
-        </div>
-        <p class="script-desc">Try out the universal script. Loadstring ready — paste into your executor.</p>
-        <div class="script-code" id="scriptCode">
-          <span class="code-fn">loadstring</span>(<span class="code-fn">game</span>:<span class="code-method">HttpGet</span>(<span class="code-str">"https://novoline.pro"</span>))()
-        </div>
-      </div>
-      
-      <div class="projects-grid" id="projectsGrid">
-        
-        <article class="project-card reveal"
-          data-title="Custom UI Frameworks"
-          data-desc="Full custom Luau UI systems built from scratch with Instance.new + OOP. Draggable menus, theme switching (pure black / cyberpunk / crimson), live stats panels, keybinds, notifications, and config persistence via JSON. No external UI libs."
-          data-tags="Luau,UI,OOP,Roblox">
-          <div class="project-thumb">
-            <div class="thumb-bar">
-              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
-              <span style="margin-left:0.4rem">ui_hub.lua</span>
-            </div>
-            <div class="thumb-content">
-              <span class="kw">local</span> UI = {}<br>
-              UI.Theme = <span class="hl">"obsidian"</span><br>
-              UI:CreateToggle(<span class="hl">"Silent Aim"</span>)<br>
-              UI:CreateSlider(<span class="hl">"FOV"</span>, 50, 400)<br>
-              <span class="kw">return</span> UI
-            </div>
-          </div>
-          <div class="project-body">
-            <h3>Custom UI Frameworks</h3>
-            <p>Full custom Luau UI systems from scratch — draggable, themeable, persistent. No Rayfield / Orio.</p>
-            <div class="tags"><span class="tag">Luau</span><span class="tag">UI</span><span class="tag">OOP</span></div>
-          </div>
-        </article>
-        
-        <article class="project-card reveal"
-          data-title="Advanced Client Systems"
-          data-desc="Silent aim with smoothing + FOV scaling, ESP overlays (players/NPCs/bosses), hitbox expansion, Raycast/FireServer hooks, metatable spoofing, and anti-detection patterns. Built for compatibility with popular executors."
-          data-tags="Luau,External,Systems">
-          <div class="project-thumb">
-            <div class="thumb-bar">
-              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
-              <span style="margin-left:0.4rem">aim_engine.lua</span>
-            </div>
-            <div class="thumb-content">
-              <span class="kw">hookfunction</span>(Raycast, fn)<br>
-              target = getClosest(fov)<br>
-              <span class="kw">if</span> target <span class="kw">then</span><br>
-              &nbsp;&nbsp;smooth(camera, target)<br>
-              <span class="kw">end</span>
-            </div>
-          </div>
-          <div class="project-body">
-            <h3>Advanced Client Systems</h3>
-            <p>Silent aim, ESP, hitbox tools, hooks, and anti-detection. Executor-compatible external tooling.</p>
-            <div class="tags"><span class="tag">Luau</span><span class="tag">External</span><span class="tag">Systems</span></div>
-          </div>
-        </article>
-        
-        <article class="project-card reveal"
-          data-title="Web Interfaces"
-          data-desc="Minimal, high-contrast sites and dashboards built with pure HTML, CSS and vanilla JavaScript. This portfolio itself is an example — particles, live presence, multi-language, terminal, zero frameworks."
-          data-tags="HTML,CSS,JS">
-          <div class="project-thumb">
-            <div class="thumb-bar">
-              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
-              <span style="margin-left:0.4rem">index.html</span>
-            </div>
-            <div class="thumb-content">
-              &lt;<span class="kw">canvas</span> id=<span class="hl">"bg"</span>&gt;<br>
-              particles · presence<br>
-              pure vanilla · no libs<br>
-              <span class="hl">kiraa.pages.dev</span>
-            </div>
-          </div>
-          <div class="project-body">
-            <h3>Web Interfaces</h3>
-            <p>Minimal high-contrast sites with pure HTML/CSS/JS. Particles, live presence, terminal — no frameworks.</p>
-            <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
-          </div>
-        </article>
-        
-        <article class="project-card reveal"
-          data-title="Discord Utilities"
-          data-desc="Bots, slash commands, support helpers, and self-bot tooling that keep servers and communities running cleanly. Custom Python + Discord.js work for Prism Softworks and personal use."
-          data-tags="JS,Python,Discord">
-          <div class="project-thumb">
-            <div class="thumb-bar">
-              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
-              <span style="margin-left:0.4rem">bot.js</span>
-            </div>
-            <div class="thumb-content">
-              client.on(<span class="hl">'interaction'</span>)<br>
-              /ticket · /purge<br>
-              support helpers<br>
-              <span class="kw">discord.js</span> + py
-            </div>
-          </div>
-          <div class="project-body">
-            <h3>Discord Utilities</h3>
-            <p>Bots, slash commands and support helpers. Discord.js + Python tooling for servers.</p>
-            <div class="tags"><span class="tag">JS</span><span class="tag">Python</span><span class="tag">Discord</span></div>
-          </div>
-        </article>
-        
-        <article class="project-card reveal"
-          data-title="Experiments"
-          data-desc="Canvas pieces, particle systems, layout studies, and whatever else feels worth building at 3am. This site's particle field and typing effects are part of that playground."
-          data-tags="Canvas,Creative,JS">
-          <div class="project-thumb">
-            <div class="thumb-bar">
-              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
-              <span style="margin-left:0.4rem">particles.js</span>
-            </div>
-            <div class="thumb-content">
-              ctx.arc(x, y, r)<br>
-              requestAnimationFrame<br>
-              mouse repulsion<br>
-              <span class="hl">70 nodes linked</span>
-            </div>
-          </div>
-          <div class="project-body">
-            <h3>Experiments</h3>
-            <p>Canvas, particles, layout studies and late-night creative code. The particle field is one of them.</p>
-            <div class="tags"><span class="tag">Canvas</span><span class="tag">Creative</span><span class="tag">JS</span></div>
-          </div>
-        </article>
-        
+    <section id="skills">
+      <div class="section-title">Skills</div>
+      <div class="skills">
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">Lua</div>
+        <div class="skill">Luau</div>
+        <div class="skill">Roblox</div>
+        <div class="skill">Discord.js</div>
+        <div class="skill">Python</div>
+        <div class="skill">Git</div>
       </div>
     </section>
     
-    <section id="skills" class="reveal">
-      <div class="section-label">03 — Skills</div>
-      <h2 class="section-title" data-i18n="skills_title">What I work with.</h2>
-      <div class="skills-wrap">
-        <div class="skill-group">
-          <div class="skill-label">Web</div>
-          <div class="skill">HTML</div>
-          <div class="skill">CSS</div>
-          <div class="skill">JavaScript</div>
-          <div class="skill">Canvas</div>
-        </div>
-        <div class="skill-group">
-          <div class="skill-label">Lua</div>
-          <div class="skill">Lua</div>
-          <div class="skill">Luau</div>
-          <div class="skill">Roblox</div>
-          <div class="skill">External</div>
-        </div>
-        <div class="skill-group">
-          <div class="skill-label">Tools</div>
-          <div class="skill">Discord.js</div>
-          <div class="skill">Node.js</div>
-          <div class="skill">Python</div>
-          <div class="skill">Git</div>
-          <div class="skill">Support</div>
-        </div>
-      </div>
-      
-      <div class="terminal" id="terminal">
-        <div class="terminal-bar">
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
-        </div>
-        <div class="terminal-body" id="termBody">
-          <div class="terminal-line">kira@prism:~$ <span class="cmd">whoami</span></div>
-          <div class="terminal-line">Kira · Support @ Prism Softworks · Lua / Luau / Web</div>
-          <div class="terminal-line">Type <span class="cmd">help</span> for commands</div>
-          <div class="terminal-input-line">
-            <span>kira@prism:~$</span>
-            <input class="terminal-input" id="termInput" autocomplete="off" spellcheck="false">
-          </div>
-        </div>
-      </div>
-      
-      <div class="built-with reveal">
-        <strong>Built with</strong> pure HTML · CSS · vanilla JS<br>
-        No frameworks · No build step · No dependencies<br>
-        Lanyard for presence · Cloudflare Pages · Syne + JetBrains Mono
-      </div>
-    </section>
-    
-    <section id="contact" class="reveal">
+    <section id="contact">
       <div class="contact-box">
-        <h2 data-i18n="contact_title">Find me on Discord.</h2>
-        <p data-i18n="contact_p">Best place is the Prism Softworks server. I'm support there — feel free to hop in.</p>
-        <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="btn btn-primary">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-          Join Prism Softworks
-        </a>
-        <div style="margin-top:1.4rem;">
-          <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:1px;transition:color 0.2s;">
-            please don’t just say hello → nohello.net
-          </a>
-        </div>
+        <h2>Find me on Discord</h2>
+        <p>Best place is the Prism Softworks server. I'm support there.</p>
+        <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="btn btn-primary">Join Prism Softworks</a>
       </div>
     </section>
   </main>
   
-  <div class="ascii">
- ██╗  ██╗██╗██████╗  █████╗ 
- ██║ ██╔╝██║██╔══██╗██╔══██╗
- █████╔╝ ██║██████╔╝███████║
- ██╔═██╗ ██║██╔══██╗██╔══██║
- ██║  ██╗██║██║  ██║██║  ██║
- ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
-  </div>
-  
-  <div class="tz-bar" id="tzBar">
-    <div class="tz-item"><div class="tz-label">ET</div><div class="tz-time" id="tzET">--:--</div></div>
-    <div class="tz-item"><div class="tz-label">CT</div><div class="tz-time" id="tzCT">--:--</div></div>
-    <div class="tz-item"><div class="tz-label">MT</div><div class="tz-time" id="tzMT">--:--</div></div>
-    <div class="tz-item"><div class="tz-label">PT</div><div class="tz-time" id="tzPT">--:--</div></div>
-    <div class="tz-item"><div class="tz-label">AKT</div><div class="tz-time" id="tzAKT">--:--</div></div>
-    <div class="tz-item"><div class="tz-label">HST</div><div class="tz-time" id="tzHST">--:--</div></div>
-  </div>
-  
-  <div class="notif-container" id="notifContainer"></div>
-  
   <footer>
-    Kira · Кира · Support @ Prism Softworks · 
-    <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">nohello.net</a> · 
-    <span id="viewCount">—</span> views · v2.7 · 2026
+    Kira · Support @ Prism Softworks · 2026
   </footer>
   
-  <div class="modal-overlay" id="modal">
+  <div class="modal-bg" id="modal">
     <div class="modal">
       <button class="modal-close" id="modalClose">×</button>
       <h3 id="modalTitle"></h3>
@@ -1410,458 +499,29 @@
   
   <script>
     const DISCORD_ID = "1505345885242917015";
-    let lang = "en";
     
-    const i18n = {
-      en: {
-        nav_about: "About", nav_work: "Work", nav_skills: "Skills", nav_contact: "Contact",
-        hero_tag: "// kira · кира · web · lua · luau",
-        hero_sub: "I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks. Clean code, clean design, a little chaos on the side.",
-        btn_work: "View work",
-        about_title: "Basic on the outside.<br>Complex underneath.",
-        about_p1: "I'm <strong>Kira</strong> (Кира). I build clean web interfaces with HTML, CSS & JS, and I write Lua + Luau for game systems, tools, and more experimental stuff.",
-        about_p2: "Support at <strong>Prism Softworks</strong>. I help the community, answer tickets, and keep the Discord running smooth.",
-        about_p3: "When I'm not shipping code I'm usually deep in some Lua script or tweaking another black & white layout at 3am.",
-        stat_lua: "Cheating scripts",
-        stat_luau: "External + cheating",
-        work_title: "Selected things<br>I've built.",
-        skills_title: "What I work with.",
-        contact_title: "Find me on Discord.",
-        contact_p: "Best place is the Prism Softworks server. I'm support there — feel free to hop in."
-      },
-      ru: {
-        nav_about: "Обо мне", nav_work: "Работы", nav_skills: "Навыки", nav_contact: "Контакт",
-        hero_tag: "// kira · кира · web · lua · luau",
-        hero_sub: "Пишу HTML, CSS, JS, Lua и Luau. Support в Prism Softworks. Чистый код, чистый дизайн и немного хаоса.",
-        btn_work: "Смотреть работы",
-        about_title: "Простой снаружи.<br>Сложный внутри.",
-        about_p1: "Я <strong>Kira</strong> (Кира). Делаю чистые веб-интерфейсы на HTML, CSS и JS, а также пишу Lua + Luau для игровых систем и инструментов.",
-        about_p2: "Support в <strong>Prism Softworks</strong>. Помогаю сообществу, отвечаю на тикеты и слежу за Discord.",
-        about_p3: "Когда не пишу код — обычно сижу в каком-нибудь Lua-скрипте или кручу чёрно-белый макет в 3 часа ночи.",
-        stat_lua: "Читы / скрипты",
-        stat_luau: "External + читы",
-        work_title: "Некоторые<br>мои работы.",
-        skills_title: "С чем работаю.",
-        contact_title: "Найди меня в Discord.",
-        contact_p: "Лучше всего зайти на сервер Prism Softworks. Я там support — заходи."
-      },
-      es: {
-        nav_about: "Sobre mí", nav_work: "Trabajos", nav_skills: "Habilidades", nav_contact: "Contacto",
-        hero_tag: "// kira · кира · web · lua · luau",
-        hero_sub: "Escribo HTML, CSS, JS, Lua y Luau. Support en Prism Softworks. Código limpio, diseño limpio y un poco de caos.",
-        btn_work: "Ver trabajos",
-        about_title: "Simple por fuera.<br>Complejo por dentro.",
-        about_p1: "Soy <strong>Kira</strong> (Кира). Creo interfaces web limpias con HTML, CSS y JS, y escribo Lua + Luau para sistemas de juegos y herramientas.",
-        about_p2: "Support en <strong>Prism Softworks</strong>. Ayudo a la comunidad, respondo tickets y mantengo el Discord funcionando.",
-        about_p3: "Cuando no estoy programando, normalmente estoy metido en algún script de Lua o ajustando otro diseño en blanco y negro a las 3am.",
-        stat_lua: "Scripts / cheats",
-        stat_luau: "External + cheats",
-        work_title: "Algunas cosas<br>que he creado.",
-        skills_title: "Con lo que trabajo.",
-        contact_title: "Encuéntrame en Discord.",
-        contact_p: "El mejor lugar es el servidor de Prism Softworks. Soy support allí — pásate."
-      },
-      de: {
-        nav_about: "Über mich", nav_work: "Arbeiten", nav_skills: "Fähigkeiten", nav_contact: "Kontakt",
-        hero_tag: "// kira · кира · web · lua · luau",
-        hero_sub: "Ich schreibe HTML, CSS, JS, Lua & Luau. Support bei Prism Softworks. Sauberer Code, sauberes Design, etwas Chaos.",
-        btn_work: "Arbeiten ansehen",
-        about_title: "Einfach von außen.<br>Komplex darunter.",
-        about_p1: "Ich bin <strong>Kira</strong> (Кира). Ich baue saubere Web-Interfaces mit HTML, CSS & JS und schreibe Lua + Luau für Spielsysteme und Tools.",
-        about_p2: "Support bei <strong>Prism Softworks</strong>. Ich helfe der Community, beantworte Tickets und halte den Discord am Laufen.",
-        about_p3: "Wenn ich nicht code, stecke ich meist in irgendeinem Lua-Script oder tweake um 3 Uhr nachts ein weiteres Schwarz-Weiß-Layout.",
-        stat_lua: "Cheating Scripts",
-        stat_luau: "External + Cheating",
-        work_title: "Ausgewählte Dinge,<br>die ich gebaut habe.",
-        skills_title: "Womit ich arbeite.",
-        contact_title: "Finde mich auf Discord.",
-        contact_p: "Am besten auf dem Prism Softworks Server. Ich bin dort Support — schau vorbei."
-      },
-      fil: {
-        nav_about: "Tungkol", nav_work: "Mga Gawa", nav_skills: "Skills", nav_contact: "Contact",
-        hero_tag: "// kira · кира · web · lua · luau",
-        hero_sub: "Gumagawa ako ng HTML, CSS, JS, Lua at Luau. Support sa Prism Softworks. Clean code, clean design, konting chaos.",
-        btn_work: "Tingnan ang gawa",
-        about_title: "Simple sa labas.<br>Complex sa loob.",
-        about_p1: "Ako si <strong>Kira</strong> (Кира). Gumagawa ako ng clean web interfaces gamit ang HTML, CSS & JS, at nagsusulat ng Lua + Luau para sa game systems at tools.",
-        about_p2: "Support sa <strong>Prism Softworks</strong>. Tumutulong ako sa community, sumasagot ng tickets, at pinapanatili ang Discord na maayos.",
-        about_p3: "Kapag hindi ako nagco-code, karaniwang nasa Lua script ako o nagtatweak ng black & white layout nang 3am.",
-        stat_lua: "Cheating scripts",
-        stat_luau: "External + cheating",
-        work_title: "Ilang bagay<br>na nagawa ko.",
-        skills_title: "Mga ginagamit ko.",
-        contact_title: "Hanapin ako sa Discord.",
-        contact_p: "Pinakamaganda sa Prism Softworks server. Support ako doon — punta ka."
-      },
-      fr: {
-        nav_about: "À propos", nav_work: "Travaux", nav_skills: "Compétences", nav_contact: "Contact",
-        hero_tag: "// kira · кира · web · lua · luau",
-        hero_sub: "Je code en HTML, CSS, JS, Lua et Luau. Support chez Prism Softworks. Code propre, design propre, un peu de chaos.",
-        btn_work: "Voir les travaux",
-        about_title: "Simple à l'extérieur.<br>Complexe en dessous.",
-        about_p1: "Je suis <strong>Kira</strong> (Кира). Je crée des interfaces web propres avec HTML, CSS & JS, et j'écris du Lua + Luau pour les systèmes de jeux et outils.",
-        about_p2: "Support chez <strong>Prism Softworks</strong>. J'aide la communauté, réponds aux tickets et garde le Discord fluide.",
-        about_p3: "Quand je ne code pas, je suis souvent dans un script Lua ou en train d'ajuster un autre layout noir et blanc à 3h du matin.",
-        stat_lua: "Scripts / cheats",
-        stat_luau: "External + cheats",
-        work_title: "Quelques choses<br>que j'ai construites.",
-        skills_title: "Avec quoi je travaille.",
-        contact_title: "Retrouve-moi sur Discord.",
-        contact_p: "Le meilleur endroit est le serveur Prism Softworks. Je suis support là-bas — passe."
-      },
-      pt: {
-        nav_about: "Sobre", nav_work: "Trabalhos", nav_skills: "Habilidades", nav_contact: "Contato",
-        hero_tag: "// kira · кира · web · lua · luau",
-        hero_sub: "Eu escrevo HTML, CSS, JS, Lua e Luau. Support na Prism Softworks. Código limpo, design limpo, um pouco de caos.",
-        btn_work: "Ver trabalhos",
-        about_title: "Simples por fora.<br>Complexo por baixo.",
-        about_p1: "Eu sou <strong>Kira</strong> (Кира). Crio interfaces web limpas com HTML, CSS & JS, e escrevo Lua + Luau para sistemas de jogos e ferramentas.",
-        about_p2: "Support na <strong>Prism Softworks</strong>. Ajudo a comunidade, respondo tickets e mantenho o Discord rodando bem.",
-        about_p3: "Quando não estou programando, geralmente estou em algum script de Lua ou ajustando outro layout preto e branco às 3 da manhã.",
-        stat_lua: "Scripts / cheats",
-        stat_luau: "External + cheats",
-        work_title: "Algumas coisas<br>que eu construí.",
-        skills_title: "Com o que eu trabalho.",
-        contact_title: "Me encontra no Discord.",
-        contact_p: "O melhor lugar é o servidor da Prism Softworks. Sou support lá — passa."
-      }
-    };
-    
-    function applyLang() {
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (i18n[lang] && i18n[lang][key]) el.innerHTML = i18n[lang][key];
-      });
-    }
-    
-    // Settings panel toggle
-    const settingsBtn = document.getElementById("settingsBtn");
-    const settingsPanel = document.getElementById("settingsPanel");
-    settingsBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      settingsPanel.classList.toggle("open");
-      settingsBtn.classList.toggle("active");
-    });
-    document.addEventListener("click", (e) => {
-      if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target)) {
-        settingsPanel.classList.remove("open");
-        settingsBtn.classList.remove("active");
-      }
-    });
-    
-    // Language options
-    document.querySelectorAll(".lang-option").forEach(btn => {
-      btn.addEventListener("click", () => {
-        lang = btn.dataset.lang;
-        applyLang();
-        document.querySelectorAll(".lang-option").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        localStorage.setItem("kira-lang", lang);
-        spawnNotif("Language", btn.textContent);
-      });
-    });
-    // restore language
-    const savedLang = localStorage.getItem("kira-lang");
-    if (savedLang && i18n[savedLang]) {
-      lang = savedLang;
-      applyLang();
-      document.querySelectorAll(".lang-option").forEach(b => {
-        b.classList.toggle("active", b.dataset.lang === lang);
-      });
-    }
-    
-    // Theme switcher
-    document.querySelectorAll(".theme-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const t = btn.dataset.t;
-        if (t === "default") {
-          document.documentElement.removeAttribute("data-theme");
-        } else {
-          document.documentElement.setAttribute("data-theme", t);
-        }
-        document.querySelectorAll(".theme-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        localStorage.setItem("kira-theme", t);
-        spawnNotif("Theme", `Switched to ${t === "default" ? "default" : t}`);
-      });
-    });
-    // restore theme
-    const savedTheme = localStorage.getItem("kira-theme") || "default";
-    if (savedTheme !== "default") {
-      document.documentElement.setAttribute("data-theme", savedTheme);
-    }
-    document.querySelectorAll(".theme-btn").forEach(b => {
-      b.classList.toggle("active", b.dataset.t === savedTheme);
-    });
-    
-    // Custom cursor
-    const cursor = document.getElementById("cursor");
-    const cursorDot = document.getElementById("cursorDot");
-    let mouseX = 0, mouseY = 0;
-    document.addEventListener("mousemove", e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.left = mouseX + "px";
-      cursor.style.top = mouseY + "px";
-      cursorDot.style.left = mouseX + "px";
-      cursorDot.style.top = mouseY + "px";
-    });
-    document.querySelectorAll("a, button, .project-card, .skill, .theme-btn, .lang-option, .btn-copy, .settings-btn").forEach(el => {
-      el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
-      el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
-    });
-    
-    // Hamburger
-    const hamburger = document.getElementById("hamburger");
-    const mobileMenu = document.getElementById("mobileMenu");
-    hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("active");
-      mobileMenu.classList.toggle("active");
-      document.body.style.overflow = mobileMenu.classList.contains("active") ? "hidden" : "";
-    });
-    mobileMenu.querySelectorAll("a").forEach(a => {
-      a.addEventListener("click", () => {
-        hamburger.classList.remove("active");
-        mobileMenu.classList.remove("active");
-        document.body.style.overflow = "";
-      });
-    });
-    
-    // Particles
-    const canvas = document.getElementById("bg");
-    const ctx = canvas.getContext("2d");
-    let w, h, particles = [], mouse = { x: -999, y: -999 };
-    
-    function resize() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resize);
-    resize();
-    
-    window.addEventListener("mousemove", e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-    
-    class Particle {
-      constructor() { this.reset(true); }
-      reset(init) {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.vx = (Math.random() - 0.5) * 0.35;
-        this.vy = (Math.random() - 0.5) * 0.35;
-        this.size = Math.random() * 1.1 + 0.25;
-        this.alpha = Math.random() * 0.45 + 0.12;
-      }
-      update() {
-        const dx = this.x - mouse.x;
-        const dy = this.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 140) {
-          this.vx += dx / dist * 0.02;
-          this.vy += dy / dist * 0.02;
-        }
-        this.x += this.vx;
-        this.y += this.vy;
-        this.vx *= 0.99;
-        this.vy *= 0.99;
-        if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        const isInvert = document.documentElement.getAttribute("data-theme") === "invert";
-        ctx.fillStyle = isInvert ? `rgba(0,0,0,${this.alpha * 0.6})` : `rgba(255,255,255,${this.alpha})`;
-        ctx.fill();
-      }
-    }
-    
-    const particleCount = window.innerWidth < 768 ? 55 : 110;
-    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-    
-    function animate() {
-      ctx.clearRect(0, 0, w, h);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            const isInvert = document.documentElement.getAttribute("data-theme") === "invert";
-            ctx.strokeStyle = isInvert 
-              ? `rgba(0,0,0,${0.04 * (1 - dist / 100)})` 
-              : `rgba(255,255,255,${0.05 * (1 - dist / 100)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-    
-    // Progress bar
-    window.addEventListener("scroll", () => {
-      const h = document.documentElement.scrollHeight - window.innerHeight;
-      const p = (window.scrollY / h) * 100;
-      document.getElementById("progress").style.width = p + "%";
-    });
-    
-    // Reveal on scroll
-    const reveals = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-    reveals.forEach(el => observer.observe(el));
-    
-    // Project cards
-    document.querySelectorAll(".project-card").forEach(card => {
-      card.addEventListener("mousemove", e => {
-        const r = card.getBoundingClientRect();
-        const x = e.clientX - r.left;
-        const y = e.clientY - r.top;
-        const rotX = ((y - r.height / 2) / r.height) * -8;
-        const rotY = ((x - r.width / 2) / r.width) * 8;
-        card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
-      });
-      card.addEventListener("mouseleave", () => {
-        card.style.transform = "perspective(800px) rotateX(0) rotateY(0) translateY(0)";
-      });
-      card.addEventListener("click", () => {
-        document.getElementById("modalTitle").textContent = card.dataset.title;
-        document.getElementById("modalDesc").textContent = card.dataset.desc;
-        const tags = card.dataset.tags.split(",");
-        document.getElementById("modalTags").innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join("");
-        document.getElementById("modal").classList.add("active");
-        spawnNotif("Project", `Opened ${card.dataset.title}`);
-      });
-    });
-    
-    document.getElementById("modalClose").addEventListener("click", () => document.getElementById("modal").classList.remove("active"));
-    document.getElementById("modal").addEventListener("click", e => {
-      if (e.target.id === "modal") document.getElementById("modal").classList.remove("active");
-    });
-    
-    // Typing code
-    const codeLines = [
-      'local kira = {',
-      '  role = "support",',
-      '  stack = {"lua", "luau", "web"},',
-      '  vibe = "black & white",',
-      '  chaos = true',
-      '}',
-      'print("hello from kira")'
-    ];
-    let codeIdx = 0, charIdx = 0;
-    const typed = document.getElementById("typedCode");
-    
-    function typeCode() {
-      if (codeIdx >= codeLines.length) return;
-      const line = codeLines[codeIdx];
-      if (charIdx <= line.length) {
-        typed.innerHTML = codeLines.slice(0, codeIdx).join("<br>") + (codeIdx > 0 ? "<br>" : "") + line.slice(0, charIdx);
-        charIdx++;
-        setTimeout(typeCode, 28);
-      } else {
-        codeIdx++;
-        charIdx = 0;
-        setTimeout(typeCode, 180);
-      }
-    }
-    setTimeout(typeCode, 1200);
-    
-    // Terminal
-    const termInput = document.getElementById("termInput");
-    const termBody = document.getElementById("termBody");
-    const commands = {
-      help: "whoami · skills · lua · stack · projects · source · built · neofetch · clear · prism · now · matrix · sudo",
-      whoami: "Kira · Кира · Support @ Prism Softworks",
-      skills: "HTML · CSS · JS · Lua · Luau · Discord · External · Python",
-      lua: "print('cheating scripts & systems')",
-      stack: "web + lua/luau + discord tools + external",
-      projects: "UI frameworks · client systems · web · bots · experiments",
-      source: "Pure HTML/CSS/vanilla JS · no frameworks · no build step · Lanyard + Cloudflare Pages",
-      built: "100% vanilla. Particles, presence, terminal, themes, easter eggs — all hand-written.",
-      how: "Open the source. It's one file. That's the point.",
-      neofetch: "kira@prism\nOS: Portfolio v2.7\nShell: vanilla js\nTheme: black & white (+ accents)\nUptime: since 2026",
-      prism: "discord.gg/NNZVxQzBRS — Support team",
-      now: "probably writing luau or tweaking this site",
-      matrix: "01001011 01101001 01110010 01100001\nWake up, Kira...",
-      sudo: "nice try.",
-      clear: "CLEAR"
-    };
-    
-    termInput.addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        const cmd = termInput.value.trim().toLowerCase();
-        const line = document.createElement("div");
-        line.className = "terminal-line";
-        line.innerHTML = `kira@prism:~$ <span class="cmd">${termInput.value}</span>`;
-        termBody.insertBefore(line, termBody.lastElementChild);
-        
-        const resp = document.createElement("div");
-        resp.className = "terminal-line";
-        
-        if (cmd === "clear") {
-          termBody.querySelectorAll(".terminal-line").forEach(l => l.remove());
-        } else if (commands[cmd]) {
-          resp.innerHTML = commands[cmd].replace(/\n/g, "<br>");
-          termBody.insertBefore(resp, termBody.lastElementChild);
-        } else {
-          resp.textContent = `command not found: ${cmd}`;
-          termBody.insertBefore(resp, termBody.lastElementChild);
-        }
-        termInput.value = "";
-        termBody.scrollTop = termBody.scrollHeight;
-        
-        if (cmd && cmd !== "clear") spawnNotif("Terminal", `Executed: ${cmd}`);
-      }
-    });
-    
-    // Lanyard presence + currently
+    // Presence
     async function loadPresence() {
       try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
         const json = await res.json();
         if (!json.success) {
-          document.getElementById("statusText").textContent = "offline";
-          document.getElementById("currentlyText").textContent = "offline";
+          document.getElementById("status").textContent = "offline";
           return;
         }
         const d = json.data;
         const user = d.discord_user;
-        const name = user.global_name || user.username;
-        document.getElementById("presenceName").textContent = name;
+        document.getElementById("name").textContent = user.global_name || user.username;
         
         const avatar = user.avatar
-          ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
+          ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`
           : `https://cdn.discordapp.com/embed/avatars/0.png`;
-        
-        const img = document.getElementById("presenceAvatar");
+        const img = document.getElementById("avatar");
         img.src = avatar;
         img.style.display = "block";
         
-        const aboutAvatar = document.getElementById("aboutAvatar");
-        if (aboutAvatar && !aboutAvatar.querySelector("img")) {
-          aboutAvatar.innerHTML = "";
-          const aboutImg = document.createElement("img");
-          aboutImg.src = avatar;
-          aboutImg.alt = name;
-          aboutAvatar.appendChild(aboutImg);
-        }
-        
         const status = d.discord_status || "offline";
-        document.getElementById("statusDot").className = "presence-dot " + status;
+        document.getElementById("dot").className = "dot " + status;
         
         let label = status;
         if (d.activities?.length) {
@@ -1869,194 +529,46 @@
           if (act) {
             if (act.type === 0) label = `Playing ${act.name}`;
             else if (act.type === 2) label = `Listening to ${act.name}`;
-            else if (act.type === 3) label = `Watching ${act.name}`;
             else label = act.name || status;
           }
         }
-        document.getElementById("statusText").textContent = label;
-        
-        // Currently from KV or activity
-        let currently = "writing code";
-        if (d.kv?.working || d.kv?.currently || d.kv?.status) {
-          currently = d.kv.working || d.kv.currently || d.kv.status;
-        } else if (d.activities?.length) {
-          const act = d.activities.find(a => a.type === 0);
-          if (act) currently = `playing ${act.name}`;
-          else if (d.listening_to_spotify) currently = "listening to spotify";
-        }
-        document.getElementById("currentlyText").textContent = currently;
-        
-        const bar = document.getElementById("spotifyBar");
-        if (d.listening_to_spotify && d.spotify) {
-          bar.classList.add("active");
-          document.getElementById("spotifyTrack").textContent = `${d.spotify.song} — ${d.spotify.artist}`;
-          const start = d.spotify.timestamps.start;
-          const end = d.spotify.timestamps.end;
-          const updateFill = () => {
-            const now = Date.now();
-            const pct = Math.min(100, Math.max(0, ((now - start) / (end - start)) * 100));
-            document.getElementById("spotifyFill").style.width = pct + "%";
-          };
-          updateFill();
-          clearInterval(window._spotInt);
-          window._spotInt = setInterval(updateFill, 1000);
-        } else {
-          bar.classList.remove("active");
-        }
-        
-        document.getElementById("copyBtn").onclick = () => {
-          navigator.clipboard.writeText(user.username);
-          document.getElementById("copyBtn").textContent = "copied";
-          setTimeout(() => document.getElementById("copyBtn").textContent = "copy", 1500);
-          spawnNotif("Clipboard", "Username copied");
-        };
+        document.getElementById("status").textContent = label;
       } catch {
-        document.getElementById("statusText").textContent = "status unavailable";
-        document.getElementById("currentlyText").textContent = "status unavailable";
+        document.getElementById("status").textContent = "unavailable";
       }
     }
     loadPresence();
-    setInterval(loadPresence, 25000);
+    setInterval(loadPresence, 30000);
     
-    // Live view counter (CountAPI)
-    async function loadViews() {
-      try {
-        const res = await fetch("https://api.countapi.xyz/hit/kiraa.pages.dev/visits");
-        const data = await res.json();
-        if (data && typeof data.value === "number") {
-          const formatted = data.value.toLocaleString();
-          const el = document.getElementById("viewCount");
-          const elHero = document.getElementById("viewCountHero");
-          if (el) el.textContent = formatted;
-          if (elHero) elHero.textContent = formatted;
-        }
-      } catch (e) {
-        // silent fail
-      }
-    }
-    loadViews();
-    
-    // Novoline loadstring copy
-    const SCRIPT_LOADSTRING = 'loadstring(game:HttpGet("https://novoline.pro"))()';
-    const copyScriptBtn = document.getElementById("copyScriptBtn");
-    const copyScriptText = document.getElementById("copyScriptText");
-    if (copyScriptBtn) {
-      copyScriptBtn.addEventListener("click", () => {
-        navigator.clipboard.writeText(SCRIPT_LOADSTRING).then(() => {
-          copyScriptBtn.classList.add("copied");
-          copyScriptText.textContent = "Copied";
-          spawnNotif("Script", "Loadstring copied to clipboard");
-          setTimeout(() => {
-            copyScriptBtn.classList.remove("copied");
-            copyScriptText.textContent = "Copy";
-          }, 1800);
-        }).catch(() => {
-          // fallback
-          const ta = document.createElement("textarea");
-          ta.value = SCRIPT_LOADSTRING;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          document.body.removeChild(ta);
-          copyScriptText.textContent = "Copied";
-          setTimeout(() => copyScriptText.textContent = "Copy", 1800);
-        });
+    // Projects modal
+    document.querySelectorAll(".project").forEach(card => {
+      card.addEventListener("click", () => {
+        document.getElementById("modalTitle").textContent = card.dataset.title;
+        document.getElementById("modalDesc").textContent = card.dataset.desc;
+        const tags = card.querySelectorAll(".tag");
+        document.getElementById("modalTags").innerHTML = Array.from(tags).map(t => t.outerHTML).join("");
+        document.getElementById("modal").classList.add("open");
       });
-    }
-    
-    // Keyboard focus terminal
-    document.addEventListener("keydown", e => {
-      if (e.key === "`") {
-        document.getElementById("termInput")?.focus();
-      }
+    });
+    document.getElementById("modalClose").addEventListener("click", () => {
+      document.getElementById("modal").classList.remove("open");
+    });
+    document.getElementById("modal").addEventListener("click", e => {
+      if (e.target.id === "modal") document.getElementById("modal").classList.remove("open");
     });
     
-    // Konami code
-    const konami = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
-    let konamiIdx = 0;
-    document.addEventListener("keydown", e => {
-      if (e.key === konami[konamiIdx]) {
-        konamiIdx++;
-        if (konamiIdx === konami.length) {
-          konamiIdx = 0;
-          document.documentElement.setAttribute("data-theme", "crimson");
-          spawnNotif("System", "Konami unlocked · crimson mode");
-          for (let i = 0; i < 5; i++) setTimeout(() => spawnNotif("Kira", "chaos protocol engaged"), i * 400);
-        }
-      } else {
-        konamiIdx = 0;
-      }
+    // Copy loadstring
+    const LOADSTRING = 'loadstring(game:HttpGet("https://novoline.pro"))()';
+    document.getElementById("copyScript").addEventListener("click", function() {
+      navigator.clipboard.writeText(LOADSTRING).then(() => {
+        this.textContent = "Copied";
+        this.classList.add("copied");
+        setTimeout(() => {
+          this.textContent = "Copy loadstring";
+          this.classList.remove("copied");
+        }, 1600);
+      });
     });
-    
-    // Logo click easter egg
-    let logoClicks = 0;
-    document.getElementById("logo").addEventListener("click", () => {
-      logoClicks++;
-      if (logoClicks === 5) {
-        logoClicks = 0;
-        spawnNotif("Kira", "you found the secret");
-        console.log("%cKIRA", "font-size:40px;font-weight:900;color:#fff;background:#111;padding:12px 24px;");
-      }
-    });
-    
-    console.log("%cKira / Кира", "font-size:20px;font-weight:bold;color:#fff;background:#111;padding:8px 16px;");
-    console.log("%cSupport @ Prism Softworks · Lua · Luau · Web", "color:#888;");
-    console.log("%cYou found the console. Nice. Try the Konami code.", "color:#555;");
-    
-    // Timezones
-    function updateTimezones() {
-      const now = new Date();
-      const opts = { hour: '2-digit', minute: '2-digit', hour12: false };
-      document.getElementById('tzET').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/New_York' });
-      document.getElementById('tzCT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Chicago' });
-      document.getElementById('tzMT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Denver' });
-      document.getElementById('tzPT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Los_Angeles' });
-      document.getElementById('tzAKT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Anchorage' });
-      document.getElementById('tzHST').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'Pacific/Honolulu' });
-    }
-    updateTimezones();
-    setInterval(updateTimezones, 1000);
-    
-    // Notifs
-    const notifMessages = [
-      { title: "Support", body: "New ticket received in Prism Softworks" },
-      { title: "Lua", body: "Script compiled successfully" },
-      { title: "System", body: "External connection established" },
-      { title: "Discord", body: "Someone mentioned you in chat" },
-      { title: "Luau", body: "Roblox instance detected" },
-      { title: "Kira", body: "Portfolio viewed from a new location" },
-      { title: "Status", body: "Presence updated via Lanyard" },
-      { title: "Git", body: "Push to main completed" },
-      { title: "Terminal", body: "Command executed successfully" },
-      { title: "Web", body: "New visitor on the site" }
-    ];
-    
-    function spawnNotif(title, body) {
-      const container = document.getElementById('notifContainer');
-      if (container.children.length >= 3) return;
-      const el = document.createElement('div');
-      el.className = 'notif';
-      const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-      el.innerHTML = `
-        <div class="notif-header"><div class="notif-dot"></div>${title || "System"}</div>
-        <div class="notif-body">${body || notifMessages[Math.floor(Math.random() * notifMessages.length)].body}</div>
-        <div class="notif-time">${time}</div>
-      `;
-      container.appendChild(el);
-      requestAnimationFrame(() => el.classList.add('show'));
-      setTimeout(() => {
-        el.classList.remove('show');
-        setTimeout(() => el.remove(), 500);
-      }, 4500 + Math.random() * 1500);
-    }
-    
-    // random ambient notifs
-    setTimeout(() => {
-      spawnNotif();
-      setInterval(() => {
-        if (Math.random() > 0.55) spawnNotif();
-      }, 12000 + Math.random() * 10000);
-    }, 4000);
   </script>
 </body>
 </html>
