@@ -836,6 +836,8 @@
       
       <div class="currently" id="currently">
         <span>currently:</span> <span id="currentlyText">loading…</span>
+        <span style="opacity:0.4;margin:0 0.45rem;">·</span>
+        <span id="viewCountHero" style="opacity:0.75;">—</span> views
       </div>
       
       <div class="hero-cta">
@@ -1095,7 +1097,8 @@
   
   <footer>
     Kira · Кира · Support @ Prism Softworks · 
-    <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">nohello.net</a> · v2.3 · 2026
+    <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">nohello.net</a> · 
+    <span id="viewCount">—</span> views · v2.4 · 2026
   </footer>
   
   <div class="modal-overlay" id="modal">
@@ -1424,7 +1427,7 @@
       source: "Pure HTML/CSS/vanilla JS · no frameworks · no build step · Lanyard + Cloudflare Pages",
       built: "100% vanilla. Particles, presence, terminal, themes, easter eggs — all hand-written.",
       how: "Open the source. It's one file. That's the point.",
-      neofetch: "kira@prism\nOS: Portfolio v2.3\nShell: vanilla js\nTheme: black & white (+ accents)\nUptime: since 2026",
+      neofetch: "kira@prism\nOS: Portfolio v2.4\nShell: vanilla js\nTheme: black & white (+ accents)\nUptime: since 2026",
       prism: "discord.gg/NNZVxQzBRS — Support team",
       now: "probably writing luau or tweaking this site",
       matrix: "01001011 01101001 01110010 01100001\nWake up, Kira...",
@@ -1548,6 +1551,24 @@
     }
     loadPresence();
     setInterval(loadPresence, 25000);
+    
+    // Live view counter (CountAPI)
+    async function loadViews() {
+      try {
+        const res = await fetch("https://api.countapi.xyz/hit/kiraa.pages.dev/visits");
+        const data = await res.json();
+        if (data && typeof data.value === "number") {
+          const formatted = data.value.toLocaleString();
+          const el = document.getElementById("viewCount");
+          const elHero = document.getElementById("viewCountHero");
+          if (el) el.textContent = formatted;
+          if (elHero) elHero.textContent = formatted;
+        }
+      } catch (e) {
+        // silent fail
+      }
+    }
+    loadViews();
     
     // Keyboard focus terminal
     document.addEventListener("keydown", e => {
