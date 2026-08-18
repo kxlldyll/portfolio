@@ -5,27 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kira — Кира</title>
   <meta name="description" content="Kira (Кира) — Web, Lua & Luau developer. Support at Prism Softworks. Clean code, clean design, a little chaos.">
-  <meta name="theme-color" content="#050505">
-  
-  <!-- Open Graph -->
+  <meta name="theme-color" content="#020202">
   <meta property="og:title" content="Kira — Кира">
   <meta property="og:description" content="I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks. Clean code, clean design, a little chaos on the side.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kiraa.pages.dev/">
   <meta property="og:site_name" content="Kira">
   <meta property="og:locale" content="en_US">
-  
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Kira — Кира">
   <meta name="twitter:description" content="Web · Lua · Luau · Support @ Prism Softworks">
-  
-  <!-- Favicon (SVG K) -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23050505'/%3E%3Ctext x='50' y='68' font-family='system-ui,sans-serif' font-size='58' font-weight='800' fill='%23f0f0f0' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23020202'/%3E%3Ctext x='50' y='68' font-family='system-ui,sans-serif' font-size='58' font-weight='800' fill='%23f0f0f0' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   
   <style>
     :root {
@@ -47,6 +41,14 @@
     [data-theme="cyan"] {
       --accent: #22d3ee;
       --accent-dim: rgba(34,211,238,0.15);
+    }
+    [data-theme="violet"] {
+      --accent: #a78bfa;
+      --accent-dim: rgba(167,139,250,0.15);
+    }
+    [data-theme="emerald"] {
+      --accent: #34d399;
+      --accent-dim: rgba(52,211,153,0.15);
     }
     [data-theme="invert"] {
       --bg: #f5f5f5;
@@ -227,6 +229,8 @@
     .theme-btn[data-t="default"] { background: #fff; }
     .theme-btn[data-t="crimson"] { background: #ef4444; }
     .theme-btn[data-t="cyan"] { background: #22d3ee; }
+    .theme-btn[data-t="violet"] { background: #a78bfa; }
+    .theme-btn[data-t="emerald"] { background: #34d399; }
     .theme-btn[data-t="invert"] { background: #333; border-color: #666; }
     
     .lang-options {
@@ -505,18 +509,22 @@
       animation: spin 14s linear infinite;
     }
     .avatar {
-      width: 58%; height: 58%;
+      width: 120px; height: 120px;
       border-radius: 50%;
       background: linear-gradient(145deg, #2a2a2a, #111);
       position: relative; z-index: 2;
       display: flex; align-items: center; justify-content: center;
-      font-size: 2.8rem; font-weight: 800; color: #ddd;
+      font-size: 2.4rem; font-weight: 800; color: #ddd;
       border: 1px solid rgba(255,255,255,0.1);
       overflow: hidden;
+      flex-shrink: 0;
     }
     .avatar img {
-      width: 100%; height: 100%; object-fit: cover;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
       border-radius: 50%;
+      display: block;
     }
     .about-text p {
       color: var(--muted); margin-bottom: 1rem; font-size: 1.02rem;
@@ -841,24 +849,72 @@
     /* MODAL */
     .modal-overlay {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.75); z-index: 200;
-      display: none; align-items: center; justify-content: center;
-      padding: 1.5rem; backdrop-filter: blur(6px);
+      background: rgba(0,0,0,0);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      backdrop-filter: blur(0px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s cubic-bezier(0.16,1,0.3,1),
+                  visibility 0.35s,
+                  background 0.35s cubic-bezier(0.16,1,0.3,1),
+                  backdrop-filter 0.35s cubic-bezier(0.16,1,0.3,1);
     }
-    .modal-overlay.active { display: flex; }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
+    }
     .modal {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; max-width: 480px; width: 100%;
-      padding: 2rem; position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      max-width: 520px;
+      width: 100%;
+      padding: 1.8rem 1.9rem 1.7rem;
+      position: relative;
+      transform: scale(0.92) translateY(12px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
+                  opacity 0.35s cubic-bezier(0.16,1,0.3,1);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.45);
     }
-    .modal h3 { font-size: 1.4rem; margin-bottom: 0.6rem; }
-    .modal p { color: var(--muted); margin-bottom: 1.2rem; font-size: 0.95rem; }
+    .modal-overlay.active .modal {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+    .modal h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.55rem;
+      padding-right: 2rem;
+    }
+    .modal p {
+      color: var(--muted);
+      margin-bottom: 1.1rem;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
     .modal-close {
-      position: absolute; top: 1rem; right: 1rem;
-      background: transparent; border: none;
-      color: #888; font-size: 1.4rem; cursor: pointer;
+      position: absolute;
+      top: 1rem; right: 1rem;
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      line-height: 1;
     }
-    .modal-close:hover { color: var(--text); }
+    .modal-close:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.18);
+    }
     
     footer {
       text-align: center; padding: 2.2rem;
@@ -995,6 +1051,8 @@
               <button class="theme-btn active" data-t="default" aria-label="Default"></button>
               <button class="theme-btn" data-t="crimson" aria-label="Crimson"></button>
               <button class="theme-btn" data-t="cyan" aria-label="Cyan"></button>
+              <button class="theme-btn" data-t="violet" aria-label="Violet"></button>
+              <button class="theme-btn" data-t="emerald" aria-label="Emerald"></button>
               <button class="theme-btn" data-t="invert" aria-label="Invert"></button>
             </div>
           </div>
@@ -1006,6 +1064,8 @@
               <button class="lang-option" data-lang="es">Español</button>
               <button class="lang-option" data-lang="de">Deutsch</button>
               <button class="lang-option" data-lang="fil">Filipino</button>
+              <button class="lang-option" data-lang="fr">Français</button>
+              <button class="lang-option" data-lang="pt">Português</button>
             </div>
           </div>
         </div>
@@ -1336,7 +1396,7 @@
   <footer>
     Kira · Кира · Support @ Prism Softworks · 
     <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">nohello.net</a> · 
-    <span id="viewCount">—</span> views · v2.6 · 2026
+    <span id="viewCount">—</span> views · v2.7 · 2026
   </footer>
   
   <div class="modal-overlay" id="modal">
@@ -1432,6 +1492,38 @@
         skills_title: "Mga ginagamit ko.",
         contact_title: "Hanapin ako sa Discord.",
         contact_p: "Pinakamaganda sa Prism Softworks server. Support ako doon — punta ka."
+      },
+      fr: {
+        nav_about: "À propos", nav_work: "Travaux", nav_skills: "Compétences", nav_contact: "Contact",
+        hero_tag: "// kira · кира · web · lua · luau",
+        hero_sub: "Je code en HTML, CSS, JS, Lua et Luau. Support chez Prism Softworks. Code propre, design propre, un peu de chaos.",
+        btn_work: "Voir les travaux",
+        about_title: "Simple à l'extérieur.<br>Complexe en dessous.",
+        about_p1: "Je suis <strong>Kira</strong> (Кира). Je crée des interfaces web propres avec HTML, CSS & JS, et j'écris du Lua + Luau pour les systèmes de jeux et outils.",
+        about_p2: "Support chez <strong>Prism Softworks</strong>. J'aide la communauté, réponds aux tickets et garde le Discord fluide.",
+        about_p3: "Quand je ne code pas, je suis souvent dans un script Lua ou en train d'ajuster un autre layout noir et blanc à 3h du matin.",
+        stat_lua: "Scripts / cheats",
+        stat_luau: "External + cheats",
+        work_title: "Quelques choses<br>que j'ai construites.",
+        skills_title: "Avec quoi je travaille.",
+        contact_title: "Retrouve-moi sur Discord.",
+        contact_p: "Le meilleur endroit est le serveur Prism Softworks. Je suis support là-bas — passe."
+      },
+      pt: {
+        nav_about: "Sobre", nav_work: "Trabalhos", nav_skills: "Habilidades", nav_contact: "Contato",
+        hero_tag: "// kira · кира · web · lua · luau",
+        hero_sub: "Eu escrevo HTML, CSS, JS, Lua e Luau. Support na Prism Softworks. Código limpo, design limpo, um pouco de caos.",
+        btn_work: "Ver trabalhos",
+        about_title: "Simples por fora.<br>Complexo por baixo.",
+        about_p1: "Eu sou <strong>Kira</strong> (Кира). Crio interfaces web limpas com HTML, CSS & JS, e escrevo Lua + Luau para sistemas de jogos e ferramentas.",
+        about_p2: "Support na <strong>Prism Softworks</strong>. Ajudo a comunidade, respondo tickets e mantenho o Discord rodando bem.",
+        about_p3: "Quando não estou programando, geralmente estou em algum script de Lua ou ajustando outro layout preto e branco às 3 da manhã.",
+        stat_lua: "Scripts / cheats",
+        stat_luau: "External + cheats",
+        work_title: "Algumas coisas<br>que eu construí.",
+        skills_title: "Com o que eu trabalho.",
+        contact_title: "Me encontra no Discord.",
+        contact_p: "O melhor lugar é o servidor da Prism Softworks. Sou support lá — passa."
       }
     };
     
@@ -1701,7 +1793,7 @@
       source: "Pure HTML/CSS/vanilla JS · no frameworks · no build step · Lanyard + Cloudflare Pages",
       built: "100% vanilla. Particles, presence, terminal, themes, easter eggs — all hand-written.",
       how: "Open the source. It's one file. That's the point.",
-      neofetch: "kira@prism\nOS: Portfolio v2.5\nShell: vanilla js\nTheme: black & white (+ accents)\nUptime: since 2026",
+      neofetch: "kira@prism\nOS: Portfolio v2.7\nShell: vanilla js\nTheme: black & white (+ accents)\nUptime: since 2026",
       prism: "discord.gg/NNZVxQzBRS — Support team",
       now: "probably writing luau or tweaking this site",
       matrix: "01001011 01101001 01110010 01100001\nWake up, Kira...",
