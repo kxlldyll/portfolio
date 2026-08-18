@@ -1,1204 +1,1277 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kira — Кира</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #050505;
-  --surface: #0d0d0d;
-  --text: #f0f0f0;
-  --muted: #777;
-  --border: rgba(255,255,255,0.08);
-  --gray: #a0a0a0;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Syne', system-ui, sans-serif;
-  overflow-x: hidden;
-  line-height: 1.6;
-  background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255,255,255,0.05), transparent);
-}
-#progress {
-  position: fixed;
-  top: 0; left: 0;
-  height: 2px;
-  background: #fff;
-  width: 0%;
-  z-index: 999;
-  transition: width 0.1s linear;
-}
-canvas#bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.55;
-}
-.noise {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.2rem 2.5rem;
-  background: rgba(5,5,5,0.8);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-}
-.logo {
-  font-weight: 800;
-  font-size: 1.3rem;
-  letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #fff, #888);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.nav-right { display: flex; align-items: center; gap: 1.8rem; }
-.nav-links { display: flex; gap: 2rem; list-style: none; }
-.nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: color 0.25s;
-}
-.nav-links a:hover { color: #fff; }
-.lang-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  padding: 0.35rem 0.7rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.25s;
-}
-.lang-btn:hover { border-color: #fff; color: #fff; }
-main { position: relative; z-index: 2; }
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 6rem 2.5rem 4rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.hero-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--gray);
-  margin-bottom: 1.2rem;
-  letter-spacing: 0.05em;
-}
-.hero h1 {
-  font-size: clamp(3.2rem, 8vw, 6.5rem);
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-  margin-bottom: 1.2rem;
-}
-.hero h1 .grad {
-  background: linear-gradient(120deg, #fff 0%, #aaa 45%, #555 75%, #fff 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 6s linear infinite;
-}
-.hero-sub {
-  font-size: 1.1rem;
-  color: var(--muted);
-  max-width: 500px;
-  margin-bottom: 1.8rem;
-}
-.presence-box {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.8rem;
-  padding: 0.9rem 1.2rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  max-width: 420px;
-}
-.presence-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #222;
-  object-fit: cover;
-  border: 2px solid rgba(255,255,255,0.1);
-}
-.presence-info { flex: 1; min-width: 0; }
-.presence-name {
-  font-weight: 700;
-  font-size: 0.95rem;
-  margin-bottom: 0.15rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.presence-status {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--gray);
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-.presence-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #555;
-  flex-shrink: 0;
-}
-.presence-dot.online { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
-.presence-dot.idle { background: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.2); }
-.presence-dot.dnd { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
-.presence-dot.offline { background: #6b7280; }
-.spotify-bar {
-  margin-top: 0.6rem;
-  display: none;
-}
-.spotify-bar.active { display: block; }
-.spotify-track {
-  font-size: 0.78rem;
-  color: #ccc;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.spotify-progress {
-  height: 3px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 2px;
-  margin-top: 0.4rem;
-  overflow: hidden;
-}
-.spotify-progress-fill {
-  height: 100%;
-  background: #fff;
-  width: 0%;
-  transition: width 1s linear;
-}
-.hero-cta { display: flex; gap: 0.9rem; flex-wrap: wrap; }
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem 1.5rem;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 0.88rem;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
-  border: none;
-  cursor: pointer;
-}
-.btn-primary { background: #fff; color: #000; }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,255,255,0.12); }
-.btn-ghost {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-.btn-ghost:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); }
-.btn-copy {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 0.75rem;
-  padding: 0.35rem 0.7rem;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-left: 0.5rem;
-}
-.btn-copy:hover { color: #fff; border-color: #fff; }
-section {
-  padding: 5.5rem 2.5rem;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.section-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  color: var(--gray);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 0.8rem;
-}
-.section-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  margin-bottom: 2.5rem;
-  background: linear-gradient(135deg, #fff, #777);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 3rem;
-  align-items: start;
-}
-.about-visual {
-  position: relative;
-  aspect-ratio: 1;
-  border-radius: 18px;
-  background: linear-gradient(160deg, #1a1a1a, #0a0a0a);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.about-visual::before {
-  content: '';
-  position: absolute;
-  inset: -40%;
-  background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent 30%);
-  animation: spin 14s linear infinite;
-}
-.avatar {
-  width: 65%;
-  height: 65%;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #2a2a2a, #111);
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  font-weight: 800;
-  color: #ddd;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 1.02rem; }
-.about-text strong { color: var(--text); }
-.prism-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1.2rem;
-  padding: 0.6rem 1.1rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  text-decoration: none;
-  color: #ccc;
-  font-weight: 600;
-  font-size: 0.88rem;
-  transition: all 0.3s;
-}
-.prism-badge:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
-.prism-badge svg { width: 16px; height: 16px; fill: currentColor; }
-.stats { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
-.stat-num {
-  font-size: 1.7rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #fff, #666);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
-.code-block {
-  margin-top: 2rem;
-  background: #0a0a0a;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.2rem 1.4rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
-  color: #aaa;
-  overflow: hidden;
-  min-height: 90px;
-}
-.code-block .cm { color: #555; }
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.2rem;
-}
-.project-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-  cursor: pointer;
-  transform-style: preserve-3d;
-}
-.project-card:hover {
-  border-color: rgba(255,255,255,0.18);
-  box-shadow: 0 18px 45px rgba(0,0,0,0.45);
-}
-.project-thumb {
-  height: 130px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  background: linear-gradient(145deg, #1c1c1c, #0e0e0e);
-}
-.project-thumb span {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.12);
-  text-transform: uppercase;
-}
-.project-thumb::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, var(--surface), transparent 55%);
-}
-.project-body { padding: 1.25rem; }
-.project-body h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; }
-.project-body p { color: var(--muted); font-size: 0.88rem; margin-bottom: 1rem; }
-.tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-.tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  padding: 0.22rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.04);
-  color: #bbb;
-  border: 1px solid rgba(255,255,255,0.07);
-}
-.skills-wrap { display: flex; flex-wrap: wrap; gap: 0.65rem; }
-.skill {
-  padding: 0.6rem 1.1rem;
-  border-radius: 9px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  font-weight: 600;
-  font-size: 0.88rem;
-  transition: all 0.25s;
-}
-.skill:hover {
-  border-color: rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.04);
-  transform: scale(1.04);
-}
-.terminal {
-  background: #0a0a0a;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-top: 2rem;
-}
-.terminal-bar {
-  background: #111;
-  padding: 0.5rem 1rem;
-  display: flex;
-  gap: 0.4rem;
-  border-bottom: 1px solid var(--border);
-}
-.terminal-dot { width: 10px; height: 10px; border-radius: 50%; background: #333; }
-.terminal-body {
-  padding: 1rem 1.2rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
-  min-height: 160px;
-  max-height: 220px;
-  overflow-y: auto;
-}
-.terminal-line { margin-bottom: 0.35rem; color: #aaa; }
-.terminal-line .cmd { color: #fff; }
-.terminal-input-line {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.5rem;
-}
-.terminal-input-line span { color: #888; }
-.terminal-input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-family: inherit;
-  font-size: inherit;
-  flex: 1;
-}
-.contact-box {
-  background: linear-gradient(160deg, rgba(255,255,255,0.03), transparent);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 3rem;
-  text-align: center;
-}
-.contact-box h2 {
-  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-  font-weight: 800;
-  margin-bottom: 0.8rem;
-  background: linear-gradient(135deg, #fff, #777);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.contact-box p { color: var(--muted); margin-bottom: 1.6rem; max-width: 400px; margin-left: auto; margin-right: auto; }
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 200;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  backdrop-filter: blur(6px);
-}
-.modal-overlay.active { display: flex; }
-.modal {
-  background: #0d0d0d;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  max-width: 480px;
-  width: 100%;
-  padding: 2rem;
-  position: relative;
-}
-.modal h3 { font-size: 1.4rem; margin-bottom: 0.6rem; }
-.modal p { color: var(--muted); margin-bottom: 1.2rem; font-size: 0.95rem; }
-.modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: transparent;
-  border: none;
-  color: #888;
-  font-size: 1.4rem;
-  cursor: pointer;
-}
-.modal-close:hover { color: #fff; }
-footer {
-  text-align: center;
-  padding: 2.2rem;
-  color: var(--muted);
-  font-size: 0.78rem;
-  border-top: 1px solid var(--border);
-  position: relative;
-  z-index: 2;
-}
-.tz-bar {
-  position: fixed;
-  bottom: 1.2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 90;
-  display: flex;
-  gap: 0.6rem;
-  background: rgba(10,10,10,0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 0.55rem 0.9rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  color: var(--gray);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-}
-.tz-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 52px;
-}
-.tz-label { font-size: 0.58rem; opacity: 0.6; margin-bottom: 0.15rem; letter-spacing: 0.04em; }
-.tz-time { color: #ddd; font-weight: 500; }
-.notif-container {
-  position: fixed;
-  bottom: 4.5rem;
-  right: 1.2rem;
-  z-index: 95;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  pointer-events: none;
-}
-.notif {
-  background: rgba(15,15,15,0.92);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 12px;
-  padding: 0.75rem 1rem;
-  min-width: 240px;
-  max-width: 290px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.45);
-  transform: translateX(120%);
-  opacity: 0;
-  transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
-  pointer-events: auto;
-  font-size: 0.82rem;
-}
-.notif.show {
-  transform: translateX(0);
-  opacity: 1;
-}
-.notif-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.25rem;
-  font-weight: 600;
-  font-size: 0.78rem;
-}
-.notif-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #22c55e;
-}
-.notif-body { color: var(--muted); font-size: 0.78rem; line-height: 1.4; }
-.notif-time { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #555; margin-top: 0.3rem; }
-@media (max-width: 700px) {
-  .tz-bar { font-size: 0.6rem; padding: 0.4rem 0.6rem; gap: 0.4rem; bottom: 0.8rem; }
-  .tz-item { min-width: 42px; }
-  .notif-container { bottom: 3.8rem; right: 0.8rem; }
-  .notif { min-width: 200px; max-width: 240px; }
-}
-.ascii {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem;
-  line-height: 1.1;
-  color: rgba(255,255,255,0.08);
-  white-space: pre;
-  text-align: center;
-  margin: 2rem 0 1rem;
-  user-select: none;
-}
-@keyframes shimmer { to { background-position: 200% center; } }
-@keyframes spin { to { transform: rotate(360deg); } }
-@media (max-width: 768px) {
-  nav { padding: 1rem 1.2rem; }
-  .nav-links { display: none; }
-  .hero { padding: 5rem 1.2rem 3rem; }
-  section { padding: 3.5rem 1.2rem; }
-  .about-grid { grid-template-columns: 1fr; gap: 1.8rem; }
-  .contact-box { padding: 2rem 1.2rem; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kira — Кира</title>
+  <meta name="description" content="Kira (Кира) — Web, Lua & Luau developer. Support at Prism Softworks. Clean code, clean design, a little chaos.">
+  <meta name="theme-color" content="#050505">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Kira — Кира">
+  <meta property="og:description" content="I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks. Clean code, clean design, a little chaos on the side.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kiraa.pages.dev/">
+  <meta property="og:site_name" content="Kira">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kira — Кира">
+  <meta name="twitter:description" content="Web · Lua · Luau · Support @ Prism Softworks">
+  
+  <!-- Favicon (SVG K) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23050505'/%3E%3Ctext x='50' y='68' font-family='system-ui,sans-serif' font-size='58' font-weight='800' fill='%23f0f0f0' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #050505;
+      --surface: #0d0d0d;
+      --text: #f0f0f0;
+      --muted: #777;
+      --border: rgba(255,255,255,0.08);
+      --gray: #a0a0a0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', system-ui, sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255,255,255,0.05), transparent);
+    }
+    #progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: #fff; width: 0%; z-index: 999;
+      transition: width 0.1s linear;
+    }
+    canvas#bg {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: 0.55;
+    }
+    .noise {
+      position: fixed; inset: 0; z-index: 1;
+      pointer-events: none; opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 2.5rem;
+      background: rgba(5,5,5,0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-weight: 800; font-size: 1.3rem; letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #fff, #888);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-right { display: flex; align-items: center; gap: 1.8rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .lang-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; padding: 0.35rem 0.7rem;
+      border-radius: 6px; cursor: pointer; transition: all 0.25s;
+    }
+    .lang-btn:hover { border-color: #fff; color: #fff; }
+    
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      width: 28px; height: 20px; position: relative;
+      z-index: 110;
+    }
+    .hamburger span {
+      display: block; width: 100%; height: 2px;
+      background: #fff; position: absolute; left: 0;
+      transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .hamburger span:nth-child(1) { top: 0; }
+    .hamburger span:nth-child(2) { top: 9px; }
+    .hamburger span:nth-child(3) { top: 18px; }
+    .hamburger.active span:nth-child(1) { top: 9px; transform: rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { top: 9px; transform: rotate(-45deg); }
+    
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(5,5,5,0.97); z-index: 105;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2rem;
+    }
+    .mobile-menu.active { display: flex; }
+    .mobile-menu a {
+      color: #fff; text-decoration: none;
+      font-size: 1.4rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      opacity: 0.85; transition: opacity 0.2s;
+    }
+    .mobile-menu a:hover { opacity: 1; }
+    
+    main { position: relative; z-index: 2; }
+    
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 2.5rem 4rem;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .hero-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; color: var(--gray);
+      margin-bottom: 1.2rem; letter-spacing: 0.05em;
+    }
+    .hero h1 {
+      font-size: clamp(3.2rem, 8vw, 6.5rem);
+      font-weight: 800; line-height: 0.92;
+      letter-spacing: -0.04em; margin-bottom: 1.2rem;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(120deg, #fff 0%, #aaa 45%, #555 75%, #fff 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 6s linear infinite;
+    }
+    .hero-sub {
+      font-size: 1.1rem; color: var(--muted);
+      max-width: 500px; margin-bottom: 1.8rem;
+    }
+    .presence-box {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.8rem; padding: 0.9rem 1.2rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border); border-radius: 14px;
+      max-width: 420px;
+    }
+    .presence-avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #222; object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+    .presence-info { flex: 1; min-width: 0; }
+    .presence-name {
+      font-weight: 700; font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .presence-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; color: var(--gray);
+      display: flex; align-items: center; gap: 0.45rem;
+    }
+    .presence-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #555; flex-shrink: 0;
+    }
+    .presence-dot.online { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+    .presence-dot.idle { background: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.2); }
+    .presence-dot.dnd { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
+    .presence-dot.offline { background: #6b7280; }
+    .spotify-bar { margin-top: 0.6rem; display: none; }
+    .spotify-bar.active { display: block; }
+    .spotify-track {
+      font-size: 0.78rem; color: #ccc;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .spotify-progress {
+      height: 3px; background: rgba(255,255,255,0.1);
+      border-radius: 2px; margin-top: 0.4rem; overflow: hidden;
+    }
+    .spotify-progress-fill {
+      height: 100%; background: #fff; width: 0%;
+      transition: width 1s linear;
+    }
+    .hero-cta { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.5rem; border-radius: 999px;
+      font-weight: 700; font-size: 0.88rem;
+      text-decoration: none; transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+      border: none; cursor: pointer;
+    }
+    .btn-primary { background: #fff; color: #000; }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255,255,255,0.12);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.04);
+    }
+    .btn-copy {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.75rem;
+      padding: 0.35rem 0.7rem; border-radius: 6px;
+      cursor: pointer; margin-left: 0.5rem;
+    }
+    .btn-copy:hover { color: #fff; border-color: #fff; }
+    
+    /* SECTIONS */
+    section {
+      padding: 5.5rem 2.5rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; color: var(--gray);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; letter-spacing: -0.03em;
+      margin-bottom: 2.5rem;
+      background: linear-gradient(135deg, #fff, #777);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    
+    /* ABOUT */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1.5fr;
+      gap: 3rem; align-items: start;
+    }
+    .about-visual {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 16px;
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .window-bar {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.65rem 1rem;
+      background: #111;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .window-dots { display: flex; gap: 0.35rem; }
+    .window-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #333;
+    }
+    .window-dot:nth-child(1) { background: #ff5f57; }
+    .window-dot:nth-child(2) { background: #febc2e; }
+    .window-dot:nth-child(3) { background: #28c840; }
+    .window-title {
+      display: flex; align-items: center; gap: 0.45rem;
+      margin-left: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; color: #888;
+    }
+    .window-k {
+      width: 16px; height: 16px; border-radius: 4px;
+      background: #1a1a1a; border: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; font-weight: 800; color: #ddd;
+    }
+    .about-visual-body {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .about-visual-body::before {
+      content: '';
+      position: absolute; inset: -40%;
+      background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.08), transparent 30%);
+      animation: spin 14s linear infinite;
+    }
+    .avatar {
+      width: 58%; height: 58%;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #2a2a2a, #111);
+      position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem; font-weight: 800; color: #ddd;
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+    }
+    .avatar img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 50%;
+    }
+    .about-text p {
+      color: var(--muted); margin-bottom: 1rem; font-size: 1.02rem;
+    }
+    .about-text strong { color: var(--text); }
+    .prism-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1.2rem; padding: 0.6rem 1.1rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border); border-radius: 10px;
+      text-decoration: none; color: #ccc;
+      font-weight: 600; font-size: 0.88rem;
+      transition: all 0.3s;
+    }
+    .prism-badge:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+    .prism-badge svg { width: 16px; height: 16px; fill: currentColor; }
+    .stats {
+      display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;
+    }
+    .stat-num {
+      font-size: 1.7rem; font-weight: 800;
+      background: linear-gradient(135deg, #fff, #666);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label {
+      font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem;
+    }
+    .code-block {
+      margin-top: 2rem;
+      background: #0a0a0a; border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; color: #aaa;
+      overflow: hidden; min-height: 90px;
+    }
+    .code-block .cm { color: #555; }
+    
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+      cursor: pointer; transform-style: preserve-3d;
+    }
+    .project-card:hover {
+      border-color: rgba(255,255,255,0.18);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.45);
+    }
+    .project-thumb {
+      height: 130px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      background: linear-gradient(145deg, #1c1c1c, #0e0e0e);
+    }
+    .project-thumb span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.6rem; font-weight: 700;
+      letter-spacing: 0.08em; color: rgba(255,255,255,0.12);
+      text-transform: uppercase;
+    }
+    .project-thumb::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, var(--surface), transparent 55%);
+    }
+    .project-body { padding: 1.25rem; }
+    .project-body h3 {
+      font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem;
+    }
+    .project-body p {
+      color: var(--muted); font-size: 0.88rem; margin-bottom: 1rem;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; padding: 0.22rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      color: #bbb; border: 1px solid rgba(255,255,255,0.07);
+    }
+    
+    /* SKILLS */
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+    .skill {
+      padding: 0.6rem 1.1rem; border-radius: 9px;
+      background: var(--surface); border: 1px solid var(--border);
+      font-weight: 600; font-size: 0.88rem;
+      transition: all 0.25s;
+    }
+    .skill:hover {
+      border-color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.04);
+      transform: scale(1.04);
+    }
+    
+    /* TERMINAL */
+    .terminal {
+      background: #0a0a0a; border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; margin-top: 2rem;
+    }
+    .terminal-bar {
+      background: #111; padding: 0.5rem 1rem;
+      display: flex; gap: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .terminal-dot {
+      width: 10px; height: 10px; border-radius: 50%; background: #333;
+    }
+    .terminal-body {
+      padding: 1rem 1.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      min-height: 160px; max-height: 220px; overflow-y: auto;
+    }
+    .terminal-line { margin-bottom: 0.35rem; color: #aaa; }
+    .terminal-line .cmd { color: #fff; }
+    .terminal-input-line {
+      display: flex; align-items: center; gap: 0.4rem; margin-top: 0.5rem;
+    }
+    .terminal-input-line span { color: #888; }
+    .terminal-input {
+      background: transparent; border: none; outline: none;
+      color: #fff; font-family: inherit; font-size: inherit; flex: 1;
+    }
+    
+    /* CONTACT */
+    .contact-box {
+      background: linear-gradient(160deg, rgba(255,255,255,0.03), transparent);
+      border: 1px solid var(--border); border-radius: 20px;
+      padding: 3rem; text-align: center;
+    }
+    .contact-box h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800; margin-bottom: 0.8rem;
+      background: linear-gradient(135deg, #fff, #777);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .contact-box p {
+      color: var(--muted); margin-bottom: 1.6rem;
+      max-width: 400px; margin-left: auto; margin-right: auto;
+    }
+    
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75); z-index: 200;
+      display: none; align-items: center; justify-content: center;
+      padding: 1.5rem; backdrop-filter: blur(6px);
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: #0d0d0d; border: 1px solid var(--border);
+      border-radius: 16px; max-width: 480px; width: 100%;
+      padding: 2rem; position: relative;
+    }
+    .modal h3 { font-size: 1.4rem; margin-bottom: 0.6rem; }
+    .modal p { color: var(--muted); margin-bottom: 1.2rem; font-size: 0.95rem; }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: transparent; border: none;
+      color: #888; font-size: 1.4rem; cursor: pointer;
+    }
+    .modal-close:hover { color: #fff; }
+    
+    footer {
+      text-align: center; padding: 2.2rem;
+      color: var(--muted); font-size: 0.78rem;
+      border-top: 1px solid var(--border);
+      position: relative; z-index: 2;
+    }
+    
+    /* TIMEZONE BAR */
+    .tz-bar {
+      position: fixed; bottom: 1.2rem; left: 50%;
+      transform: translateX(-50%); z-index: 90;
+      display: flex; gap: 0.6rem;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 0.55rem 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; color: var(--gray);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    }
+    .tz-item {
+      display: flex; flex-direction: column;
+      align-items: center; min-width: 52px;
+    }
+    .tz-label {
+      font-size: 0.58rem; opacity: 0.6;
+      margin-bottom: 0.15rem; letter-spacing: 0.04em;
+    }
+    .tz-time { color: #ddd; font-weight: 500; }
+    
+    /* NOTIFS */
+    .notif-container {
+      position: fixed; bottom: 4.5rem; right: 1.2rem;
+      z-index: 95; display: flex; flex-direction: column;
+      gap: 0.6rem; pointer-events: none;
+    }
+    .notif {
+      background: rgba(15,15,15,0.92);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; padding: 0.75rem 1rem;
+      min-width: 240px; max-width: 290px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+      transform: translateX(120%); opacity: 0;
+      transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
+      pointer-events: auto; font-size: 0.82rem;
+    }
+    .notif.show { transform: translateX(0); opacity: 1; }
+    .notif-header {
+      display: flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 0.25rem; font-weight: 600; font-size: 0.78rem;
+    }
+    .notif-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #22c55e;
+    }
+    .notif-body { color: var(--muted); font-size: 0.78rem; line-height: 1.4; }
+    .notif-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; color: #555; margin-top: 0.3rem;
+    }
+    
+    .ascii {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem; line-height: 1.1;
+      color: rgba(255,255,255,0.08);
+      white-space: pre; text-align: center;
+      margin: 2rem 0 1rem; user-select: none;
+    }
+    
+    @keyframes shimmer { to { background-position: 200% center; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    @media (max-width: 700px) {
+      .tz-bar {
+        font-size: 0.6rem; padding: 0.4rem 0.6rem;
+        gap: 0.4rem; bottom: 0.8rem;
+      }
+      .tz-item { min-width: 42px; }
+      .notif-container { bottom: 3.8rem; right: 0.8rem; }
+      .notif { min-width: 200px; max-width: 240px; }
+    }
+    
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .hero { padding: 5rem 1.2rem 3rem; }
+      section { padding: 3.5rem 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+      .contact-box { padding: 2rem 1.2rem; }
+    }
+  </style>
 </head>
 <body>
-<div id="progress"></div>
-<canvas id="bg"></canvas>
-<div class="noise"></div>
-
-<nav>
-  <div class="logo">KIRA</div>
-  <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="#about" data-i18n="nav_about">About</a></li>
-      <li><a href="#work" data-i18n="nav_work">Work</a></li>
-      <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
-      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-    </ul>
-    <select class="lang-btn" id="langSelect" style="appearance:none;cursor:pointer;padding-right:1.4rem;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22%23888%22><path d=%22M2 4l4 4 4-4%22/></svg>');background-repeat:no-repeat;background-position:right 0.5rem center;">
-      <option value="en">English</option>
-      <option value="ru">Русский</option>
-      <option value="es">Español</option>
-      <option value="de">Deutsch</option>
-      <option value="fil">Filipino</option>
-    </select>
+  <div id="progress"></div>
+  <canvas id="bg"></canvas>
+  <div class="noise"></div>
+  
+  <nav>
+    <div class="logo">KIRA</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#about" data-i18n="nav_about">About</a></li>
+        <li><a href="#work" data-i18n="nav_work">Work</a></li>
+        <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+      </ul>
+      <select class="lang-btn" id="langSelect" style="appearance:none;cursor:pointer;padding-right:1.4rem;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22%23888%22><path d=%22M2 4l4 4 4-4%22/></svg>');background-repeat:no-repeat;background-position:right 0.5rem center;">
+        <option value="en">English</option>
+        <option value="ru">Русский</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="fil">Filipino</option>
+      </select>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" data-i18n="nav_about">About</a>
+    <a href="#work" data-i18n="nav_work">Work</a>
+    <a href="#skills" data-i18n="nav_skills">Skills</a>
+    <a href="#contact" data-i18n="nav_contact">Contact</a>
   </div>
-</nav>
-
-<main>
-  <section class="hero">
-    <div class="hero-tag" data-i18n="hero_tag">// kira · кира · web · lua · luau</div>
-    <h1>Kira<br><span class="grad">Кира</span></h1>
-    <p class="hero-sub" data-i18n="hero_sub">I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks. Clean code, clean design, a little chaos on the side.</p>
+  
+  <main>
+    <section class="hero">
+      <div class="hero-tag" data-i18n="hero_tag">// kira · кира · web · lua · luau</div>
+      <h1>Kira<br><span class="grad">Кира</span></h1>
+      <p class="hero-sub" data-i18n="hero_sub">I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks. Clean code, clean design, a little chaos on the side.</p>
+      
+      <div class="presence-box" id="presenceBox">
+        <img class="presence-avatar" id="presenceAvatar" src="" alt="" style="display:none">
+        <div class="presence-info">
+          <div class="presence-name" id="presenceName">Kira</div>
+          <div class="presence-status">
+            <div class="presence-dot" id="statusDot"></div>
+            <span id="statusText">loading…</span>
+            <button class="btn-copy" id="copyBtn" title="Copy username">copy</button>
+          </div>
+          <div class="spotify-bar" id="spotifyBar">
+            <div class="spotify-track" id="spotifyTrack"></div>
+            <div class="spotify-progress"><div class="spotify-progress-fill" id="spotifyFill"></div></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero-cta">
+        <a href="#work" class="btn btn-primary" data-i18n="btn_work">View work</a>
+        <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="btn btn-ghost">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          Prism Softworks
+        </a>
+      </div>
+    </section>
     
-    <div class="presence-box" id="presenceBox">
-      <img class="presence-avatar" id="presenceAvatar" src="" alt="" style="display:none">
-      <div class="presence-info">
-        <div class="presence-name" id="presenceName">Kira</div>
-        <div class="presence-status">
-          <div class="presence-dot" id="statusDot"></div>
-          <span id="statusText">loading…</span>
-          <button class="btn-copy" id="copyBtn" title="Copy username">copy</button>
+    <section id="about">
+      <div class="section-label">01 — About</div>
+      <h2 class="section-title" data-i18n="about_title">Basic on the outside.<br>Complex underneath.</h2>
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="window-bar">
+            <div class="window-dots">
+              <div class="window-dot"></div>
+              <div class="window-dot"></div>
+              <div class="window-dot"></div>
+            </div>
+            <div class="window-title">
+              <div class="window-k">K</div>
+              <span>kira</span>
+            </div>
+          </div>
+          <div class="about-visual-body">
+            <div class="avatar" id="aboutAvatar">K</div>
+          </div>
         </div>
-        <div class="spotify-bar" id="spotifyBar">
-          <div class="spotify-track" id="spotifyTrack"></div>
-          <div class="spotify-progress"><div class="spotify-progress-fill" id="spotifyFill"></div></div>
+        <div class="about-text">
+          <p data-i18n="about_p1">I'm <strong>Kira</strong> (Кира). I build clean web interfaces with HTML, CSS & JS, and I write Lua + Luau for game systems, tools, and more experimental stuff.</p>
+          <p data-i18n="about_p2">Support at <strong>Prism Softworks</strong>. I help the community, answer tickets, and keep the Discord running smooth.</p>
+          <p data-i18n="about_p3">When I'm not shipping code I'm usually deep in some Lua script or tweaking another black & white layout at 3am.</p>
+          <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="prism-badge">
+            <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            Support @ Prism Softworks
+          </a>
+          <div class="stats">
+            <div><div class="stat-num">Web</div><div class="stat-label">HTML · CSS · JS</div></div>
+            <div><div class="stat-num">Lua</div><div class="stat-label" data-i18n="stat_lua">Cheating scripts</div></div>
+            <div><div class="stat-num">Luau</div><div class="stat-label" data-i18n="stat_luau">External + cheating</div></div>
+          </div>
+          <div class="code-block" id="codeBlock">
+            <span class="cm">-- kira.lua</span><br>
+            <span id="typedCode"></span><span style="opacity:0.5">_</span>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="hero-cta">
-      <a href="#work" class="btn btn-primary" data-i18n="btn_work">View work</a>
-      <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="btn btn-ghost">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-        Prism Softworks
-      </a>
-    </div>
-  </section>
-
-  <section id="about">
-    <div class="section-label">01 — About</div>
-    <h2 class="section-title" data-i18n="about_title">Basic on the outside.<br>Complex underneath.</h2>
-    <div class="about-grid">
-      <div class="about-visual">
-        <div class="avatar">K</div>
-      </div>
-      <div class="about-text">
-        <p data-i18n="about_p1">I'm <strong>Kira</strong> (Кира). I build clean web interfaces with HTML, CSS & JS, and I write Lua + Luau for game systems, tools, and more experimental stuff.</p>
-        <p data-i18n="about_p2">Support at <strong>Prism Softworks</strong>. I help the community, answer tickets, and keep the Discord running smooth.</p>
-        <p data-i18n="about_p3">When I'm not shipping code I'm usually deep in some Lua script or tweaking another black & white layout at 3am.</p>
+    </section>
+    
+    <section id="work">
+      <div class="section-label">02 — Work</div>
+      <h2 class="section-title" data-i18n="work_title">Selected things<br>I've built.</h2>
+      <div class="projects-grid" id="projectsGrid">
         
-        <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="prism-badge">
-          <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-          Support @ Prism Softworks
+        <article class="project-card"
+          data-title="Custom UI Frameworks"
+          data-desc="Full custom Luau UI systems built from scratch with Instance.new + OOP. Draggable menus, theme switching (pure black / cyberpunk / crimson), live stats panels, keybinds, notifications, and config persistence via JSON. No external UI libs."
+          data-tags="Luau,UI,OOP,Roblox">
+          <div class="project-thumb"><span>UI</span></div>
+          <div class="project-body">
+            <h3>Custom UI Frameworks</h3>
+            <p>Full custom Luau UI systems from scratch — draggable, themeable, persistent. No Rayfield / Orio.</p>
+            <div class="tags"><span class="tag">Luau</span><span class="tag">UI</span><span class="tag">OOP</span></div>
+          </div>
+        </article>
+        
+        <article class="project-card"
+          data-title="Advanced Client Systems"
+          data-desc="Silent aim with smoothing + FOV scaling, ESP overlays (players/NPCs/bosses), hitbox expansion, Raycast/FireServer hooks, metatable spoofing, and anti-detection patterns. Built for compatibility with popular executors."
+          data-tags="Luau,External,Systems">
+          <div class="project-thumb"><span>SYS</span></div>
+          <div class="project-body">
+            <h3>Advanced Client Systems</h3>
+            <p>Silent aim, ESP, hitbox tools, hooks, and anti-detection. Executor-compatible external tooling.</p>
+            <div class="tags"><span class="tag">Luau</span><span class="tag">External</span><span class="tag">Systems</span></div>
+          </div>
+        </article>
+        
+        <article class="project-card"
+          data-title="Web Interfaces"
+          data-desc="Minimal, high-contrast sites and dashboards built with pure HTML, CSS and vanilla JavaScript. This portfolio itself is an example — particles, live presence, multi-language, terminal, zero frameworks."
+          data-tags="HTML,CSS,JS">
+          <div class="project-thumb"><span>WEB</span></div>
+          <div class="project-body">
+            <h3>Web Interfaces</h3>
+            <p>Minimal high-contrast sites with pure HTML/CSS/JS. Particles, live presence, terminal — no frameworks.</p>
+            <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
+          </div>
+        </article>
+        
+        <article class="project-card"
+          data-title="Discord Utilities"
+          data-desc="Bots, slash commands, support helpers, and self-bot tooling that keep servers and communities running cleanly. Custom Python + Discord.js work for Prism Softworks and personal use."
+          data-tags="JS,Python,Discord">
+          <div class="project-thumb"><span>BOT</span></div>
+          <div class="project-body">
+            <h3>Discord Utilities</h3>
+            <p>Bots, slash commands and support helpers. Discord.js + Python tooling for servers.</p>
+            <div class="tags"><span class="tag">JS</span><span class="tag">Python</span><span class="tag">Discord</span></div>
+          </div>
+        </article>
+        
+        <article class="project-card"
+          data-title="Experiments"
+          data-desc="Canvas pieces, particle systems, layout studies, and whatever else feels worth building at 3am. This site's particle field and typing effects are part of that playground."
+          data-tags="Canvas,Creative,JS">
+          <div class="project-thumb"><span>EXP</span></div>
+          <div class="project-body">
+            <h3>Experiments</h3>
+            <p>Canvas, particles, layout studies and late-night creative code. The particle field is one of them.</p>
+            <div class="tags"><span class="tag">Canvas</span><span class="tag">Creative</span><span class="tag">JS</span></div>
+          </div>
+        </article>
+        
+      </div>
+    </section>
+    
+    <section id="skills">
+      <div class="section-label">03 — Skills</div>
+      <h2 class="section-title" data-i18n="skills_title">What I work with.</h2>
+      <div class="skills-wrap">
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">Lua</div>
+        <div class="skill">Luau</div>
+        <div class="skill">Roblox</div>
+        <div class="skill">External tools</div>
+        <div class="skill">Discord.js</div>
+        <div class="skill">Node.js</div>
+        <div class="skill">Python</div>
+        <div class="skill">Canvas</div>
+        <div class="skill">Git</div>
+        <div class="skill">Support</div>
+      </div>
+      
+      <div class="terminal" id="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+        </div>
+        <div class="terminal-body" id="termBody">
+          <div class="terminal-line">kira@prism:~$ <span class="cmd">whoami</span></div>
+          <div class="terminal-line">Kira · Support @ Prism Softworks · Lua / Luau / Web</div>
+          <div class="terminal-line">Type <span class="cmd">help</span> for commands</div>
+          <div class="terminal-input-line">
+            <span>kira@prism:~$</span>
+            <input class="terminal-input" id="termInput" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="contact">
+      <div class="contact-box">
+        <h2 data-i18n="contact_title">Find me on Discord.</h2>
+        <p data-i18n="contact_p">Best place is the Prism Softworks server. I'm support there — feel free to hop in.</p>
+        <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="btn btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          Join Prism Softworks
         </a>
-
-        <div class="stats">
-          <div><div class="stat-num">Web</div><div class="stat-label">HTML · CSS · JS</div></div>
-          <div><div class="stat-num">Lua</div><div class="stat-label" data-i18n="stat_lua">Cheating scripts</div></div>
-          <div><div class="stat-num">Luau</div><div class="stat-label" data-i18n="stat_luau">External + cheating</div></div>
-        </div>
-
-        <div class="code-block" id="codeBlock">
-          <span class="cm">-- kira.lua</span><br>
-          <span id="typedCode"></span><span style="opacity:0.5">_</span>
+        <div style="margin-top:1.4rem;">
+          <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#888;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:1px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">
+            please don’t just say hello → nohello.net
+          </a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="work">
-    <div class="section-label">02 — Work</div>
-    <h2 class="section-title" data-i18n="work_title">Selected things<br>I've built.</h2>
-    <div class="projects-grid" id="projectsGrid">
-      <article class="project-card" data-title="Lua Scripts" data-desc="Custom Lua scripts focused on game systems, automation, and more advanced (cheating-related) tooling." data-tags="Lua,Cheating,Scripts">
-        <div class="project-thumb"><span>LUA</span></div>
-        <div class="project-body">
-          <h3>Lua Scripts</h3>
-          <p>Custom Lua scripts focused on game systems, automation, and more advanced (cheating-related) tooling.</p>
-          <div class="tags"><span class="tag">Lua</span><span class="tag">Cheating</span><span class="tag">Scripts</span></div>
-        </div>
-      </article>
-      <article class="project-card" data-title="Luau External" data-desc="External + internal Luau solutions for Roblox — systems, injectors, and higher-level tooling." data-tags="Luau,External,Roblox">
-        <div class="project-thumb"><span>LUAU</span></div>
-        <div class="project-body">
-          <h3>Luau External</h3>
-          <p>External + internal Luau solutions for Roblox — systems, injectors, and higher-level tooling.</p>
-          <div class="tags"><span class="tag">Luau</span><span class="tag">External</span><span class="tag">Roblox</span></div>
-        </div>
-      </article>
-      <article class="project-card" data-title="Web Interfaces" data-desc="Minimal, high-contrast sites and dashboards built with pure HTML, CSS and vanilla JavaScript." data-tags="HTML,CSS,JS">
-        <div class="project-thumb"><span>WEB</span></div>
-        <div class="project-body">
-          <h3>Web Interfaces</h3>
-          <p>Minimal, high-contrast sites and dashboards built with pure HTML, CSS and vanilla JavaScript.</p>
-          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
-        </div>
-      </article>
-      <article class="project-card" data-title="Discord Utilities" data-desc="Bots, slash commands and support helpers that keep servers and communities running cleanly." data-tags="JS,Discord,Bots">
-        <div class="project-thumb"><span>DISCORD</span></div>
-        <div class="project-body">
-          <h3>Discord Utilities</h3>
-          <p>Bots, slash commands and support helpers that keep servers and communities running cleanly.</p>
-          <div class="tags"><span class="tag">JS</span><span class="tag">Discord</span><span class="tag">Bots</span></div>
-        </div>
-      </article>
-      <article class="project-card" data-title="Experiments" data-desc="Canvas pieces, particle systems, layout studies and whatever else feels worth building at night." data-tags="Canvas,Creative,JS">
-        <div class="project-thumb"><span>EXP</span></div>
-        <div class="project-body">
-          <h3>Experiments</h3>
-          <p>Canvas pieces, particle systems, layout studies and whatever else feels worth building at night.</p>
-          <div class="tags"><span class="tag">Canvas</span><span class="tag">Creative</span><span class="tag">JS</span></div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section id="skills">
-    <div class="section-label">03 — Skills</div>
-    <h2 class="section-title" data-i18n="skills_title">What I work with.</h2>
-    <div class="skills-wrap">
-      <div class="skill">HTML</div>
-      <div class="skill">CSS</div>
-      <div class="skill">JavaScript</div>
-      <div class="skill">Lua</div>
-      <div class="skill">Luau</div>
-      <div class="skill">Roblox</div>
-      <div class="skill">External tools</div>
-      <div class="skill">Discord.js</div>
-      <div class="skill">Node.js</div>
-      <div class="skill">Canvas</div>
-      <div class="skill">Git</div>
-      <div class="skill">Support</div>
-    </div>
-
-    <div class="terminal" id="terminal">
-      <div class="terminal-bar">
-        <div class="terminal-dot"></div>
-        <div class="terminal-dot"></div>
-        <div class="terminal-dot"></div>
-      </div>
-      <div class="terminal-body" id="termBody">
-        <div class="terminal-line">kira@prism:~$ <span class="cmd">whoami</span></div>
-        <div class="terminal-line">Kira · Support @ Prism Softworks · Lua / Luau / Web</div>
-        <div class="terminal-line">Type <span class="cmd">help</span> for commands</div>
-        <div class="terminal-input-line">
-          <span>kira@prism:~$</span>
-          <input class="terminal-input" id="termInput" autocomplete="off" spellcheck="false">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="contact-box">
-      <h2 data-i18n="contact_title">Find me on Discord.</h2>
-      <p data-i18n="contact_p">Best place is the Prism Softworks server. I'm support there — feel free to hop in.</p>
-      <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="btn btn-primary">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-        Join Prism Softworks
-      </a>
-      <div style="margin-top:1.4rem;">
-        <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#888;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:1px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">
-          please don’t just say hello → nohello.net
-        </a>
-      </div>
-    </div>
-  </section>
-</main>
-
-<div class="ascii">
-██╗  ██╗██╗██████╗  █████╗ 
-██║ ██╔╝██║██╔══██╗██╔══██╗
-█████╔╝ ██║██████╔╝███████║
-██╔═██╗ ██║██╔══██╗██╔══██║
-██║  ██╗██║██║  ██║██║  ██║
-╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
-</div>
-
-<div class="tz-bar" id="tzBar">
-  <div class="tz-item"><div class="tz-label">ET</div><div class="tz-time" id="tzET">--:--</div></div>
-  <div class="tz-item"><div class="tz-label">CT</div><div class="tz-time" id="tzCT">--:--</div></div>
-  <div class="tz-item"><div class="tz-label">MT</div><div class="tz-time" id="tzMT">--:--</div></div>
-  <div class="tz-item"><div class="tz-label">PT</div><div class="tz-time" id="tzPT">--:--</div></div>
-  <div class="tz-item"><div class="tz-label">AKT</div><div class="tz-time" id="tzAKT">--:--</div></div>
-  <div class="tz-item"><div class="tz-label">HST</div><div class="tz-time" id="tzHST">--:--</div></div>
-</div>
-
-<div class="notif-container" id="notifContainer"></div>
-
-<footer>
-  Kira · Кира · Support @ Prism Softworks · <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:#888;text-decoration:none;">nohello.net</a> · v2.1 · 2026
-</footer>
-
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <button class="modal-close" id="modalClose">×</button>
-    <h3 id="modalTitle"></h3>
-    <p id="modalDesc"></p>
-    <div class="tags" id="modalTags"></div>
+    </section>
+  </main>
+  
+  <div class="ascii">
+ ██╗  ██╗██╗██████╗  █████╗ 
+ ██║ ██╔╝██║██╔══██╗██╔══██╗
+ █████╔╝ ██║██████╔╝███████║
+ ██╔═██╗ ██║██╔══██╗██╔══██║
+ ██║  ██╗██║██║  ██║██║  ██║
+ ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
   </div>
-</div>
-
-<script>
-const DISCORD_ID = "1505345885242917015";
-let lang = "en";
-const i18n = {
-  en: {
-    nav_about: "About", nav_work: "Work", nav_skills: "Skills", nav_contact: "Contact",
-    hero_tag: "// kira · кира · web · lua · luau",
-    hero_sub: "I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks. Clean code, clean design, a little chaos on the side.",
-    btn_work: "View work",
-    about_title: "Basic on the outside.<br>Complex underneath.",
-    about_p1: "I'm <strong>Kira</strong> (Кира). I build clean web interfaces with HTML, CSS & JS, and I write Lua + Luau for game systems, tools, and more experimental stuff.",
-    about_p2: "Support at <strong>Prism Softworks</strong>. I help the community, answer tickets, and keep the Discord running smooth.",
-    about_p3: "When I'm not shipping code I'm usually deep in some Lua script or tweaking another black & white layout at 3am.",
-    stat_lua: "Cheating scripts",
-    stat_luau: "External + cheating",
-    work_title: "Selected things<br>I've built.",
-    skills_title: "What I work with.",
-    contact_title: "Find me on Discord.",
-    contact_p: "Best place is the Prism Softworks server. I'm support there — feel free to hop in."
-  },
-  ru: {
-    nav_about: "Обо мне", nav_work: "Работы", nav_skills: "Навыки", nav_contact: "Контакт",
-    hero_tag: "// kira · кира · web · lua · luau",
-    hero_sub: "Пишу HTML, CSS, JS, Lua и Luau. Support в Prism Softworks. Чистый код, чистый дизайн и немного хаоса.",
-    btn_work: "Смотреть работы",
-    about_title: "Простой снаружи.<br>Сложный внутри.",
-    about_p1: "Я <strong>Kira</strong> (Кира). Делаю чистые веб-интерфейсы на HTML, CSS и JS, а также пишу Lua + Luau для игровых систем и инструментов.",
-    about_p2: "Support в <strong>Prism Softworks</strong>. Помогаю сообществу, отвечаю на тикеты и слежу за Discord.",
-    about_p3: "Когда не пишу код — обычно сижу в каком-нибудь Lua-скрипте или кручу чёрно-белый макет в 3 часа ночи.",
-    stat_lua: "Читы / скрипты",
-    stat_luau: "External + читы",
-    work_title: "Некоторые<br>мои работы.",
-    skills_title: "С чем работаю.",
-    contact_title: "Найди меня в Discord.",
-    contact_p: "Лучше всего зайти на сервер Prism Softworks. Я там support — заходи."
-  },
-  es: {
-    nav_about: "Sobre mí", nav_work: "Trabajos", nav_skills: "Habilidades", nav_contact: "Contacto",
-    hero_tag: "// kira · кира · web · lua · luau",
-    hero_sub: "Escribo HTML, CSS, JS, Lua y Luau. Support en Prism Softworks. Código limpio, diseño limpio y un poco de caos.",
-    btn_work: "Ver trabajos",
-    about_title: "Simple por fuera.<br>Complejo por dentro.",
-    about_p1: "Soy <strong>Kira</strong> (Кира). Creo interfaces web limpias con HTML, CSS y JS, y escribo Lua + Luau para sistemas de juegos y herramientas.",
-    about_p2: "Support en <strong>Prism Softworks</strong>. Ayudo a la comunidad, respondo tickets y mantengo el Discord funcionando.",
-    about_p3: "Cuando no estoy programando, normalmente estoy metido en algún script de Lua o ajustando otro diseño en blanco y negro a las 3am.",
-    stat_lua: "Scripts / cheats",
-    stat_luau: "External + cheats",
-    work_title: "Algunas cosas<br>que he creado.",
-    skills_title: "Con lo que trabajo.",
-    contact_title: "Encuéntrame en Discord.",
-    contact_p: "El mejor lugar es el servidor de Prism Softworks. Soy support allí — pásate."
-  },
-  de: {
-    nav_about: "Über mich", nav_work: "Arbeiten", nav_skills: "Fähigkeiten", nav_contact: "Kontakt",
-    hero_tag: "// kira · кира · web · lua · luau",
-    hero_sub: "Ich schreibe HTML, CSS, JS, Lua & Luau. Support bei Prism Softworks. Sauberer Code, sauberes Design, etwas Chaos.",
-    btn_work: "Arbeiten ansehen",
-    about_title: "Einfach von außen.<br>Komplex darunter.",
-    about_p1: "Ich bin <strong>Kira</strong> (Кира). Ich baue saubere Web-Interfaces mit HTML, CSS & JS und schreibe Lua + Luau für Spielsysteme und Tools.",
-    about_p2: "Support bei <strong>Prism Softworks</strong>. Ich helfe der Community, beantworte Tickets und halte den Discord am Laufen.",
-    about_p3: "Wenn ich nicht code, stecke ich meist in irgendeinem Lua-Script oder tweake um 3 Uhr nachts ein weiteres Schwarz-Weiß-Layout.",
-    stat_lua: "Cheating Scripts",
-    stat_luau: "External + Cheating",
-    work_title: "Ausgewählte Dinge,<br>die ich gebaut habe.",
-    skills_title: "Womit ich arbeite.",
-    contact_title: "Finde mich auf Discord.",
-    contact_p: "Am besten auf dem Prism Softworks Server. Ich bin dort Support — schau vorbei."
-  },
-  fil: {
-    nav_about: "Tungkol", nav_work: "Mga Gawa", nav_skills: "Skills", nav_contact: "Contact",
-    hero_tag: "// kira · кира · web · lua · luau",
-    hero_sub: "Gumagawa ako ng HTML, CSS, JS, Lua at Luau. Support sa Prism Softworks. Clean code, clean design, konting chaos.",
-    btn_work: "Tingnan ang gawa",
-    about_title: "Simple sa labas.<br>Complex sa loob.",
-    about_p1: "Ako si <strong>Kira</strong> (Кира). Gumagawa ako ng clean web interfaces gamit ang HTML, CSS & JS, at nagsusulat ng Lua + Luau para sa game systems at tools.",
-    about_p2: "Support sa <strong>Prism Softworks</strong>. Tumutulong ako sa community, sumasagot ng tickets, at pinapanatili ang Discord na maayos.",
-    about_p3: "Kapag hindi ako nagco-code, karaniwang nasa Lua script ako o nagtatweak ng black & white layout nang 3am.",
-    stat_lua: "Cheating scripts",
-    stat_luau: "External + cheating",
-    work_title: "Ilang bagay<br>na nagawa ko.",
-    skills_title: "Mga ginagamit ko.",
-    contact_title: "Hanapin ako sa Discord.",
-    contact_p: "Pinakamaganda sa Prism Softworks server. Support ako doon — punta ka."
-  }
-};
-
-function applyLang() {
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    if (i18n[lang] && i18n[lang][key]) el.innerHTML = i18n[lang][key];
-  });
-}
-document.getElementById("langSelect").addEventListener("change", (e) => {
-  lang = e.target.value;
-  applyLang();
-});
-
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-let w, h, particles = [], mouse = { x: -999, y: -999 };
-function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resize);
-resize();
-window.addEventListener("mousemove", e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-
-class Particle {
-  constructor() { this.reset(true); }
-  reset(init) {
-    this.x = Math.random() * w;
-    this.y = Math.random() * h;
-    this.vx = (Math.random() - 0.5) * 0.35;
-    this.vy = (Math.random() - 0.5) * 0.35;
-    this.size = Math.random() * 1.5 + 0.4;
-    this.alpha = Math.random() * 0.35 + 0.08;
-  }
-  update() {
-    const dx = this.x - mouse.x;
-    const dy = this.y - mouse.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    if (dist < 140) {
-      this.vx += dx / dist * 0.02;
-      this.vy += dy / dist * 0.02;
-    }
-    this.x += this.vx;
-    this.y += this.vy;
-    this.vx *= 0.99;
-    this.vy *= 0.99;
-    if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
-    ctx.fill();
-  }
-}
-for (let i = 0; i < 70; i++) particles.push(new Particle());
-function animate() {
-  ctx.clearRect(0, 0, w, h);
-  for (let i = 0; i < particles.length; i++) {
-    particles[i].update();
-    particles[i].draw();
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 100) {
-        ctx.beginPath();
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.strokeStyle = `rgba(255,255,255,${0.05 * (1 - dist / 100)})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
+  
+  <div class="tz-bar" id="tzBar">
+    <div class="tz-item"><div class="tz-label">ET</div><div class="tz-time" id="tzET">--:--</div></div>
+    <div class="tz-item"><div class="tz-label">CT</div><div class="tz-time" id="tzCT">--:--</div></div>
+    <div class="tz-item"><div class="tz-label">MT</div><div class="tz-time" id="tzMT">--:--</div></div>
+    <div class="tz-item"><div class="tz-label">PT</div><div class="tz-time" id="tzPT">--:--</div></div>
+    <div class="tz-item"><div class="tz-label">AKT</div><div class="tz-time" id="tzAKT">--:--</div></div>
+    <div class="tz-item"><div class="tz-label">HST</div><div class="tz-time" id="tzHST">--:--</div></div>
+  </div>
+  
+  <div class="notif-container" id="notifContainer"></div>
+  
+  <footer>
+    Kira · Кира · Support @ Prism Softworks · 
+    <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:#888;text-decoration:none;">nohello.net</a> · v2.2 · 2026
+  </footer>
+  
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <button class="modal-close" id="modalClose">×</button>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
+      <div class="tags" id="modalTags"></div>
+    </div>
+  </div>
+  
+  <script>
+    const DISCORD_ID = "1505345885242917015";
+    let lang = "en";
+    
+    const i18n = {
+      en: {
+        nav_about: "About", nav_work: "Work", nav_skills: "Skills", nav_contact: "Contact",
+        hero_tag: "// kira · кира · web · lua · luau",
+        hero_sub: "I write HTML, CSS, JS, Lua & Luau. Support at Prism Softworks. Clean code, clean design, a little chaos on the side.",
+        btn_work: "View work",
+        about_title: "Basic on the outside.<br>Complex underneath.",
+        about_p1: "I'm <strong>Kira</strong> (Кира). I build clean web interfaces with HTML, CSS & JS, and I write Lua + Luau for game systems, tools, and more experimental stuff.",
+        about_p2: "Support at <strong>Prism Softworks</strong>. I help the community, answer tickets, and keep the Discord running smooth.",
+        about_p3: "When I'm not shipping code I'm usually deep in some Lua script or tweaking another black & white layout at 3am.",
+        stat_lua: "Cheating scripts",
+        stat_luau: "External + cheating",
+        work_title: "Selected things<br>I've built.",
+        skills_title: "What I work with.",
+        contact_title: "Find me on Discord.",
+        contact_p: "Best place is the Prism Softworks server. I'm support there — feel free to hop in."
+      },
+      ru: {
+        nav_about: "Обо мне", nav_work: "Работы", nav_skills: "Навыки", nav_contact: "Контакт",
+        hero_tag: "// kira · кира · web · lua · luau",
+        hero_sub: "Пишу HTML, CSS, JS, Lua и Luau. Support в Prism Softworks. Чистый код, чистый дизайн и немного хаоса.",
+        btn_work: "Смотреть работы",
+        about_title: "Простой снаружи.<br>Сложный внутри.",
+        about_p1: "Я <strong>Kira</strong> (Кира). Делаю чистые веб-интерфейсы на HTML, CSS и JS, а также пишу Lua + Luau для игровых систем и инструментов.",
+        about_p2: "Support в <strong>Prism Softworks</strong>. Помогаю сообществу, отвечаю на тикеты и слежу за Discord.",
+        about_p3: "Когда не пишу код — обычно сижу в каком-нибудь Lua-скрипте или кручу чёрно-белый макет в 3 часа ночи.",
+        stat_lua: "Читы / скрипты",
+        stat_luau: "External + читы",
+        work_title: "Некоторые<br>мои работы.",
+        skills_title: "С чем работаю.",
+        contact_title: "Найди меня в Discord.",
+        contact_p: "Лучше всего зайти на сервер Prism Softworks. Я там support — заходи."
+      },
+      es: {
+        nav_about: "Sobre mí", nav_work: "Trabajos", nav_skills: "Habilidades", nav_contact: "Contacto",
+        hero_tag: "// kira · кира · web · lua · luau",
+        hero_sub: "Escribo HTML, CSS, JS, Lua y Luau. Support en Prism Softworks. Código limpio, diseño limpio y un poco de caos.",
+        btn_work: "Ver trabajos",
+        about_title: "Simple por fuera.<br>Complejo por dentro.",
+        about_p1: "Soy <strong>Kira</strong> (Кира). Creo interfaces web limpias con HTML, CSS y JS, y escribo Lua + Luau para sistemas de juegos y herramientas.",
+        about_p2: "Support en <strong>Prism Softworks</strong>. Ayudo a la comunidad, respondo tickets y mantengo el Discord funcionando.",
+        about_p3: "Cuando no estoy programando, normalmente estoy metido en algún script de Lua o ajustando otro diseño en blanco y negro a las 3am.",
+        stat_lua: "Scripts / cheats",
+        stat_luau: "External + cheats",
+        work_title: "Algunas cosas<br>que he creado.",
+        skills_title: "Con lo que trabajo.",
+        contact_title: "Encuéntrame en Discord.",
+        contact_p: "El mejor lugar es el servidor de Prism Softworks. Soy support allí — pásate."
+      },
+      de: {
+        nav_about: "Über mich", nav_work: "Arbeiten", nav_skills: "Fähigkeiten", nav_contact: "Kontakt",
+        hero_tag: "// kira · кира · web · lua · luau",
+        hero_sub: "Ich schreibe HTML, CSS, JS, Lua & Luau. Support bei Prism Softworks. Sauberer Code, sauberes Design, etwas Chaos.",
+        btn_work: "Arbeiten ansehen",
+        about_title: "Einfach von außen.<br>Komplex darunter.",
+        about_p1: "Ich bin <strong>Kira</strong> (Кира). Ich baue saubere Web-Interfaces mit HTML, CSS & JS und schreibe Lua + Luau für Spielsysteme und Tools.",
+        about_p2: "Support bei <strong>Prism Softworks</strong>. Ich helfe der Community, beantworte Tickets und halte den Discord am Laufen.",
+        about_p3: "Wenn ich nicht code, stecke ich meist in irgendeinem Lua-Script oder tweake um 3 Uhr nachts ein weiteres Schwarz-Weiß-Layout.",
+        stat_lua: "Cheating Scripts",
+        stat_luau: "External + Cheating",
+        work_title: "Ausgewählte Dinge,<br>die ich gebaut habe.",
+        skills_title: "Womit ich arbeite.",
+        contact_title: "Finde mich auf Discord.",
+        contact_p: "Am besten auf dem Prism Softworks Server. Ich bin dort Support — schau vorbei."
+      },
+      fil: {
+        nav_about: "Tungkol", nav_work: "Mga Gawa", nav_skills: "Skills", nav_contact: "Contact",
+        hero_tag: "// kira · кира · web · lua · luau",
+        hero_sub: "Gumagawa ako ng HTML, CSS, JS, Lua at Luau. Support sa Prism Softworks. Clean code, clean design, konting chaos.",
+        btn_work: "Tingnan ang gawa",
+        about_title: "Simple sa labas.<br>Complex sa loob.",
+        about_p1: "Ako si <strong>Kira</strong> (Кира). Gumagawa ako ng clean web interfaces gamit ang HTML, CSS & JS, at nagsusulat ng Lua + Luau para sa game systems at tools.",
+        about_p2: "Support sa <strong>Prism Softworks</strong>. Tumutulong ako sa community, sumasagot ng tickets, at pinapanatili ang Discord na maayos.",
+        about_p3: "Kapag hindi ako nagco-code, karaniwang nasa Lua script ako o nagtatweak ng black & white layout nang 3am.",
+        stat_lua: "Cheating scripts",
+        stat_luau: "External + cheating",
+        work_title: "Ilang bagay<br>na nagawa ko.",
+        skills_title: "Mga ginagamit ko.",
+        contact_title: "Hanapin ako sa Discord.",
+        contact_p: "Pinakamaganda sa Prism Softworks server. Support ako doon — punta ka."
       }
-    }
-  }
-  requestAnimationFrame(animate);
-}
-animate();
-
-window.addEventListener("scroll", () => {
-  const h = document.documentElement.scrollHeight - window.innerHeight;
-  const p = (window.scrollY / h) * 100;
-  document.getElementById("progress").style.width = p + "%";
-});
-
-document.querySelectorAll(".project-card").forEach(card => {
-  card.addEventListener("mousemove", e => {
-    const r = card.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
-    const rotX = ((y - r.height / 2) / r.height) * -8;
-    const rotY = ((x - r.width / 2) / r.width) * 8;
-    card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
-  });
-  card.addEventListener("mouseleave", () => {
-    card.style.transform = "perspective(800px) rotateX(0) rotateY(0) translateY(0)";
-  });
-  card.addEventListener("click", () => {
-    document.getElementById("modalTitle").textContent = card.dataset.title;
-    document.getElementById("modalDesc").textContent = card.dataset.desc;
-    const tags = card.dataset.tags.split(",");
-    document.getElementById("modalTags").innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join("");
-    document.getElementById("modal").classList.add("active");
-  });
-});
-document.getElementById("modalClose").addEventListener("click", () => document.getElementById("modal").classList.remove("active"));
-document.getElementById("modal").addEventListener("click", e => {
-  if (e.target.id === "modal") document.getElementById("modal").classList.remove("active");
-});
-
-const codeLines = [
-  'local kira = {',
-  '  role = "support",',
-  '  stack = {"lua", "luau", "web"},',
-  '  vibe = "black & white"',
-  '}',
-  'print("hello from kira")'
-];
-let codeIdx = 0, charIdx = 0;
-const typed = document.getElementById("typedCode");
-function typeCode() {
-  if (codeIdx >= codeLines.length) return;
-  const line = codeLines[codeIdx];
-  if (charIdx <= line.length) {
-    typed.innerHTML = codeLines.slice(0, codeIdx).join("<br>") + (codeIdx > 0 ? "<br>" : "") + line.slice(0, charIdx);
-    charIdx++;
-    setTimeout(typeCode, 28);
-  } else {
-    codeIdx++;
-    charIdx = 0;
-    setTimeout(typeCode, 180);
-  }
-}
-setTimeout(typeCode, 1200);
-
-const termInput = document.getElementById("termInput");
-const termBody = document.getElementById("termBody");
-const commands = {
-  help: "Commands: whoami, skills, lua, stack, clear, prism",
-  whoami: "Kira · Кира · Support @ Prism Softworks",
-  skills: "HTML · CSS · JS · Lua · Luau · Discord · External",
-  lua: "print('cheating scripts & systems')",
-  stack: "web + lua/luau + discord tools",
-  prism: "discord.gg/NNZVxQzBRS — Support team",
-  clear: "CLEAR"
-};
-termInput.addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    const cmd = termInput.value.trim().toLowerCase();
-    const line = document.createElement("div");
-    line.className = "terminal-line";
-    line.innerHTML = `kira@prism:~$ <span class="cmd">${termInput.value}</span>`;
-    termBody.insertBefore(line, termBody.lastElementChild);
-    const resp = document.createElement("div");
-    resp.className = "terminal-line";
-    if (cmd === "clear") {
-      termBody.querySelectorAll(".terminal-line").forEach(l => l.remove());
-    } else {
-      resp.textContent = commands[cmd] || `command not found: ${cmd}`;
-      termBody.insertBefore(resp, termBody.lastElementChild);
-    }
-    termInput.value = "";
-    termBody.scrollTop = termBody.scrollHeight;
-  }
-});
-
-async function loadPresence() {
-  try {
-    const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
-    const json = await res.json();
-    if (!json.success) {
-      document.getElementById("statusText").textContent = "offline";
-      return;
-    }
-    const d = json.data;
-    const user = d.discord_user;
-    const name = user.global_name || user.username;
-    document.getElementById("presenceName").textContent = name;
-    const avatar = user.avatar
-      ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
-      : `https://cdn.discordapp.com/embed/avatars/0.png`;
-    const img = document.getElementById("presenceAvatar");
-    img.src = avatar;
-    img.style.display = "block";
-
-    const status = d.discord_status || "offline";
-    document.getElementById("statusDot").className = "presence-dot " + status;
-
-    let label = status;
-    if (d.activities?.length) {
-      const act = d.activities.find(a => a.type !== 4) || d.activities[0];
-      if (act) {
-        if (act.type === 0) label = `Playing ${act.name}`;
-        else if (act.type === 2) label = `Listening to ${act.name}`;
-        else if (act.type === 3) label = `Watching ${act.name}`;
-        else label = act.name || status;
-      }
-    }
-    document.getElementById("statusText").textContent = label;
-
-    const bar = document.getElementById("spotifyBar");
-    if (d.listening_to_spotify && d.spotify) {
-      bar.classList.add("active");
-      document.getElementById("spotifyTrack").textContent = `${d.spotify.song} — ${d.spotify.artist}`;
-      const start = d.spotify.timestamps.start;
-      const end = d.spotify.timestamps.end;
-      const updateFill = () => {
-        const now = Date.now();
-        const pct = Math.min(100, Math.max(0, ((now - start) / (end - start)) * 100));
-        document.getElementById("spotifyFill").style.width = pct + "%";
-      };
-      updateFill();
-      clearInterval(window._spotInt);
-      window._spotInt = setInterval(updateFill, 1000);
-    } else {
-      bar.classList.remove("active");
-    }
-
-    document.getElementById("copyBtn").onclick = () => {
-      navigator.clipboard.writeText(user.username);
-      document.getElementById("copyBtn").textContent = "copied";
-      setTimeout(() => document.getElementById("copyBtn").textContent = "copy", 1500);
     };
-  } catch {
-    document.getElementById("statusText").textContent = "status unavailable";
-  }
-}
-loadPresence();
-setInterval(loadPresence, 25000);
-
-document.addEventListener("keydown", e => {
-  if (e.key === "`") {
-    document.getElementById("termInput")?.focus();
-  }
-});
-
-console.log("%cKira / Кира", "font-size:20px;font-weight:bold;color:#fff;background:#111;padding:8px 16px;");
-console.log("%cSupport @ Prism Softworks · Lua · Luau · Web", "color:#888;");
-console.log("%cYou found the console. Nice.", "color:#555;");
-
-function updateTimezones() {
-  const now = new Date();
-  const opts = { hour: '2-digit', minute: '2-digit', hour12: false };
-  document.getElementById('tzET').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/New_York' });
-  document.getElementById('tzCT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Chicago' });
-  document.getElementById('tzMT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Denver' });
-  document.getElementById('tzPT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Los_Angeles' });
-  document.getElementById('tzAKT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Anchorage' });
-  document.getElementById('tzHST').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'Pacific/Honolulu' });
-}
-updateTimezones();
-setInterval(updateTimezones, 1000);
-
-const notifMessages = [
-  { title: "Support", body: "New ticket received in Prism Softworks" },
-  { title: "Lua", body: "Script compiled successfully" },
-  { title: "System", body: "External connection established" },
-  { title: "Discord", body: "Someone mentioned you in chat" },
-  { title: "Luau", body: "Roblox instance detected" },
-  { title: "Kira", body: "Portfolio viewed from a new location" },
-  { title: "Status", body: "Presence updated via Lanyard" },
-  { title: "Git", body: "Push to main completed" },
-  { title: "Terminal", body: "Command executed successfully" },
-  { title: "Web", body: "New visitor on the site" }
-];
-
-function spawnNotif() {
-  const container = document.getElementById('notifContainer');
-  if (container.children.length >= 3) return;
-  const msg = notifMessages[Math.floor(Math.random() * notifMessages.length)];
-  const el = document.createElement('div');
-  el.className = 'notif';
-  const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-  el.innerHTML = `
-    <div class="notif-header"><div class="notif-dot"></div>${msg.title}</div>
-    <div class="notif-body">${msg.body}</div>
-    <div class="notif-time">${time}</div>
-  `;
-  container.appendChild(el);
-  requestAnimationFrame(() => el.classList.add('show'));
-  setTimeout(() => {
-    el.classList.remove('show');
-    setTimeout(() => el.remove(), 500);
-  }, 4500 + Math.random() * 2000);
-}
-
-setTimeout(() => {
-  spawnNotif();
-  setInterval(() => {
-    if (Math.random() > 0.4) spawnNotif();
-  }, 8000 + Math.random() * 7000);
-}, 3000);
-</script>
+    
+    function applyLang() {
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (i18n[lang] && i18n[lang][key]) el.innerHTML = i18n[lang][key];
+      });
+    }
+    
+    document.getElementById("langSelect").addEventListener("change", (e) => {
+      lang = e.target.value;
+      applyLang();
+    });
+    
+    // Hamburger
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobileMenu");
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      mobileMenu.classList.toggle("active");
+      document.body.style.overflow = mobileMenu.classList.contains("active") ? "hidden" : "";
+    });
+    mobileMenu.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("active");
+        document.body.style.overflow = "";
+      });
+    });
+    
+    // Particles
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+    let w, h, particles = [], mouse = { x: -999, y: -999 };
+    
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+    
+    window.addEventListener("mousemove", e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    
+    class Particle {
+      constructor() { this.reset(true); }
+      reset(init) {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.vx = (Math.random() - 0.5) * 0.35;
+        this.vy = (Math.random() - 0.5) * 0.35;
+        this.size = Math.random() * 1.5 + 0.4;
+        this.alpha = Math.random() * 0.35 + 0.08;
+      }
+      update() {
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 140) {
+          this.vx += dx / dist * 0.02;
+          this.vy += dy / dist * 0.02;
+        }
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vx *= 0.99;
+        this.vy *= 0.99;
+        if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+        ctx.fill();
+      }
+    }
+    
+    const particleCount = window.innerWidth < 768 ? 35 : 70;
+    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+    
+    function animate() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(255,255,255,${0.05 * (1 - dist / 100)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+    
+    // Progress bar
+    window.addEventListener("scroll", () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      const p = (window.scrollY / h) * 100;
+      document.getElementById("progress").style.width = p + "%";
+    });
+    
+    // Project cards
+    document.querySelectorAll(".project-card").forEach(card => {
+      card.addEventListener("mousemove", e => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        const rotX = ((y - r.height / 2) / r.height) * -8;
+        const rotY = ((x - r.width / 2) / r.width) * 8;
+        card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "perspective(800px) rotateX(0) rotateY(0) translateY(0)";
+      });
+      card.addEventListener("click", () => {
+        document.getElementById("modalTitle").textContent = card.dataset.title;
+        document.getElementById("modalDesc").textContent = card.dataset.desc;
+        const tags = card.dataset.tags.split(",");
+        document.getElementById("modalTags").innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join("");
+        document.getElementById("modal").classList.add("active");
+      });
+    });
+    
+    document.getElementById("modalClose").addEventListener("click", () => document.getElementById("modal").classList.remove("active"));
+    document.getElementById("modal").addEventListener("click", e => {
+      if (e.target.id === "modal") document.getElementById("modal").classList.remove("active");
+    });
+    
+    // Typing code
+    const codeLines = [
+      'local kira = {',
+      '  role = "support",',
+      '  stack = {"lua", "luau", "web"},',
+      '  vibe = "black & white",',
+      '  chaos = true',
+      '}',
+      'print("hello from kira")'
+    ];
+    let codeIdx = 0, charIdx = 0;
+    const typed = document.getElementById("typedCode");
+    
+    function typeCode() {
+      if (codeIdx >= codeLines.length) return;
+      const line = codeLines[codeIdx];
+      if (charIdx <= line.length) {
+        typed.innerHTML = codeLines.slice(0, codeIdx).join("<br>") + (codeIdx > 0 ? "<br>" : "") + line.slice(0, charIdx);
+        charIdx++;
+        setTimeout(typeCode, 28);
+      } else {
+        codeIdx++;
+        charIdx = 0;
+        setTimeout(typeCode, 180);
+      }
+    }
+    setTimeout(typeCode, 1200);
+    
+    // Terminal
+    const termInput = document.getElementById("termInput");
+    const termBody = document.getElementById("termBody");
+    const commands = {
+      help: "Commands: whoami, skills, lua, stack, projects, clear, prism, now",
+      whoami: "Kira · Кира · Support @ Prism Softworks",
+      skills: "HTML · CSS · JS · Lua · Luau · Discord · External · Python",
+      lua: "print('cheating scripts & systems')",
+      stack: "web + lua/luau + discord tools + external",
+      projects: "UI frameworks · client systems · web · bots · experiments",
+      prism: "discord.gg/NNZVxQzBRS — Support team",
+      now: "probably writing luau or tweaking this site",
+      clear: "CLEAR"
+    };
+    
+    termInput.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        const cmd = termInput.value.trim().toLowerCase();
+        const line = document.createElement("div");
+        line.className = "terminal-line";
+        line.innerHTML = `kira@prism:~$ <span class="cmd">${termInput.value}</span>`;
+        termBody.insertBefore(line, termBody.lastElementChild);
+        
+        const resp = document.createElement("div");
+        resp.className = "terminal-line";
+        
+        if (cmd === "clear") {
+          termBody.querySelectorAll(".terminal-line").forEach(l => l.remove());
+        } else {
+          resp.textContent = commands[cmd] || `command not found: ${cmd}`;
+          termBody.insertBefore(resp, termBody.lastElementChild);
+        }
+        termInput.value = "";
+        termBody.scrollTop = termBody.scrollHeight;
+      }
+    });
+    
+    // Lanyard presence
+    async function loadPresence() {
+      try {
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+        const json = await res.json();
+        if (!json.success) {
+          document.getElementById("statusText").textContent = "offline";
+          return;
+        }
+        const d = json.data;
+        const user = d.discord_user;
+        const name = user.global_name || user.username;
+        document.getElementById("presenceName").textContent = name;
+        
+        const avatar = user.avatar
+          ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
+          : `https://cdn.discordapp.com/embed/avatars/0.png`;
+        
+        const img = document.getElementById("presenceAvatar");
+        img.src = avatar;
+        img.style.display = "block";
+        
+        // Also put avatar in about section
+        const aboutAvatar = document.getElementById("aboutAvatar");
+        if (aboutAvatar && !aboutAvatar.querySelector("img")) {
+          aboutAvatar.innerHTML = "";
+          const aboutImg = document.createElement("img");
+          aboutImg.src = avatar;
+          aboutImg.alt = name;
+          aboutAvatar.appendChild(aboutImg);
+        }
+        
+        const status = d.discord_status || "offline";
+        document.getElementById("statusDot").className = "presence-dot " + status;
+        
+        let label = status;
+        if (d.activities?.length) {
+          const act = d.activities.find(a => a.type !== 4) || d.activities[0];
+          if (act) {
+            if (act.type === 0) label = `Playing ${act.name}`;
+            else if (act.type === 2) label = `Listening to ${act.name}`;
+            else if (act.type === 3) label = `Watching ${act.name}`;
+            else label = act.name || status;
+          }
+        }
+        document.getElementById("statusText").textContent = label;
+        
+        const bar = document.getElementById("spotifyBar");
+        if (d.listening_to_spotify && d.spotify) {
+          bar.classList.add("active");
+          document.getElementById("spotifyTrack").textContent = `${d.spotify.song} — ${d.spotify.artist}`;
+          const start = d.spotify.timestamps.start;
+          const end = d.spotify.timestamps.end;
+          const updateFill = () => {
+            const now = Date.now();
+            const pct = Math.min(100, Math.max(0, ((now - start) / (end - start)) * 100));
+            document.getElementById("spotifyFill").style.width = pct + "%";
+          };
+          updateFill();
+          clearInterval(window._spotInt);
+          window._spotInt = setInterval(updateFill, 1000);
+        } else {
+          bar.classList.remove("active");
+        }
+        
+        document.getElementById("copyBtn").onclick = () => {
+          navigator.clipboard.writeText(user.username);
+          document.getElementById("copyBtn").textContent = "copied";
+          setTimeout(() => document.getElementById("copyBtn").textContent = "copy", 1500);
+        };
+      } catch {
+        document.getElementById("statusText").textContent = "status unavailable";
+      }
+    }
+    loadPresence();
+    setInterval(loadPresence, 25000);
+    
+    // Keyboard focus terminal
+    document.addEventListener("keydown", e => {
+      if (e.key === "`") {
+        document.getElementById("termInput")?.focus();
+      }
+    });
+    
+    console.log("%cKira / Кира", "font-size:20px;font-weight:bold;color:#fff;background:#111;padding:8px 16px;");
+    console.log("%cSupport @ Prism Softworks · Lua · Luau · Web", "color:#888;");
+    console.log("%cYou found the console. Nice.", "color:#555;");
+    
+    // Timezones
+    function updateTimezones() {
+      const now = new Date();
+      const opts = { hour: '2-digit', minute: '2-digit', hour12: false };
+      document.getElementById('tzET').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/New_York' });
+      document.getElementById('tzCT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Chicago' });
+      document.getElementById('tzMT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Denver' });
+      document.getElementById('tzPT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Los_Angeles' });
+      document.getElementById('tzAKT').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'America/Anchorage' });
+      document.getElementById('tzHST').textContent = now.toLocaleTimeString('en-US', { ...opts, timeZone: 'Pacific/Honolulu' });
+    }
+    updateTimezones();
+    setInterval(updateTimezones, 1000);
+    
+    // Fake notifs
+    const notifMessages = [
+      { title: "Support", body: "New ticket received in Prism Softworks" },
+      { title: "Lua", body: "Script compiled successfully" },
+      { title: "System", body: "External connection established" },
+      { title: "Discord", body: "Someone mentioned you in chat" },
+      { title: "Luau", body: "Roblox instance detected" },
+      { title: "Kira", body: "Portfolio viewed from a new location" },
+      { title: "Status", body: "Presence updated via Lanyard" },
+      { title: "Git", body: "Push to main completed" },
+      { title: "Terminal", body: "Command executed successfully" },
+      { title: "Web", body: "New visitor on the site" }
+    ];
+    
+    function spawnNotif() {
+      const container = document.getElementById('notifContainer');
+      if (container.children.length >= 3) return;
+      const msg = notifMessages[Math.floor(Math.random() * notifMessages.length)];
+      const el = document.createElement('div');
+      el.className = 'notif';
+      const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+      el.innerHTML = `
+        <div class="notif-header"><div class="notif-dot"></div>${msg.title}</div>
+        <div class="notif-body">${msg.body}</div>
+        <div class="notif-time">${time}</div>
+      `;
+      container.appendChild(el);
+      requestAnimationFrame(() => el.classList.add('show'));
+      setTimeout(() => {
+        el.classList.remove('show');
+        setTimeout(() => el.remove(), 500);
+      }, 4500 + Math.random() * 2000);
+    }
+    
+    setTimeout(() => {
+      spawnNotif();
+      setInterval(() => {
+        if (Math.random() > 0.4) spawnNotif();
+      }, 8000 + Math.random() * 7000);
+    }, 3000);
+  </script>
 </body>
 </html>
