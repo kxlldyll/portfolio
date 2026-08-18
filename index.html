@@ -73,6 +73,32 @@
       z-index: 1;
     }
     
+    .top-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 1.1rem;
+      flex-wrap: wrap;
+    }
+    .top-meta .sep { opacity: 0.45; }
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .top-badge .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #f6821f;
+      flex-shrink: 0;
+    }
+    .top-badge .dot.ai {
+      background: #a78bfa;
+    }
+    
     header {
       display: flex;
       justify-content: space-between;
@@ -508,6 +534,11 @@
 <body>
   <canvas id="galaxy"></canvas>
   <div class="wrap">
+    <div class="top-meta">
+      <span class="top-badge"><span class="dot"></span> Hosted by Cloudflare</span>
+      <span class="sep">·</span>
+      <span class="top-badge"><span class="dot ai"></span> Assisted with AI</span>
+    </div>
     <header>
       <div class="logo">Kira</div>
       <div class="header-right">
@@ -630,10 +661,7 @@
       </div>
     </div>
     
-    <footer>
-      Kira · Prism Softworks · 2026<br>
-      <span style="opacity:0.7;font-size:0.72rem">some AI help was used · too lazy to do everything by hand</span>
-    </footer>
+    <footer>Kira · Prism Softworks · 2026</footer>
   </div>
   
   <div class="modal-bg" id="modal">
