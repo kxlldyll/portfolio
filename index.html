@@ -35,7 +35,30 @@
       --muted: #777;
       --border: rgba(255,255,255,0.08);
       --gray: #a0a0a0;
+      --accent: #ffffff;
+      --accent-dim: rgba(255,255,255,0.12);
     }
+    
+    /* Themes */
+    [data-theme="crimson"] {
+      --accent: #ef4444;
+      --accent-dim: rgba(239,68,68,0.15);
+    }
+    [data-theme="cyan"] {
+      --accent: #22d3ee;
+      --accent-dim: rgba(34,211,238,0.15);
+    }
+    [data-theme="invert"] {
+      --bg: #f5f5f5;
+      --surface: #ffffff;
+      --text: #111;
+      --muted: #555;
+      --border: rgba(0,0,0,0.1);
+      --gray: #666;
+      --accent: #111;
+      --accent-dim: rgba(0,0,0,0.08);
+    }
+    
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -44,12 +67,46 @@
       font-family: 'Syne', system-ui, sans-serif;
       overflow-x: hidden;
       line-height: 1.6;
-      background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255,255,255,0.05), transparent);
+      background-image: radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-dim), transparent);
+      transition: background 0.4s, color 0.4s;
+      cursor: none; /* custom cursor */
     }
+    
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.15s, height 0.15s, border-color 0.3s, background 0.15s;
+      mix-blend-mode: difference;
+    }
+    .cursor.hover {
+      width: 28px; height: 28px;
+      background: var(--accent-dim);
+    }
+    .cursor-dot {
+      position: fixed;
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: background 0.3s;
+    }
+    @media (max-width: 768px), (pointer: coarse) {
+      body { cursor: auto; }
+      .cursor, .cursor-dot { display: none !important; }
+    }
+    
     #progress {
       position: fixed; top: 0; left: 0; height: 2px;
-      background: #fff; width: 0%; z-index: 999;
-      transition: width 0.1s linear;
+      background: var(--accent); width: 0%; z-index: 999;
+      transition: width 0.1s linear, background 0.3s;
     }
     canvas#bg {
       position: fixed; inset: 0; z-index: 0;
@@ -69,13 +126,18 @@
       background: rgba(5,5,5,0.8);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
+      transition: background 0.4s, border-color 0.4s;
+    }
+    [data-theme="invert"] nav {
+      background: rgba(245,245,245,0.85);
     }
     .logo {
       font-weight: 800; font-size: 1.3rem; letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #fff, #888);
+      background: linear-gradient(135deg, var(--text), var(--muted));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      cursor: pointer; user-select: none;
     }
-    .nav-right { display: flex; align-items: center; gap: 1.8rem; }
+    .nav-right { display: flex; align-items: center; gap: 1.4rem; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
       color: var(--muted); text-decoration: none;
@@ -83,14 +145,30 @@
       letter-spacing: 0.06em; text-transform: uppercase;
       transition: color 0.25s;
     }
-    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover { color: var(--text); }
+    
+    .theme-btns {
+      display: flex; gap: 0.35rem; align-items: center;
+    }
+    .theme-btn {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 1px solid var(--border);
+      cursor: pointer; transition: transform 0.2s, border-color 0.2s;
+      padding: 0;
+    }
+    .theme-btn:hover { transform: scale(1.2); }
+    .theme-btn[data-t="default"] { background: #fff; }
+    .theme-btn[data-t="crimson"] { background: #ef4444; }
+    .theme-btn[data-t="cyan"] { background: #22d3ee; }
+    .theme-btn[data-t="invert"] { background: #111; border-color: #888; }
+    
     .lang-btn {
       background: transparent; border: 1px solid var(--border);
       color: var(--muted); font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem; padding: 0.35rem 0.7rem;
       border-radius: 6px; cursor: pointer; transition: all 0.25s;
     }
-    .lang-btn:hover { border-color: #fff; color: #fff; }
+    .lang-btn:hover { border-color: var(--text); color: var(--text); }
     
     /* Hamburger */
     .hamburger {
@@ -101,7 +179,7 @@
     }
     .hamburger span {
       display: block; width: 100%; height: 2px;
-      background: #fff; position: absolute; left: 0;
+      background: var(--text); position: absolute; left: 0;
       transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
     }
     .hamburger span:nth-child(1) { top: 0; }
@@ -118,9 +196,10 @@
       flex-direction: column; align-items: center; justify-content: center;
       gap: 2rem;
     }
+    [data-theme="invert"] .mobile-menu { background: rgba(245,245,245,0.97); }
     .mobile-menu.active { display: flex; }
     .mobile-menu a {
-      color: #fff; text-decoration: none;
+      color: var(--text); text-decoration: none;
       font-size: 1.4rem; font-weight: 700;
       letter-spacing: 0.04em; text-transform: uppercase;
       opacity: 0.85; transition: opacity 0.2s;
@@ -128,6 +207,17 @@
     .mobile-menu a:hover { opacity: 1; }
     
     main { position: relative; z-index: 2; }
+    
+    /* Reveal animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
     
     /* HERO */
     .hero {
@@ -147,7 +237,7 @@
       letter-spacing: -0.04em; margin-bottom: 1.2rem;
     }
     .hero h1 .grad {
-      background: linear-gradient(120deg, #fff 0%, #aaa 45%, #555 75%, #fff 100%);
+      background: linear-gradient(120deg, var(--text) 0%, var(--muted) 45%, #555 75%, var(--text) 100%);
       background-size: 200% auto;
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       animation: shimmer 6s linear infinite;
@@ -158,10 +248,14 @@
     }
     .presence-box {
       display: flex; align-items: center; gap: 1rem;
-      margin-bottom: 1.8rem; padding: 0.9rem 1.2rem;
+      margin-bottom: 1rem; padding: 0.9rem 1.2rem;
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--border); border-radius: 14px;
       max-width: 420px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    [data-theme="invert"] .presence-box {
+      background: rgba(0,0,0,0.04);
     }
     .presence-avatar {
       width: 48px; height: 48px; border-radius: 50%;
@@ -193,14 +287,25 @@
       font-size: 0.78rem; color: #ccc;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
+    [data-theme="invert"] .spotify-track { color: #444; }
     .spotify-progress {
       height: 3px; background: rgba(255,255,255,0.1);
       border-radius: 2px; margin-top: 0.4rem; overflow: hidden;
     }
     .spotify-progress-fill {
-      height: 100%; background: #fff; width: 0%;
-      transition: width 1s linear;
+      height: 100%; background: var(--accent); width: 0%;
+      transition: width 1s linear, background 0.3s;
     }
+    
+    .currently {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; color: var(--gray);
+      margin-bottom: 1.6rem;
+      padding-left: 0.2rem;
+      opacity: 0.85;
+    }
+    .currently span { color: var(--muted); }
+    
     .hero-cta { display: flex; gap: 0.9rem; flex-wrap: wrap; }
     .btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -209,10 +314,10 @@
       text-decoration: none; transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
       border: none; cursor: pointer;
     }
-    .btn-primary { background: #fff; color: #000; }
+    .btn-primary { background: var(--accent); color: var(--bg); }
     .btn-primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(255,255,255,0.12);
+      box-shadow: 0 10px 30px var(--accent-dim);
     }
     .btn-ghost {
       background: transparent; color: var(--text);
@@ -222,13 +327,17 @@
       border-color: rgba(255,255,255,0.3);
       background: rgba(255,255,255,0.04);
     }
+    [data-theme="invert"] .btn-ghost:hover {
+      border-color: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.04);
+    }
     .btn-copy {
       background: transparent; border: 1px solid var(--border);
       color: var(--muted); font-size: 0.75rem;
       padding: 0.35rem 0.7rem; border-radius: 6px;
       cursor: pointer; margin-left: 0.5rem;
     }
-    .btn-copy:hover { color: #fff; border-color: #fff; }
+    .btn-copy:hover { color: var(--text); border-color: var(--text); }
     
     /* SECTIONS */
     section {
@@ -245,7 +354,7 @@
       font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 800; letter-spacing: -0.03em;
       margin-bottom: 2.5rem;
-      background: linear-gradient(135deg, #fff, #777);
+      background: linear-gradient(135deg, var(--text), var(--muted));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     
@@ -258,10 +367,11 @@
       position: relative;
       aspect-ratio: 1;
       border-radius: 16px;
-      background: #0a0a0a;
+      background: var(--surface);
       border: 1px solid var(--border);
       overflow: hidden;
       display: flex; flex-direction: column;
+      transition: background 0.4s, border-color 0.4s;
     }
     .window-bar {
       display: flex; align-items: center; gap: 0.6rem;
@@ -270,6 +380,7 @@
       border-bottom: 1px solid var(--border);
       flex-shrink: 0;
     }
+    [data-theme="invert"] .window-bar { background: #eee; }
     .window-dots { display: flex; gap: 0.35rem; }
     .window-dot {
       width: 10px; height: 10px; border-radius: 50%;
@@ -290,6 +401,9 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 0.6rem; font-weight: 800; color: #ddd;
     }
+    [data-theme="invert"] .window-k {
+      background: #ddd; border-color: rgba(0,0,0,0.15); color: #222;
+    }
     .about-visual-body {
       flex: 1; display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
@@ -297,7 +411,7 @@
     .about-visual-body::before {
       content: '';
       position: absolute; inset: -40%;
-      background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.08), transparent 30%);
+      background: conic-gradient(from 0deg, transparent, var(--accent-dim), transparent 30%);
       animation: spin 14s linear infinite;
     }
     .avatar {
@@ -327,6 +441,7 @@
       font-weight: 600; font-size: 0.88rem;
       transition: all 0.3s;
     }
+    [data-theme="invert"] .prism-badge { color: #444; background: rgba(0,0,0,0.03); }
     .prism-badge:hover {
       background: rgba(255,255,255,0.07);
       border-color: rgba(255,255,255,0.2);
@@ -338,7 +453,7 @@
     }
     .stat-num {
       font-size: 1.7rem; font-weight: 800;
-      background: linear-gradient(135deg, #fff, #666);
+      background: linear-gradient(135deg, var(--text), var(--muted));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .stat-label {
@@ -351,7 +466,9 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem; color: #aaa;
       overflow: hidden; min-height: 90px;
+      transition: background 0.4s, border-color 0.4s;
     }
+    [data-theme="invert"] .code-block { background: #f0f0f0; color: #444; }
     .code-block .cm { color: #555; }
     
     /* PROJECTS */
@@ -371,23 +488,57 @@
       border-color: rgba(255,255,255,0.18);
       box-shadow: 0 18px 45px rgba(0,0,0,0.45);
     }
+    [data-theme="invert"] .project-card:hover {
+      border-color: rgba(0,0,0,0.2);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+    }
+    
+    /* Improved thumbs */
     .project-thumb {
-      height: 130px;
-      display: flex; align-items: center; justify-content: center;
+      height: 140px;
       position: relative;
-      background: linear-gradient(145deg, #1c1c1c, #0e0e0e);
+      background: linear-gradient(145deg, #141414, #0a0a0a);
+      overflow: hidden;
+      display: flex; flex-direction: column;
     }
-    .project-thumb span {
+    [data-theme="invert"] .project-thumb {
+      background: linear-gradient(145deg, #eee, #f8f8f8);
+    }
+    .thumb-bar {
+      display: flex; align-items: center; gap: 0.3rem;
+      padding: 0.45rem 0.7rem;
+      background: rgba(0,0,0,0.4);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.6rem; font-weight: 700;
-      letter-spacing: 0.08em; color: rgba(255,255,255,0.12);
-      text-transform: uppercase;
+      font-size: 0.58rem; color: #666;
     }
+    [data-theme="invert"] .thumb-bar {
+      background: rgba(0,0,0,0.06);
+      color: #999;
+    }
+    .thumb-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #333;
+    }
+    .thumb-dot:nth-child(1) { background: #ff5f57; }
+    .thumb-dot:nth-child(2) { background: #febc2e; }
+    .thumb-dot:nth-child(3) { background: #28c840; }
+    .thumb-content {
+      flex: 1; padding: 0.7rem 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; line-height: 1.45;
+      color: #555;
+      overflow: hidden;
+    }
+    [data-theme="invert"] .thumb-content { color: #999; }
+    .thumb-content .hl { color: #888; }
+    .thumb-content .kw { color: #aaa; }
     .project-thumb::after {
       content: '';
       position: absolute; inset: 0;
-      background: linear-gradient(to top, var(--surface), transparent 55%);
+      background: linear-gradient(to top, var(--surface), transparent 50%);
+      pointer-events: none;
     }
+    
     .project-body { padding: 1.25rem; }
     .project-body h3 {
       font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem;
@@ -403,6 +554,10 @@
       background: rgba(255,255,255,0.04);
       color: #bbb; border: 1px solid rgba(255,255,255,0.07);
     }
+    [data-theme="invert"] .tag {
+      background: rgba(0,0,0,0.04);
+      color: #555; border-color: rgba(0,0,0,0.1);
+    }
     
     /* SKILLS */
     .skills-wrap { display: flex; flex-wrap: wrap; gap: 0.65rem; }
@@ -417,17 +572,24 @@
       background: rgba(255,255,255,0.04);
       transform: scale(1.04);
     }
+    [data-theme="invert"] .skill:hover {
+      border-color: rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.04);
+    }
     
     /* TERMINAL */
     .terminal {
       background: #0a0a0a; border: 1px solid var(--border);
       border-radius: 12px; overflow: hidden; margin-top: 2rem;
+      transition: background 0.4s, border-color 0.4s;
     }
+    [data-theme="invert"] .terminal { background: #f0f0f0; }
     .terminal-bar {
       background: #111; padding: 0.5rem 1rem;
       display: flex; gap: 0.4rem;
       border-bottom: 1px solid var(--border);
     }
+    [data-theme="invert"] .terminal-bar { background: #e8e8e8; }
     .terminal-dot {
       width: 10px; height: 10px; border-radius: 50%; background: #333;
     }
@@ -435,17 +597,18 @@
       padding: 1rem 1.2rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem;
-      min-height: 160px; max-height: 220px; overflow-y: auto;
+      min-height: 160px; max-height: 240px; overflow-y: auto;
     }
     .terminal-line { margin-bottom: 0.35rem; color: #aaa; }
-    .terminal-line .cmd { color: #fff; }
+    [data-theme="invert"] .terminal-line { color: #555; }
+    .terminal-line .cmd { color: var(--text); }
     .terminal-input-line {
       display: flex; align-items: center; gap: 0.4rem; margin-top: 0.5rem;
     }
     .terminal-input-line span { color: #888; }
     .terminal-input {
       background: transparent; border: none; outline: none;
-      color: #fff; font-family: inherit; font-size: inherit; flex: 1;
+      color: var(--text); font-family: inherit; font-size: inherit; flex: 1;
     }
     
     /* CONTACT */
@@ -457,13 +620,27 @@
     .contact-box h2 {
       font-size: clamp(1.8rem, 3.5vw, 2.5rem);
       font-weight: 800; margin-bottom: 0.8rem;
-      background: linear-gradient(135deg, #fff, #777);
+      background: linear-gradient(135deg, var(--text), var(--muted));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .contact-box p {
       color: var(--muted); margin-bottom: 1.6rem;
       max-width: 400px; margin-left: auto; margin-right: auto;
     }
+    
+    /* BUILT WITH */
+    .built-with {
+      margin-top: 2.5rem;
+      padding: 1.4rem 1.6rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .built-with strong { color: var(--text); }
     
     /* MODAL */
     .modal-overlay {
@@ -474,7 +651,7 @@
     }
     .modal-overlay.active { display: flex; }
     .modal {
-      background: #0d0d0d; border: 1px solid var(--border);
+      background: var(--surface); border: 1px solid var(--border);
       border-radius: 16px; max-width: 480px; width: 100%;
       padding: 2rem; position: relative;
     }
@@ -485,7 +662,7 @@
       background: transparent; border: none;
       color: #888; font-size: 1.4rem; cursor: pointer;
     }
-    .modal-close:hover { color: #fff; }
+    .modal-close:hover { color: var(--text); }
     
     footer {
       text-align: center; padding: 2.2rem;
@@ -506,6 +683,10 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem; color: var(--gray);
       box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      transition: background 0.4s, border-color 0.4s;
+    }
+    [data-theme="invert"] .tz-bar {
+      background: rgba(255,255,255,0.9);
     }
     .tz-item {
       display: flex; flex-direction: column;
@@ -515,7 +696,7 @@
       font-size: 0.58rem; opacity: 0.6;
       margin-bottom: 0.15rem; letter-spacing: 0.04em;
     }
-    .tz-time { color: #ddd; font-weight: 500; }
+    .tz-time { color: var(--text); font-weight: 500; opacity: 0.9; }
     
     /* NOTIFS */
     .notif-container {
@@ -532,6 +713,11 @@
       transform: translateX(120%); opacity: 0;
       transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
       pointer-events: auto; font-size: 0.82rem;
+    }
+    [data-theme="invert"] .notif {
+      background: rgba(255,255,255,0.95);
+      border-color: rgba(0,0,0,0.1);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.12);
     }
     .notif.show { transform: translateX(0); opacity: 1; }
     .notif-header {
@@ -554,6 +740,7 @@
       white-space: pre; text-align: center;
       margin: 2rem 0 1rem; user-select: none;
     }
+    [data-theme="invert"] .ascii { color: rgba(0,0,0,0.08); }
     
     @keyframes shimmer { to { background-position: 200% center; } }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -571,6 +758,7 @@
     @media (max-width: 768px) {
       nav { padding: 1rem 1.2rem; }
       .nav-links { display: none; }
+      .theme-btns { display: none; }
       .hamburger { display: block; }
       .hero { padding: 5rem 1.2rem 3rem; }
       section { padding: 3.5rem 1.2rem; }
@@ -580,12 +768,15 @@
   </style>
 </head>
 <body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  
   <div id="progress"></div>
   <canvas id="bg"></canvas>
   <div class="noise"></div>
   
   <nav>
-    <div class="logo">KIRA</div>
+    <div class="logo" id="logo">KIRA</div>
     <div class="nav-right">
       <ul class="nav-links">
         <li><a href="#about" data-i18n="nav_about">About</a></li>
@@ -593,6 +784,14 @@
         <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
         <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
       </ul>
+      
+      <div class="theme-btns" title="Theme">
+        <button class="theme-btn" data-t="default" aria-label="Default"></button>
+        <button class="theme-btn" data-t="crimson" aria-label="Crimson"></button>
+        <button class="theme-btn" data-t="cyan" aria-label="Cyan"></button>
+        <button class="theme-btn" data-t="invert" aria-label="Invert"></button>
+      </div>
+      
       <select class="lang-btn" id="langSelect" style="appearance:none;cursor:pointer;padding-right:1.4rem;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22%23888%22><path d=%22M2 4l4 4 4-4%22/></svg>');background-repeat:no-repeat;background-position:right 0.5rem center;">
         <option value="en">English</option>
         <option value="ru">Русский</option>
@@ -635,6 +834,10 @@
         </div>
       </div>
       
+      <div class="currently" id="currently">
+        <span>currently:</span> <span id="currentlyText">loading…</span>
+      </div>
+      
       <div class="hero-cta">
         <a href="#work" class="btn btn-primary" data-i18n="btn_work">View work</a>
         <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="btn btn-ghost">
@@ -644,7 +847,7 @@
       </div>
     </section>
     
-    <section id="about">
+    <section id="about" class="reveal">
       <div class="section-label">01 — About</div>
       <h2 class="section-title" data-i18n="about_title">Basic on the outside.<br>Complex underneath.</h2>
       <div class="about-grid">
@@ -685,16 +888,28 @@
       </div>
     </section>
     
-    <section id="work">
+    <section id="work" class="reveal">
       <div class="section-label">02 — Work</div>
       <h2 class="section-title" data-i18n="work_title">Selected things<br>I've built.</h2>
       <div class="projects-grid" id="projectsGrid">
         
-        <article class="project-card"
+        <article class="project-card reveal"
           data-title="Custom UI Frameworks"
           data-desc="Full custom Luau UI systems built from scratch with Instance.new + OOP. Draggable menus, theme switching (pure black / cyberpunk / crimson), live stats panels, keybinds, notifications, and config persistence via JSON. No external UI libs."
           data-tags="Luau,UI,OOP,Roblox">
-          <div class="project-thumb"><span>UI</span></div>
+          <div class="project-thumb">
+            <div class="thumb-bar">
+              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
+              <span style="margin-left:0.4rem">ui_hub.lua</span>
+            </div>
+            <div class="thumb-content">
+              <span class="kw">local</span> UI = {}<br>
+              UI.Theme = <span class="hl">"obsidian"</span><br>
+              UI:CreateToggle(<span class="hl">"Silent Aim"</span>)<br>
+              UI:CreateSlider(<span class="hl">"FOV"</span>, 50, 400)<br>
+              <span class="kw">return</span> UI
+            </div>
+          </div>
           <div class="project-body">
             <h3>Custom UI Frameworks</h3>
             <p>Full custom Luau UI systems from scratch — draggable, themeable, persistent. No Rayfield / Orio.</p>
@@ -702,11 +917,23 @@
           </div>
         </article>
         
-        <article class="project-card"
+        <article class="project-card reveal"
           data-title="Advanced Client Systems"
           data-desc="Silent aim with smoothing + FOV scaling, ESP overlays (players/NPCs/bosses), hitbox expansion, Raycast/FireServer hooks, metatable spoofing, and anti-detection patterns. Built for compatibility with popular executors."
           data-tags="Luau,External,Systems">
-          <div class="project-thumb"><span>SYS</span></div>
+          <div class="project-thumb">
+            <div class="thumb-bar">
+              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
+              <span style="margin-left:0.4rem">aim_engine.lua</span>
+            </div>
+            <div class="thumb-content">
+              <span class="kw">hookfunction</span>(Raycast, fn)<br>
+              target = getClosest(fov)<br>
+              <span class="kw">if</span> target <span class="kw">then</span><br>
+              &nbsp;&nbsp;smooth(camera, target)<br>
+              <span class="kw">end</span>
+            </div>
+          </div>
           <div class="project-body">
             <h3>Advanced Client Systems</h3>
             <p>Silent aim, ESP, hitbox tools, hooks, and anti-detection. Executor-compatible external tooling.</p>
@@ -714,11 +941,22 @@
           </div>
         </article>
         
-        <article class="project-card"
+        <article class="project-card reveal"
           data-title="Web Interfaces"
           data-desc="Minimal, high-contrast sites and dashboards built with pure HTML, CSS and vanilla JavaScript. This portfolio itself is an example — particles, live presence, multi-language, terminal, zero frameworks."
           data-tags="HTML,CSS,JS">
-          <div class="project-thumb"><span>WEB</span></div>
+          <div class="project-thumb">
+            <div class="thumb-bar">
+              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
+              <span style="margin-left:0.4rem">index.html</span>
+            </div>
+            <div class="thumb-content">
+              &lt;<span class="kw">canvas</span> id=<span class="hl">"bg"</span>&gt;<br>
+              particles · presence<br>
+              pure vanilla · no libs<br>
+              <span class="hl">kiraa.pages.dev</span>
+            </div>
+          </div>
           <div class="project-body">
             <h3>Web Interfaces</h3>
             <p>Minimal high-contrast sites with pure HTML/CSS/JS. Particles, live presence, terminal — no frameworks.</p>
@@ -726,11 +964,22 @@
           </div>
         </article>
         
-        <article class="project-card"
+        <article class="project-card reveal"
           data-title="Discord Utilities"
           data-desc="Bots, slash commands, support helpers, and self-bot tooling that keep servers and communities running cleanly. Custom Python + Discord.js work for Prism Softworks and personal use."
           data-tags="JS,Python,Discord">
-          <div class="project-thumb"><span>BOT</span></div>
+          <div class="project-thumb">
+            <div class="thumb-bar">
+              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
+              <span style="margin-left:0.4rem">bot.js</span>
+            </div>
+            <div class="thumb-content">
+              client.on(<span class="hl">'interaction'</span>)<br>
+              /ticket · /purge<br>
+              support helpers<br>
+              <span class="kw">discord.js</span> + py
+            </div>
+          </div>
           <div class="project-body">
             <h3>Discord Utilities</h3>
             <p>Bots, slash commands and support helpers. Discord.js + Python tooling for servers.</p>
@@ -738,11 +987,22 @@
           </div>
         </article>
         
-        <article class="project-card"
+        <article class="project-card reveal"
           data-title="Experiments"
           data-desc="Canvas pieces, particle systems, layout studies, and whatever else feels worth building at 3am. This site's particle field and typing effects are part of that playground."
           data-tags="Canvas,Creative,JS">
-          <div class="project-thumb"><span>EXP</span></div>
+          <div class="project-thumb">
+            <div class="thumb-bar">
+              <div class="thumb-dot"></div><div class="thumb-dot"></div><div class="thumb-dot"></div>
+              <span style="margin-left:0.4rem">particles.js</span>
+            </div>
+            <div class="thumb-content">
+              ctx.arc(x, y, r)<br>
+              requestAnimationFrame<br>
+              mouse repulsion<br>
+              <span class="hl">70 nodes linked</span>
+            </div>
+          </div>
           <div class="project-body">
             <h3>Experiments</h3>
             <p>Canvas, particles, layout studies and late-night creative code. The particle field is one of them.</p>
@@ -753,7 +1013,7 @@
       </div>
     </section>
     
-    <section id="skills">
+    <section id="skills" class="reveal">
       <div class="section-label">03 — Skills</div>
       <h2 class="section-title" data-i18n="skills_title">What I work with.</h2>
       <div class="skills-wrap">
@@ -788,9 +1048,15 @@
           </div>
         </div>
       </div>
+      
+      <div class="built-with reveal">
+        <strong>Built with</strong> pure HTML · CSS · vanilla JS<br>
+        No frameworks · No build step · No dependencies<br>
+        Lanyard for presence · Cloudflare Pages · Syne + JetBrains Mono
+      </div>
     </section>
     
-    <section id="contact">
+    <section id="contact" class="reveal">
       <div class="contact-box">
         <h2 data-i18n="contact_title">Find me on Discord.</h2>
         <p data-i18n="contact_p">Best place is the Prism Softworks server. I'm support there — feel free to hop in.</p>
@@ -799,7 +1065,7 @@
           Join Prism Softworks
         </a>
         <div style="margin-top:1.4rem;">
-          <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#888;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:1px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">
+          <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:1px;transition:color 0.2s;">
             please don’t just say hello → nohello.net
           </a>
         </div>
@@ -829,7 +1095,7 @@
   
   <footer>
     Kira · Кира · Support @ Prism Softworks · 
-    <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:#888;text-decoration:none;">nohello.net</a> · v2.2 · 2026
+    <a href="https://nohello.net/en/" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;">nohello.net</a> · v2.3 · 2026
   </footer>
   
   <div class="modal-overlay" id="modal">
@@ -940,6 +1206,42 @@
       applyLang();
     });
     
+    // Theme switcher
+    document.querySelectorAll(".theme-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const t = btn.dataset.t;
+        if (t === "default") {
+          document.documentElement.removeAttribute("data-theme");
+        } else {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+        localStorage.setItem("kira-theme", t);
+        spawnNotif("Theme", `Switched to ${t === "default" ? "default" : t}`);
+      });
+    });
+    // restore theme
+    const savedTheme = localStorage.getItem("kira-theme");
+    if (savedTheme && savedTheme !== "default") {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+    
+    // Custom cursor
+    const cursor = document.getElementById("cursor");
+    const cursorDot = document.getElementById("cursorDot");
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener("mousemove", e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + "px";
+      cursor.style.top = mouseY + "px";
+      cursorDot.style.left = mouseX + "px";
+      cursorDot.style.top = mouseY + "px";
+    });
+    document.querySelectorAll("a, button, .project-card, .skill, .lang-btn, .theme-btn, .btn-copy").forEach(el => {
+      el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
+      el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
+    });
+    
     // Hamburger
     const hamburger = document.getElementById("hamburger");
     const mobileMenu = document.getElementById("mobileMenu");
@@ -1000,7 +1302,8 @@
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+        const isInvert = document.documentElement.getAttribute("data-theme") === "invert";
+        ctx.fillStyle = isInvert ? `rgba(0,0,0,${this.alpha * 0.6})` : `rgba(255,255,255,${this.alpha})`;
         ctx.fill();
       }
     }
@@ -1021,7 +1324,10 @@
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(255,255,255,${0.05 * (1 - dist / 100)})`;
+            const isInvert = document.documentElement.getAttribute("data-theme") === "invert";
+            ctx.strokeStyle = isInvert 
+              ? `rgba(0,0,0,${0.04 * (1 - dist / 100)})` 
+              : `rgba(255,255,255,${0.05 * (1 - dist / 100)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -1037,6 +1343,17 @@
       const p = (window.scrollY / h) * 100;
       document.getElementById("progress").style.width = p + "%";
     });
+    
+    // Reveal on scroll
+    const reveals = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    reveals.forEach(el => observer.observe(el));
     
     // Project cards
     document.querySelectorAll(".project-card").forEach(card => {
@@ -1057,6 +1374,7 @@
         const tags = card.dataset.tags.split(",");
         document.getElementById("modalTags").innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join("");
         document.getElementById("modal").classList.add("active");
+        spawnNotif("Project", `Opened ${card.dataset.title}`);
       });
     });
     
@@ -1097,14 +1415,20 @@
     const termInput = document.getElementById("termInput");
     const termBody = document.getElementById("termBody");
     const commands = {
-      help: "Commands: whoami, skills, lua, stack, projects, clear, prism, now",
+      help: "whoami · skills · lua · stack · projects · source · built · neofetch · clear · prism · now · matrix · sudo",
       whoami: "Kira · Кира · Support @ Prism Softworks",
       skills: "HTML · CSS · JS · Lua · Luau · Discord · External · Python",
       lua: "print('cheating scripts & systems')",
       stack: "web + lua/luau + discord tools + external",
       projects: "UI frameworks · client systems · web · bots · experiments",
+      source: "Pure HTML/CSS/vanilla JS · no frameworks · no build step · Lanyard + Cloudflare Pages",
+      built: "100% vanilla. Particles, presence, terminal, themes, easter eggs — all hand-written.",
+      how: "Open the source. It's one file. That's the point.",
+      neofetch: "kira@prism\nOS: Portfolio v2.3\nShell: vanilla js\nTheme: black & white (+ accents)\nUptime: since 2026",
       prism: "discord.gg/NNZVxQzBRS — Support team",
       now: "probably writing luau or tweaking this site",
+      matrix: "01001011 01101001 01110010 01100001\nWake up, Kira...",
+      sudo: "nice try.",
       clear: "CLEAR"
     };
     
@@ -1121,22 +1445,28 @@
         
         if (cmd === "clear") {
           termBody.querySelectorAll(".terminal-line").forEach(l => l.remove());
+        } else if (commands[cmd]) {
+          resp.innerHTML = commands[cmd].replace(/\n/g, "<br>");
+          termBody.insertBefore(resp, termBody.lastElementChild);
         } else {
-          resp.textContent = commands[cmd] || `command not found: ${cmd}`;
+          resp.textContent = `command not found: ${cmd}`;
           termBody.insertBefore(resp, termBody.lastElementChild);
         }
         termInput.value = "";
         termBody.scrollTop = termBody.scrollHeight;
+        
+        if (cmd && cmd !== "clear") spawnNotif("Terminal", `Executed: ${cmd}`);
       }
     });
     
-    // Lanyard presence
+    // Lanyard presence + currently
     async function loadPresence() {
       try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
         const json = await res.json();
         if (!json.success) {
           document.getElementById("statusText").textContent = "offline";
+          document.getElementById("currentlyText").textContent = "offline";
           return;
         }
         const d = json.data;
@@ -1152,7 +1482,6 @@
         img.src = avatar;
         img.style.display = "block";
         
-        // Also put avatar in about section
         const aboutAvatar = document.getElementById("aboutAvatar");
         if (aboutAvatar && !aboutAvatar.querySelector("img")) {
           aboutAvatar.innerHTML = "";
@@ -1177,6 +1506,17 @@
         }
         document.getElementById("statusText").textContent = label;
         
+        // Currently from KV or activity
+        let currently = "writing code";
+        if (d.kv?.working || d.kv?.currently || d.kv?.status) {
+          currently = d.kv.working || d.kv.currently || d.kv.status;
+        } else if (d.activities?.length) {
+          const act = d.activities.find(a => a.type === 0);
+          if (act) currently = `playing ${act.name}`;
+          else if (d.listening_to_spotify) currently = "listening to spotify";
+        }
+        document.getElementById("currentlyText").textContent = currently;
+        
         const bar = document.getElementById("spotifyBar");
         if (d.listening_to_spotify && d.spotify) {
           bar.classList.add("active");
@@ -1199,9 +1539,11 @@
           navigator.clipboard.writeText(user.username);
           document.getElementById("copyBtn").textContent = "copied";
           setTimeout(() => document.getElementById("copyBtn").textContent = "copy", 1500);
+          spawnNotif("Clipboard", "Username copied");
         };
       } catch {
         document.getElementById("statusText").textContent = "status unavailable";
+        document.getElementById("currentlyText").textContent = "status unavailable";
       }
     }
     loadPresence();
@@ -1214,9 +1556,37 @@
       }
     });
     
+    // Konami code
+    const konami = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+    let konamiIdx = 0;
+    document.addEventListener("keydown", e => {
+      if (e.key === konami[konamiIdx]) {
+        konamiIdx++;
+        if (konamiIdx === konami.length) {
+          konamiIdx = 0;
+          document.documentElement.setAttribute("data-theme", "crimson");
+          spawnNotif("System", "Konami unlocked · crimson mode");
+          for (let i = 0; i < 5; i++) setTimeout(() => spawnNotif("Kira", "chaos protocol engaged"), i * 400);
+        }
+      } else {
+        konamiIdx = 0;
+      }
+    });
+    
+    // Logo click easter egg
+    let logoClicks = 0;
+    document.getElementById("logo").addEventListener("click", () => {
+      logoClicks++;
+      if (logoClicks === 5) {
+        logoClicks = 0;
+        spawnNotif("Kira", "you found the secret");
+        console.log("%cKIRA", "font-size:40px;font-weight:900;color:#fff;background:#111;padding:12px 24px;");
+      }
+    });
+    
     console.log("%cKira / Кира", "font-size:20px;font-weight:bold;color:#fff;background:#111;padding:8px 16px;");
     console.log("%cSupport @ Prism Softworks · Lua · Luau · Web", "color:#888;");
-    console.log("%cYou found the console. Nice.", "color:#555;");
+    console.log("%cYou found the console. Nice. Try the Konami code.", "color:#555;");
     
     // Timezones
     function updateTimezones() {
@@ -1232,7 +1602,7 @@
     updateTimezones();
     setInterval(updateTimezones, 1000);
     
-    // Fake notifs
+    // Notifs
     const notifMessages = [
       { title: "Support", body: "New ticket received in Prism Softworks" },
       { title: "Lua", body: "Script compiled successfully" },
@@ -1246,16 +1616,15 @@
       { title: "Web", body: "New visitor on the site" }
     ];
     
-    function spawnNotif() {
+    function spawnNotif(title, body) {
       const container = document.getElementById('notifContainer');
       if (container.children.length >= 3) return;
-      const msg = notifMessages[Math.floor(Math.random() * notifMessages.length)];
       const el = document.createElement('div');
       el.className = 'notif';
       const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
       el.innerHTML = `
-        <div class="notif-header"><div class="notif-dot"></div>${msg.title}</div>
-        <div class="notif-body">${msg.body}</div>
+        <div class="notif-header"><div class="notif-dot"></div>${title || "System"}</div>
+        <div class="notif-body">${body || notifMessages[Math.floor(Math.random() * notifMessages.length)].body}</div>
         <div class="notif-time">${time}</div>
       `;
       container.appendChild(el);
@@ -1263,15 +1632,16 @@
       setTimeout(() => {
         el.classList.remove('show');
         setTimeout(() => el.remove(), 500);
-      }, 4500 + Math.random() * 2000);
+      }, 4500 + Math.random() * 1500);
     }
     
+    // random ambient notifs
     setTimeout(() => {
       spawnNotif();
       setInterval(() => {
-        if (Math.random() > 0.4) spawnNotif();
-      }, 8000 + Math.random() * 7000);
-    }, 3000);
+        if (Math.random() > 0.55) spawnNotif();
+      }, 12000 + Math.random() * 10000);
+    }, 4000);
   </script>
 </body>
 </html>
