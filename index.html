@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kira</title>
-  <meta name="description" content="Kira — Retired Support at Prism Softworks">
+  <meta name="description" content="Kira">
   <meta name="theme-color" content="#0b0b0b">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b0b0b'/%3E%3Ctext x='50' y='68' font-family='system-ui' font-size='54' font-weight='700' fill='%23eee' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,32 +73,6 @@
       z-index: 1;
     }
    
-    .top-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-bottom: 1.1rem;
-      flex-wrap: wrap;
-    }
-    .top-meta .sep { opacity: 0.45; }
-    .top-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .top-badge .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #f6821f;
-      flex-shrink: 0;
-    }
-    .top-badge .dot.ai {
-      background: #a78bfa;
-    }
-   
     header {
       display: flex;
       justify-content: space-between;
@@ -137,21 +111,6 @@
       border-color: rgba(0,0,0,0.14);
     }
     .theme-toggle svg { width: 16px; height: 16px; }
-    .header-link {
-      font-size: 0.85rem;
-      color: var(--muted);
-      padding: 0.4rem 0.85rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      transition: all 0.2s;
-    }
-    .header-link:hover {
-      color: var(--text);
-      border-color: rgba(255,255,255,0.15);
-    }
-    [data-theme="light"] .header-link:hover {
-      border-color: rgba(0,0,0,0.15);
-    }
    
     .grid {
       display: grid;
@@ -249,7 +208,7 @@
       gap: 0.4rem;
     }
    
-    /* Role / Prism bubble */
+    /* Role bubble */
     .role-bubble h2 {
       font-size: 0.72rem;
       font-weight: 600;
@@ -267,22 +226,6 @@
       font-size: 0.9rem;
       color: var(--muted);
       margin-bottom: 1rem;
-    }
-    .role-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.85rem;
-      font-weight: 500;
-      padding: 0.45rem 0.85rem;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      transition: all 0.2s;
-    }
-    .role-link:hover {
-      background: rgba(255,255,255,0.07);
-      border-color: rgba(255,255,255,0.14);
     }
    
     /* Activity bubble */
@@ -534,11 +477,6 @@
 <body>
   <canvas id="galaxy"></canvas>
   <div class="wrap">
-    <div class="top-meta">
-      <span class="top-badge"><span class="dot"></span> Hosted by Cloudflare</span>
-      <span class="sep">·</span>
-      <span class="top-badge"><span class="dot ai"></span> Assisted with AI</span>
-    </div>
     <header>
       <div class="logo">Kira</div>
       <div class="header-right">
@@ -546,7 +484,6 @@
           <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
-        <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="header-link">Prism Softworks</a>
       </div>
     </header>
    
@@ -573,7 +510,7 @@
       <div class="bubble role-bubble">
         <h2>About</h2>
         <div class="role-desc" style="margin-bottom:0">
-          Currently 17. I know Lua, Luau, some web stuff, and a little C++. I've done support in a lot of servers and staff in more than I can count. Retired support at Prism Softworks.
+          Currently 17. I know Lua, Luau, some web stuff, and a little C++. I've done support in a lot of servers and staff in more than I can count. Retired support.
         </div>
       </div>
      
@@ -581,11 +518,7 @@
       <div class="bubble role-bubble">
         <h2>Role</h2>
         <div class="role-title">Retired</div>
-        <div class="role-desc">Former support at Prism Softworks — tickets, community, Discord.</div>
-        <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="role-link">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-          Open server
-        </a>
+        <div class="role-desc">Former support — tickets, community, Discord.</div>
       </div>
      
       <!-- Activity -->
@@ -653,7 +586,7 @@
       <!-- Contact -->
       <div class="bubble contact-bubble">
         <h2>Discord</h2>
-        <p>Best place to reach me is the Prism Softworks server.</p>
+        <p>Best place to reach me is Discord.</p>
         <a href="https://discord.gg/NNZVxQzBRS" target="_blank" class="contact-btn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
           Join server
@@ -661,7 +594,7 @@
       </div>
     </div>
    
-    <footer>Kira · Prism Softworks · 2026</footer>
+    <footer>Kira · 2026</footer>
   </div>
  
   <div class="modal-bg" id="modal">
